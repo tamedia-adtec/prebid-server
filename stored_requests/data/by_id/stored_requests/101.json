@@ -1,0 +1,28 @@
+{
+  "id": "test-request-id-101",
+  "imp": [
+    {
+      "id": "101",
+      "banner": {
+        "format": [
+          {
+            "w": 300,
+            "h": 250
+          }
+        ]
+      },
+      "ext": {
+        "appnexus": {
+          "placementId": 17937372,
+          "member": "3741"
+        }
+      }
+    }
+  ],
+  "targeting": {
+    "test": 100
+  },
+  "site": {
+    "id": "20min.ch"
+  }
+}
