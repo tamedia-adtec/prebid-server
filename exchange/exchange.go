@@ -59,7 +59,6 @@ type exchange struct {
 	currencyConverter   *currencies.RateConverter
 	UsersyncIfAmbiguous bool
 	privacyConfig       config.Privacy
-	eeaCountries        map[string]struct{}
 }
 
 // Container to pass out response ext data from the GetAllBids goroutines back into the main thread
@@ -80,11 +79,6 @@ type bidResponseWrapper struct {
 func NewExchange(client *http.Client, cache prebid_cache_client.Client, cfg *config.Configuration, metricsEngine pbsmetrics.MetricsEngine, infos adapters.BidderInfos, gDPR gdpr.Permissions, currencyConverter *currencies.RateConverter) Exchange {
 	e := new(exchange)
 
-	e.eeaCountries = make(map[string]struct{}, len(cfg.GDPR.EEACountries))
-	var s struct{}
-	for _, c := range cfg.GDPR.EEACountries {
-		e.eeaCountries[c] = s
-	}
 	e.adapterMap = newAdapterMap(client, cfg, infos, metricsEngine)
 	e.cache = cache
 	e.cacheTime = time.Duration(cfg.CacheURL.ExpectedTimeMillis) * time.Millisecond
@@ -141,7 +135,7 @@ func (e *exchange) HoldAuction(ctx context.Context, bidRequest *openrtb.BidReque
 	if geo != nil {
 		// If we have a country set, and it is on the list, we assume GDPR applies if not set on the request.
 		// Otherwise we assume it does not apply as long as it appears "valid" (is 3 characters long).
-		if _, found := e.eeaCountries[strings.ToUpper(geo.Country)]; found {
+		if _, found := e.privacyConfig.GDPR.EEACountriesMap[strings.ToUpper(geo.Country)]; found {
 			usersyncIfAmbiguous = false
 		} else if len(geo.Country) == 3 {
 			// The country field is formatted properly as a three character country code
@@ -541,6 +535,7 @@ func applyCategoryMapping(ctx context.Context, requestExt *openrtb_ext.ExtReques
 
 	//If ext.prebid.targeting.includebrandcategory is present in ext then competitive exclusion feature is on.
 	var includeBrandCategory = brandCatExt != nil //if not present - category will no be appended
+	appendBidderNames := requestExt.Prebid.Targeting.AppendBidderNames
 
 	var primaryAdServer string
 	var publisher string
@@ -634,6 +629,10 @@ func applyCategoryMapping(ctx context.Context, requestExt *openrtb_ext.ExtReques
 			} else {
 				categoryDuration = fmt.Sprintf("%s_%ds", pb, newDur)
 				dupeKey = categoryDuration
+			}
+
+			if appendBidderNames {
+				categoryDuration = fmt.Sprintf("%s_%s", categoryDuration, bidderName.String())
 			}
 
 			if dupe, ok := dedupe[dupeKey]; ok {
