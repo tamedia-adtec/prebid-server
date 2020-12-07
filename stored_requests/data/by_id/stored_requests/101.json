@@ -2,20 +2,1196 @@
   "id": "test-request-id-101",
   "imp": [
     {
-      "id": "101",
+      "id": "web_de-20minuten.ch_ros_8814",
+      "ext": {
+        "appnexus": {
+          "member": "3741",
+          "keywords": [
+            {
+              "key": "pagetype",
+              "value": [
+                "overview"
+              ]
+            },
+            {
+              "key": "orientation",
+              "value": [
+                "landscape"
+              ]
+            },
+            {
+              "key": "viewportwidth",
+              "value": [
+                "2560"
+              ]
+            },
+            {
+              "key": "viewportheight",
+              "value": [
+                "1297"
+              ]
+            },
+            {
+              "key": "screendensity",
+              "value": [
+                "1"
+              ]
+            },
+            {
+              "key": "weather_temp",
+              "value": [
+                "undefined"
+              ]
+            },
+            {
+              "key": "weather",
+              "value": [
+                "undefined"
+              ]
+            },
+            {
+              "key": "weather_cluster",
+              "value": [
+                "undefined"
+              ]
+            },
+            {
+              "key": "forecast_weather",
+              "value": [
+                "grd1na,grd2na,grd3schnee,grd4sonnig,vsd1bewoelkt,vsd2na,vsd3schnee,vsd4bewoelkt,zhd1na,zhd2bewoelkt,zhd3schnee,zhd4bewoelkt,bsd1bewoelkt,bsd2na,bsd3na,bsd4bewoelkt,bed1bewoelkt,bed2schnee,bed3schnee,bed4bewoelkt,ged1bewoelkt,ged2schnee,ged3bewoelkt,ged4schnee,tid1na,tid2schnee,tid3na,tid4na,smd1bewoelkt,smd2schnee,smd3schnee,smd4na,lud1na,lud2bewoelkt,lud3schnee,lud4bewoelkt,"
+              ]
+            },
+            {
+              "key": "forecast_temp",
+              "value": [
+                "grd1winterreifen,grd2winterreifen,grd3winterlich,grd4winterlich,vsd1winterreifen,vsd2winterlich,vsd3winterlich,vsd4winterreifen,zhd1winterlich,zhd2winterlich,zhd3winterlich,zhd4winterlich,bsd1winterreifen,bsd2winterlich,bsd3winterlich,bsd4winterlich,bed1winterlich,bed2winterlich,bed3winterlich,bed4winterlich,ged1winterreifen,ged2winterlich,ged3winterlich,ged4winterlich,tid1kalt,tid2winterlich,tid3winterlich,tid4winterlich,smd1winterlich,smd2winterlich,smd3winterlich,smd4winterlich,lud1winterreifen,lud2winterreifen,lud3winterlich,lud4winterlich,"
+              ]
+            },
+            {
+              "key": "gs_cat",
+              "value": [
+                "gs_entertain",
+                "gv_safe_adult",
+                "gv_safe_arms",
+                "gv_safe_death_injury",
+                "gv_safe_download",
+                "gv_safe_drugs",
+                "gv_safe_hatespeech",
+                "gv_safe_military",
+                "gv_safe_obscenity",
+                "gv_safe_terrorism",
+                "gv_safe_tobacco",
+                "pos_corona",
+                "pos_notch_safety",
+                "pos_safety_travel_easyjet_custom",
+                "pos_ta_digital_apple_custom",
+                "ta_umwelt_zwa_tauschejobsch_custom",
+                "custom_lifestyle",
+                "ta_health_aldi-corona_custom",
+                "ta_festival_feldschloesschen_custom",
+                "shadow9hu7_pos_american_tobacco",
+                "gs_politics",
+                "shadow9hu7_pos_corona_blacklist",
+                "custom_corona-virus-targeting",
+                "gs_fashion",
+                "gs_politics_misc",
+                "ta_life_felschloesschen19040_custom"
+              ]
+            },
+            {
+              "key": "id",
+              "value": [
+                "0e26d77b-3470-11eb-9e74-06a409929697"
+              ]
+            },
+            {
+              "key": "vw30",
+              "value": [
+                "40"
+              ]
+            },
+            {
+              "key": "vw",
+              "value": [
+                "40",
+                "50",
+                "60",
+                "70",
+                "80",
+                "90"
+              ]
+            },
+            {
+              "key": "vw05",
+              "value": [
+                "40",
+                "50",
+                "60",
+                "70",
+                "80"
+              ]
+            },
+            {
+              "key": "vw15",
+              "value": [
+                "40",
+                "50",
+                "60"
+              ]
+            },
+            {
+              "key": "grm",
+              "value": [
+                "40",
+                "50",
+                "60",
+                "70",
+                "80"
+              ]
+            },
+            {
+              "key": "vw10",
+              "value": [
+                "40",
+                "50",
+                "60"
+              ]
+            }
+          ],
+          "use_pmt_rule": false,
+          "inv_code": "web_de-20minuten.ch_ros"
+        }
+      },
+      "banner": {
+        "format": [
+          {
+            "w": 160,
+            "h": 600
+          },
+          {
+            "w": 245,
+            "h": 770
+          },
+          {
+            "w": 300,
+            "h": 600
+          },
+          {
+            "w": 500,
+            "h": 1000
+          }
+        ]
+      }
+    },
+    {
+      "id": "web_de-20minuten.ch_front_9104",
+      "ext": {
+        "appnexus": {
+          "member": "3741",
+          "keywords": [
+            {
+              "key": "pagetype",
+              "value": [
+                "overview"
+              ]
+            },
+            {
+              "key": "orientation",
+              "value": [
+                "landscape"
+              ]
+            },
+            {
+              "key": "viewportwidth",
+              "value": [
+                "2560"
+              ]
+            },
+            {
+              "key": "viewportheight",
+              "value": [
+                "1297"
+              ]
+            },
+            {
+              "key": "screendensity",
+              "value": [
+                "1"
+              ]
+            },
+            {
+              "key": "weather_temp",
+              "value": [
+                "undefined"
+              ]
+            },
+            {
+              "key": "weather",
+              "value": [
+                "undefined"
+              ]
+            },
+            {
+              "key": "weather_cluster",
+              "value": [
+                "undefined"
+              ]
+            },
+            {
+              "key": "forecast_weather",
+              "value": [
+                "grd1na,grd2na,grd3schnee,grd4sonnig,vsd1bewoelkt,vsd2na,vsd3schnee,vsd4bewoelkt,zhd1na,zhd2bewoelkt,zhd3schnee,zhd4bewoelkt,bsd1bewoelkt,bsd2na,bsd3na,bsd4bewoelkt,bed1bewoelkt,bed2schnee,bed3schnee,bed4bewoelkt,ged1bewoelkt,ged2schnee,ged3bewoelkt,ged4schnee,tid1na,tid2schnee,tid3na,tid4na,smd1bewoelkt,smd2schnee,smd3schnee,smd4na,lud1na,lud2bewoelkt,lud3schnee,lud4bewoelkt,"
+              ]
+            },
+            {
+              "key": "forecast_temp",
+              "value": [
+                "grd1winterreifen,grd2winterreifen,grd3winterlich,grd4winterlich,vsd1winterreifen,vsd2winterlich,vsd3winterlich,vsd4winterreifen,zhd1winterlich,zhd2winterlich,zhd3winterlich,zhd4winterlich,bsd1winterreifen,bsd2winterlich,bsd3winterlich,bsd4winterlich,bed1winterlich,bed2winterlich,bed3winterlich,bed4winterlich,ged1winterreifen,ged2winterlich,ged3winterlich,ged4winterlich,tid1kalt,tid2winterlich,tid3winterlich,tid4winterlich,smd1winterlich,smd2winterlich,smd3winterlich,smd4winterlich,lud1winterreifen,lud2winterreifen,lud3winterlich,lud4winterlich,"
+              ]
+            },
+            {
+              "key": "gs_cat",
+              "value": [
+                "gs_entertain",
+                "gv_safe_adult",
+                "gv_safe_arms",
+                "gv_safe_death_injury",
+                "gv_safe_download",
+                "gv_safe_drugs",
+                "gv_safe_hatespeech",
+                "gv_safe_military",
+                "gv_safe_obscenity",
+                "gv_safe_terrorism",
+                "gv_safe_tobacco",
+                "pos_corona",
+                "pos_notch_safety",
+                "pos_safety_travel_easyjet_custom",
+                "pos_ta_digital_apple_custom",
+                "ta_umwelt_zwa_tauschejobsch_custom",
+                "custom_lifestyle",
+                "ta_health_aldi-corona_custom",
+                "ta_festival_feldschloesschen_custom",
+                "shadow9hu7_pos_american_tobacco",
+                "gs_politics",
+                "shadow9hu7_pos_corona_blacklist",
+                "custom_corona-virus-targeting",
+                "gs_fashion",
+                "gs_politics_misc",
+                "ta_life_felschloesschen19040_custom"
+              ]
+            },
+            {
+              "key": "id",
+              "value": [
+                "0e26d77b-3470-11eb-9e74-06a409929697"
+              ]
+            },
+            {
+              "key": "vw30",
+              "value": [
+                "40"
+              ]
+            },
+            {
+              "key": "vw",
+              "value": [
+                "40",
+                "50",
+                "60",
+                "70",
+                "80",
+                "90"
+              ]
+            },
+            {
+              "key": "vw05",
+              "value": [
+                "40",
+                "50",
+                "60",
+                "70",
+                "80"
+              ]
+            },
+            {
+              "key": "vw15",
+              "value": [
+                "40",
+                "50",
+                "60"
+              ]
+            },
+            {
+              "key": "grm",
+              "value": [
+                "40",
+                "50",
+                "60",
+                "70",
+                "80"
+              ]
+            },
+            {
+              "key": "vw10",
+              "value": [
+                "40",
+                "50",
+                "60"
+              ]
+            }
+          ],
+          "use_pmt_rule": false,
+          "inv_code": "web_de-20minuten.ch_front"
+        }
+      },
+      "banner": {
+        "format": [
+          {
+            "w": 160,
+            "h": 600
+          },
+          {
+            "w": 245,
+            "h": 770
+          },
+          {
+            "w": 300,
+            "h": 600
+          },
+          {
+            "w": 500,
+            "h": 1000
+          }
+        ]
+      }
+    },
+    {
+      "id": "web_de-20minuten.ch_ros_native_6485",
+      "ext": {
+        "appnexus": {
+          "member": "3741",
+          "keywords": [
+            {
+              "key": "pagetype",
+              "value": [
+                "overview"
+              ]
+            },
+            {
+              "key": "orientation",
+              "value": [
+                "landscape"
+              ]
+            },
+            {
+              "key": "viewportwidth",
+              "value": [
+                "2560"
+              ]
+            },
+            {
+              "key": "viewportheight",
+              "value": [
+                "1297"
+              ]
+            },
+            {
+              "key": "screendensity",
+              "value": [
+                "1"
+              ]
+            },
+            {
+              "key": "weather_temp",
+              "value": [
+                "undefined"
+              ]
+            },
+            {
+              "key": "weather",
+              "value": [
+                "undefined"
+              ]
+            },
+            {
+              "key": "weather_cluster",
+              "value": [
+                "undefined"
+              ]
+            },
+            {
+              "key": "forecast_weather",
+              "value": [
+                "grd1na,grd2na,grd3schnee,grd4sonnig,vsd1bewoelkt,vsd2na,vsd3schnee,vsd4bewoelkt,zhd1na,zhd2bewoelkt,zhd3schnee,zhd4bewoelkt,bsd1bewoelkt,bsd2na,bsd3na,bsd4bewoelkt,bed1bewoelkt,bed2schnee,bed3schnee,bed4bewoelkt,ged1bewoelkt,ged2schnee,ged3bewoelkt,ged4schnee,tid1na,tid2schnee,tid3na,tid4na,smd1bewoelkt,smd2schnee,smd3schnee,smd4na,lud1na,lud2bewoelkt,lud3schnee,lud4bewoelkt,"
+              ]
+            },
+            {
+              "key": "forecast_temp",
+              "value": [
+                "grd1winterreifen,grd2winterreifen,grd3winterlich,grd4winterlich,vsd1winterreifen,vsd2winterlich,vsd3winterlich,vsd4winterreifen,zhd1winterlich,zhd2winterlich,zhd3winterlich,zhd4winterlich,bsd1winterreifen,bsd2winterlich,bsd3winterlich,bsd4winterlich,bed1winterlich,bed2winterlich,bed3winterlich,bed4winterlich,ged1winterreifen,ged2winterlich,ged3winterlich,ged4winterlich,tid1kalt,tid2winterlich,tid3winterlich,tid4winterlich,smd1winterlich,smd2winterlich,smd3winterlich,smd4winterlich,lud1winterreifen,lud2winterreifen,lud3winterlich,lud4winterlich,"
+              ]
+            },
+            {
+              "key": "gs_cat",
+              "value": [
+                "gs_entertain",
+                "gv_safe_adult",
+                "gv_safe_arms",
+                "gv_safe_death_injury",
+                "gv_safe_download",
+                "gv_safe_drugs",
+                "gv_safe_hatespeech",
+                "gv_safe_military",
+                "gv_safe_obscenity",
+                "gv_safe_terrorism",
+                "gv_safe_tobacco",
+                "pos_corona",
+                "pos_notch_safety",
+                "pos_safety_travel_easyjet_custom",
+                "pos_ta_digital_apple_custom",
+                "ta_umwelt_zwa_tauschejobsch_custom",
+                "custom_lifestyle",
+                "ta_health_aldi-corona_custom",
+                "ta_festival_feldschloesschen_custom",
+                "shadow9hu7_pos_american_tobacco",
+                "gs_politics",
+                "shadow9hu7_pos_corona_blacklist",
+                "custom_corona-virus-targeting",
+                "gs_fashion",
+                "gs_politics_misc",
+                "ta_life_felschloesschen19040_custom"
+              ]
+            },
+            {
+              "key": "id",
+              "value": [
+                "0e26d77b-3470-11eb-9e74-06a409929697"
+              ]
+            },
+            {
+              "key": "vw30",
+              "value": [
+                "40"
+              ]
+            },
+            {
+              "key": "vw",
+              "value": [
+                "40",
+                "50",
+                "60",
+                "70",
+                "80",
+                "90"
+              ]
+            },
+            {
+              "key": "vw05",
+              "value": [
+                "40",
+                "50",
+                "60",
+                "70",
+                "80"
+              ]
+            },
+            {
+              "key": "vw15",
+              "value": [
+                "40",
+                "50",
+                "60"
+              ]
+            },
+            {
+              "key": "grm",
+              "value": [
+                "40",
+                "50",
+                "60",
+                "70",
+                "80"
+              ]
+            },
+            {
+              "key": "vw10",
+              "value": [
+                "40",
+                "50",
+                "60"
+              ]
+            }
+          ],
+          "use_pmt_rule": false,
+          "inv_code": "web_de-20minuten.ch_ros_native"
+        }
+      },
+      "native": {
+        "request": "{\"context\":1,\"plcmttype\":1,\"eventtrackers\":[{\"event\":1,\"methods\":[1]}],\"assets\":[{\"required\":1,\"img\":{\"type\":3,\"wmin\":300,\"hmin\":200,\"ext\":{\"aspectratios\":[\"2:3\"]}}},{\"required\":1,\"title\":{\"len\":25}},{\"required\":1,\"data\":{\"type\":2,\"len\":90}}]}",
+        "ver": "1.2"
+      }
+    },
+    {
+      "id": "additionalPBAdunit_outside-right_ix_38",
+      "ext": {
+        "ix": {
+          "siteId": "507799",
+          "size": [
+            300,
+            600
+          ],
+          "keywords": {
+            "fresh": true,
+            "fwb": true,
+            "pagetype": "overview",
+            "orientation": "landscape",
+            "viewportwidth": 2560,
+            "viewportheight": 1297,
+            "screendensity": 1,
+            "weather_temp": "undefined",
+            "weather": "undefined",
+            "weather_cluster": "undefined",
+            "forecast_weather": "grd1na,grd2na,grd3schnee,grd4sonnig,vsd1bewoelkt,vsd2na,vsd3schnee,vsd4bewoelkt,zhd1na,zhd2bewoelkt,zhd3schnee,zhd4bewoelkt,bsd1bewoelkt,bsd2na,bsd3na,bsd4bewoelkt,bed1bewoelkt,bed2schnee,bed3schnee,bed4bewoelkt,ged1bewoelkt,ged2schnee,ged3bewoelkt,ged4schnee,tid1na,tid2schnee,tid3na,tid4na,smd1bewoelkt,smd2schnee,smd3schnee,smd4na,lud1na,lud2bewoelkt,lud3schnee,lud4bewoelkt,",
+            "forecast_temp": "grd1winterreifen,grd2winterreifen,grd3winterlich,grd4winterlich,vsd1winterreifen,vsd2winterlich,vsd3winterlich,vsd4winterreifen,zhd1winterlich,zhd2winterlich,zhd3winterlich,zhd4winterlich,bsd1winterreifen,bsd2winterlich,bsd3winterlich,bsd4winterlich,bed1winterlich,bed2winterlich,bed3winterlich,bed4winterlich,ged1winterreifen,ged2winterlich,ged3winterlich,ged4winterlich,tid1kalt,tid2winterlich,tid3winterlich,tid4winterlich,smd1winterlich,smd2winterlich,smd3winterlich,smd4winterlich,lud1winterreifen,lud2winterreifen,lud3winterlich,lud4winterlich,",
+            "userloggedin": false,
+            "isWebview": false,
+            "gs_cat": [
+              "gs_entertain",
+              "gv_safe_adult",
+              "gv_safe_arms",
+              "gv_safe_death_injury",
+              "gv_safe_download",
+              "gv_safe_drugs",
+              "gv_safe_hatespeech",
+              "gv_safe_military",
+              "gv_safe_obscenity",
+              "gv_safe_terrorism",
+              "gv_safe_tobacco",
+              "pos_corona",
+              "pos_notch_safety",
+              "pos_safety_travel_easyjet_custom",
+              "pos_ta_digital_apple_custom",
+              "ta_umwelt_zwa_tauschejobsch_custom",
+              "custom_lifestyle",
+              "ta_health_aldi-corona_custom",
+              "ta_festival_feldschloesschen_custom",
+              "shadow9hu7_pos_american_tobacco",
+              "gs_politics",
+              "shadow9hu7_pos_corona_blacklist",
+              "custom_corona-virus-targeting",
+              "gs_fashion",
+              "gs_politics_misc",
+              "ta_life_felschloesschen19040_custom"
+            ],
+            "consent": false,
+            "fallback": true,
+            "id": "0e26d77b-3470-11eb-9e74-06a409929697",
+            "vw30": [
+              "40"
+            ],
+            "vw": [
+              "40",
+              "50",
+              "60",
+              "70",
+              "80",
+              "90"
+            ],
+            "vw05": [
+              "40",
+              "50",
+              "60",
+              "70",
+              "80"
+            ],
+            "vw15": [
+              "40",
+              "50",
+              "60"
+            ],
+            "grm": [
+              "40",
+              "50",
+              "60",
+              "70",
+              "80"
+            ],
+            "vw10": [
+              "40",
+              "50",
+              "60"
+            ]
+          }
+        }
+      },
       "banner": {
         "format": [
           {
             "w": 300,
-            "h": 250
+            "h": 600
           }
         ]
+      }
+    },
+    {
+      "id": "additionalPBAdunit_outside-right_ix_62",
+      "ext": {
+        "ix": {
+          "siteId": "507799",
+          "size": [
+            160,
+            600
+          ],
+          "keywords": {
+            "fresh": true,
+            "fwb": true,
+            "pagetype": "overview",
+            "orientation": "landscape",
+            "viewportwidth": 2560,
+            "viewportheight": 1297,
+            "screendensity": 1,
+            "weather_temp": "undefined",
+            "weather": "undefined",
+            "weather_cluster": "undefined",
+            "forecast_weather": "grd1na,grd2na,grd3schnee,grd4sonnig,vsd1bewoelkt,vsd2na,vsd3schnee,vsd4bewoelkt,zhd1na,zhd2bewoelkt,zhd3schnee,zhd4bewoelkt,bsd1bewoelkt,bsd2na,bsd3na,bsd4bewoelkt,bed1bewoelkt,bed2schnee,bed3schnee,bed4bewoelkt,ged1bewoelkt,ged2schnee,ged3bewoelkt,ged4schnee,tid1na,tid2schnee,tid3na,tid4na,smd1bewoelkt,smd2schnee,smd3schnee,smd4na,lud1na,lud2bewoelkt,lud3schnee,lud4bewoelkt,",
+            "forecast_temp": "grd1winterreifen,grd2winterreifen,grd3winterlich,grd4winterlich,vsd1winterreifen,vsd2winterlich,vsd3winterlich,vsd4winterreifen,zhd1winterlich,zhd2winterlich,zhd3winterlich,zhd4winterlich,bsd1winterreifen,bsd2winterlich,bsd3winterlich,bsd4winterlich,bed1winterlich,bed2winterlich,bed3winterlich,bed4winterlich,ged1winterreifen,ged2winterlich,ged3winterlich,ged4winterlich,tid1kalt,tid2winterlich,tid3winterlich,tid4winterlich,smd1winterlich,smd2winterlich,smd3winterlich,smd4winterlich,lud1winterreifen,lud2winterreifen,lud3winterlich,lud4winterlich,",
+            "userloggedin": false,
+            "isWebview": false,
+            "gs_cat": [
+              "gs_entertain",
+              "gv_safe_adult",
+              "gv_safe_arms",
+              "gv_safe_death_injury",
+              "gv_safe_download",
+              "gv_safe_drugs",
+              "gv_safe_hatespeech",
+              "gv_safe_military",
+              "gv_safe_obscenity",
+              "gv_safe_terrorism",
+              "gv_safe_tobacco",
+              "pos_corona",
+              "pos_notch_safety",
+              "pos_safety_travel_easyjet_custom",
+              "pos_ta_digital_apple_custom",
+              "ta_umwelt_zwa_tauschejobsch_custom",
+              "custom_lifestyle",
+              "ta_health_aldi-corona_custom",
+              "ta_festival_feldschloesschen_custom",
+              "shadow9hu7_pos_american_tobacco",
+              "gs_politics",
+              "shadow9hu7_pos_corona_blacklist",
+              "custom_corona-virus-targeting",
+              "gs_fashion",
+              "gs_politics_misc",
+              "ta_life_felschloesschen19040_custom"
+            ],
+            "consent": false,
+            "fallback": true,
+            "id": "0e26d77b-3470-11eb-9e74-06a409929697",
+            "vw30": [
+              "40"
+            ],
+            "vw": [
+              "40",
+              "50",
+              "60",
+              "70",
+              "80",
+              "90"
+            ],
+            "vw05": [
+              "40",
+              "50",
+              "60",
+              "70",
+              "80"
+            ],
+            "vw15": [
+              "40",
+              "50",
+              "60"
+            ],
+            "grm": [
+              "40",
+              "50",
+              "60",
+              "70",
+              "80"
+            ],
+            "vw10": [
+              "40",
+              "50",
+              "60"
+            ]
+          }
+        }
       },
+      "banner": {
+        "format": [
+          {
+            "w": 160,
+            "h": 600
+          }
+        ]
+      }
+    },
+    {
+      "id": "web_de-20minuten.ch_ros_1931",
       "ext": {
         "appnexus": {
-          "placementId": 17937372,
-          "member": "3741"
+          "member": "3741",
+          "keywords": [
+            {
+              "key": "pagetype",
+              "value": [
+                "overview"
+              ]
+            },
+            {
+              "key": "orientation",
+              "value": [
+                "landscape"
+              ]
+            },
+            {
+              "key": "viewportwidth",
+              "value": [
+                "2560"
+              ]
+            },
+            {
+              "key": "viewportheight",
+              "value": [
+                "1297"
+              ]
+            },
+            {
+              "key": "screendensity",
+              "value": [
+                "1"
+              ]
+            },
+            {
+              "key": "weather_temp",
+              "value": [
+                "undefined"
+              ]
+            },
+            {
+              "key": "weather",
+              "value": [
+                "undefined"
+              ]
+            },
+            {
+              "key": "weather_cluster",
+              "value": [
+                "undefined"
+              ]
+            },
+            {
+              "key": "forecast_weather",
+              "value": [
+                "grd1na,grd2na,grd3schnee,grd4sonnig,vsd1bewoelkt,vsd2na,vsd3schnee,vsd4bewoelkt,zhd1na,zhd2bewoelkt,zhd3schnee,zhd4bewoelkt,bsd1bewoelkt,bsd2na,bsd3na,bsd4bewoelkt,bed1bewoelkt,bed2schnee,bed3schnee,bed4bewoelkt,ged1bewoelkt,ged2schnee,ged3bewoelkt,ged4schnee,tid1na,tid2schnee,tid3na,tid4na,smd1bewoelkt,smd2schnee,smd3schnee,smd4na,lud1na,lud2bewoelkt,lud3schnee,lud4bewoelkt,"
+              ]
+            },
+            {
+              "key": "forecast_temp",
+              "value": [
+                "grd1winterreifen,grd2winterreifen,grd3winterlich,grd4winterlich,vsd1winterreifen,vsd2winterlich,vsd3winterlich,vsd4winterreifen,zhd1winterlich,zhd2winterlich,zhd3winterlich,zhd4winterlich,bsd1winterreifen,bsd2winterlich,bsd3winterlich,bsd4winterlich,bed1winterlich,bed2winterlich,bed3winterlich,bed4winterlich,ged1winterreifen,ged2winterlich,ged3winterlich,ged4winterlich,tid1kalt,tid2winterlich,tid3winterlich,tid4winterlich,smd1winterlich,smd2winterlich,smd3winterlich,smd4winterlich,lud1winterreifen,lud2winterreifen,lud3winterlich,lud4winterlich,"
+              ]
+            },
+            {
+              "key": "gs_cat",
+              "value": [
+                "gs_entertain",
+                "gv_safe_adult",
+                "gv_safe_arms",
+                "gv_safe_death_injury",
+                "gv_safe_download",
+                "gv_safe_drugs",
+                "gv_safe_hatespeech",
+                "gv_safe_military",
+                "gv_safe_obscenity",
+                "gv_safe_terrorism",
+                "gv_safe_tobacco",
+                "pos_corona",
+                "pos_notch_safety",
+                "pos_safety_travel_easyjet_custom",
+                "pos_ta_digital_apple_custom",
+                "ta_umwelt_zwa_tauschejobsch_custom",
+                "custom_lifestyle",
+                "ta_health_aldi-corona_custom",
+                "ta_festival_feldschloesschen_custom",
+                "shadow9hu7_pos_american_tobacco",
+                "gs_politics",
+                "shadow9hu7_pos_corona_blacklist",
+                "custom_corona-virus-targeting",
+                "gs_fashion",
+                "gs_politics_misc",
+                "ta_life_felschloesschen19040_custom"
+              ]
+            },
+            {
+              "key": "id",
+              "value": [
+                "0e26d77c-3470-11eb-9e74-06a409929697"
+              ]
+            },
+            {
+              "key": "vw",
+              "value": [
+                "40",
+                "50",
+                "60",
+                "70"
+              ]
+            },
+            {
+              "key": "vw05",
+              "value": [
+                "40"
+              ]
+            },
+            {
+              "key": "grm",
+              "value": [
+                "40",
+                "50",
+                "60",
+                "70"
+              ]
+            }
+          ],
+          "use_pmt_rule": false,
+          "inv_code": "web_de-20minuten.ch_ros"
         }
+      },
+      "banner": {
+        "format": [
+          {
+            "w": 994,
+            "h": 118
+          },
+          {
+            "w": 994,
+            "h": 250
+          },
+          {
+            "w": 994,
+            "h": 500
+          },
+          {
+            "w": 994,
+            "h": 501
+          },
+          {
+            "w": 994,
+            "h": 502
+          },
+          {
+            "w": 1500,
+            "h": 600
+          }
+        ]
+      }
+    },
+    {
+      "id": "web_de-20minuten.ch_front_1748",
+      "ext": {
+        "appnexus": {
+          "member": "3741",
+          "keywords": [
+            {
+              "key": "pagetype",
+              "value": [
+                "overview"
+              ]
+            },
+            {
+              "key": "orientation",
+              "value": [
+                "landscape"
+              ]
+            },
+            {
+              "key": "viewportwidth",
+              "value": [
+                "2560"
+              ]
+            },
+            {
+              "key": "viewportheight",
+              "value": [
+                "1297"
+              ]
+            },
+            {
+              "key": "screendensity",
+              "value": [
+                "1"
+              ]
+            },
+            {
+              "key": "weather_temp",
+              "value": [
+                "undefined"
+              ]
+            },
+            {
+              "key": "weather",
+              "value": [
+                "undefined"
+              ]
+            },
+            {
+              "key": "weather_cluster",
+              "value": [
+                "undefined"
+              ]
+            },
+            {
+              "key": "forecast_weather",
+              "value": [
+                "grd1na,grd2na,grd3schnee,grd4sonnig,vsd1bewoelkt,vsd2na,vsd3schnee,vsd4bewoelkt,zhd1na,zhd2bewoelkt,zhd3schnee,zhd4bewoelkt,bsd1bewoelkt,bsd2na,bsd3na,bsd4bewoelkt,bed1bewoelkt,bed2schnee,bed3schnee,bed4bewoelkt,ged1bewoelkt,ged2schnee,ged3bewoelkt,ged4schnee,tid1na,tid2schnee,tid3na,tid4na,smd1bewoelkt,smd2schnee,smd3schnee,smd4na,lud1na,lud2bewoelkt,lud3schnee,lud4bewoelkt,"
+              ]
+            },
+            {
+              "key": "forecast_temp",
+              "value": [
+                "grd1winterreifen,grd2winterreifen,grd3winterlich,grd4winterlich,vsd1winterreifen,vsd2winterlich,vsd3winterlich,vsd4winterreifen,zhd1winterlich,zhd2winterlich,zhd3winterlich,zhd4winterlich,bsd1winterreifen,bsd2winterlich,bsd3winterlich,bsd4winterlich,bed1winterlich,bed2winterlich,bed3winterlich,bed4winterlich,ged1winterreifen,ged2winterlich,ged3winterlich,ged4winterlich,tid1kalt,tid2winterlich,tid3winterlich,tid4winterlich,smd1winterlich,smd2winterlich,smd3winterlich,smd4winterlich,lud1winterreifen,lud2winterreifen,lud3winterlich,lud4winterlich,"
+              ]
+            },
+            {
+              "key": "gs_cat",
+              "value": [
+                "gs_entertain",
+                "gv_safe_adult",
+                "gv_safe_arms",
+                "gv_safe_death_injury",
+                "gv_safe_download",
+                "gv_safe_drugs",
+                "gv_safe_hatespeech",
+                "gv_safe_military",
+                "gv_safe_obscenity",
+                "gv_safe_terrorism",
+                "gv_safe_tobacco",
+                "pos_corona",
+                "pos_notch_safety",
+                "pos_safety_travel_easyjet_custom",
+                "pos_ta_digital_apple_custom",
+                "ta_umwelt_zwa_tauschejobsch_custom",
+                "custom_lifestyle",
+                "ta_health_aldi-corona_custom",
+                "ta_festival_feldschloesschen_custom",
+                "shadow9hu7_pos_american_tobacco",
+                "gs_politics",
+                "shadow9hu7_pos_corona_blacklist",
+                "custom_corona-virus-targeting",
+                "gs_fashion",
+                "gs_politics_misc",
+                "ta_life_felschloesschen19040_custom"
+              ]
+            },
+            {
+              "key": "id",
+              "value": [
+                "0e26d77c-3470-11eb-9e74-06a409929697"
+              ]
+            },
+            {
+              "key": "vw",
+              "value": [
+                "40",
+                "50",
+                "60",
+                "70"
+              ]
+            },
+            {
+              "key": "vw05",
+              "value": [
+                "40"
+              ]
+            },
+            {
+              "key": "grm",
+              "value": [
+                "40",
+                "50",
+                "60",
+                "70"
+              ]
+            }
+          ],
+          "use_pmt_rule": false,
+          "inv_code": "web_de-20minuten.ch_front"
+        }
+      },
+      "banner": {
+        "format": [
+          {
+            "w": 994,
+            "h": 118
+          },
+          {
+            "w": 994,
+            "h": 250
+          },
+          {
+            "w": 994,
+            "h": 500
+          },
+          {
+            "w": 994,
+            "h": 501
+          },
+          {
+            "w": 994,
+            "h": 502
+          },
+          {
+            "w": 1500,
+            "h": 600
+          }
+        ]
+      }
+    },
+    {
+      "id": "web_de-20minuten.ch_ros_native_7125",
+      "ext": {
+        "appnexus": {
+          "member": "3741",
+          "keywords": [
+            {
+              "key": "pagetype",
+              "value": [
+                "overview"
+              ]
+            },
+            {
+              "key": "orientation",
+              "value": [
+                "landscape"
+              ]
+            },
+            {
+              "key": "viewportwidth",
+              "value": [
+                "2560"
+              ]
+            },
+            {
+              "key": "viewportheight",
+              "value": [
+                "1297"
+              ]
+            },
+            {
+              "key": "screendensity",
+              "value": [
+                "1"
+              ]
+            },
+            {
+              "key": "weather_temp",
+              "value": [
+                "undefined"
+              ]
+            },
+            {
+              "key": "weather",
+              "value": [
+                "undefined"
+              ]
+            },
+            {
+              "key": "weather_cluster",
+              "value": [
+                "undefined"
+              ]
+            },
+            {
+              "key": "forecast_weather",
+              "value": [
+                "grd1na,grd2na,grd3schnee,grd4sonnig,vsd1bewoelkt,vsd2na,vsd3schnee,vsd4bewoelkt,zhd1na,zhd2bewoelkt,zhd3schnee,zhd4bewoelkt,bsd1bewoelkt,bsd2na,bsd3na,bsd4bewoelkt,bed1bewoelkt,bed2schnee,bed3schnee,bed4bewoelkt,ged1bewoelkt,ged2schnee,ged3bewoelkt,ged4schnee,tid1na,tid2schnee,tid3na,tid4na,smd1bewoelkt,smd2schnee,smd3schnee,smd4na,lud1na,lud2bewoelkt,lud3schnee,lud4bewoelkt,"
+              ]
+            },
+            {
+              "key": "forecast_temp",
+              "value": [
+                "grd1winterreifen,grd2winterreifen,grd3winterlich,grd4winterlich,vsd1winterreifen,vsd2winterlich,vsd3winterlich,vsd4winterreifen,zhd1winterlich,zhd2winterlich,zhd3winterlich,zhd4winterlich,bsd1winterreifen,bsd2winterlich,bsd3winterlich,bsd4winterlich,bed1winterlich,bed2winterlich,bed3winterlich,bed4winterlich,ged1winterreifen,ged2winterlich,ged3winterlich,ged4winterlich,tid1kalt,tid2winterlich,tid3winterlich,tid4winterlich,smd1winterlich,smd2winterlich,smd3winterlich,smd4winterlich,lud1winterreifen,lud2winterreifen,lud3winterlich,lud4winterlich,"
+              ]
+            },
+            {
+              "key": "gs_cat",
+              "value": [
+                "gs_entertain",
+                "gv_safe_adult",
+                "gv_safe_arms",
+                "gv_safe_death_injury",
+                "gv_safe_download",
+                "gv_safe_drugs",
+                "gv_safe_hatespeech",
+                "gv_safe_military",
+                "gv_safe_obscenity",
+                "gv_safe_terrorism",
+                "gv_safe_tobacco",
+                "pos_corona",
+                "pos_notch_safety",
+                "pos_safety_travel_easyjet_custom",
+                "pos_ta_digital_apple_custom",
+                "ta_umwelt_zwa_tauschejobsch_custom",
+                "custom_lifestyle",
+                "ta_health_aldi-corona_custom",
+                "ta_festival_feldschloesschen_custom",
+                "shadow9hu7_pos_american_tobacco",
+                "gs_politics",
+                "shadow9hu7_pos_corona_blacklist",
+                "custom_corona-virus-targeting",
+                "gs_fashion",
+                "gs_politics_misc",
+                "ta_life_felschloesschen19040_custom"
+              ]
+            },
+            {
+              "key": "id",
+              "value": [
+                "0e26d77c-3470-11eb-9e74-06a409929697"
+              ]
+            },
+            {
+              "key": "vw",
+              "value": [
+                "40",
+                "50",
+                "60",
+                "70"
+              ]
+            },
+            {
+              "key": "vw05",
+              "value": [
+                "40"
+              ]
+            },
+            {
+              "key": "grm",
+              "value": [
+                "40",
+                "50",
+                "60",
+                "70"
+              ]
+            }
+          ],
+          "use_pmt_rule": false,
+          "inv_code": "web_de-20minuten.ch_ros_native"
+        }
+      },
+      "native": {
+        "request": "{\"context\":1,\"plcmttype\":1,\"eventtrackers\":[{\"event\":1,\"methods\":[1]}],\"assets\":[{\"required\":1,\"img\":{\"type\":3,\"wmin\":300,\"hmin\":200,\"ext\":{\"aspectratios\":[\"2:3\"]}}},{\"required\":1,\"title\":{\"len\":25}},{\"required\":1,\"data\":{\"type\":2,\"len\":90}}]}",
+        "ver": "1.2"
       }
     }
   ],
