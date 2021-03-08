@@ -1,0 +1,32 @@
+{
+  "id": "mobile_web_amp_test",
+  "imp": [
+    {
+      "id": "web_de-20minuten.ch_ros_8814",
+      "ext": {
+        "appnexus": {
+          "member": "3741",
+          "inv_code": "mobile_web_amp_test"
+        }
+      },
+      "banner": {
+        "format": [
+          {
+            "w": 160,
+            "h": 600
+          },
+          {
+            "w": 300,
+            "h": 250
+          }
+        ]
+      }
+    }
+  ],
+  "targeting": {
+    "test": 100
+  },
+  "site": {
+    "id": "20min.ch"
+  }
+}

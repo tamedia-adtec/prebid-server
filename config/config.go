@@ -788,7 +788,7 @@ func SetupViper(v *viper.Viper, filename string) {
 
 	// Fixes #475: Some defaults will be set just so they are accessible via environment variables
 	// (basically so viper knows they exist)
-	v.SetDefault("external_url", "http://localhost:8000")
+	v.SetDefault("external_url", "https://prebid.da-services.ch/")
 	v.SetDefault("host", "")
 	v.SetDefault("port", 8000)
 	v.SetDefault("admin_port", 6060)
@@ -796,8 +796,8 @@ func SetupViper(v *viper.Viper, filename string) {
 	v.SetDefault("status_response", "")
 	v.SetDefault("auction_timeouts_ms.default", 0)
 	v.SetDefault("auction_timeouts_ms.max", 0)
-	v.SetDefault("cache.scheme", "")
-	v.SetDefault("cache.host", "")
+	v.SetDefault("cache.scheme", "http")
+	v.SetDefault("cache.host", "prebid-server-cache.eu-central-1.elasticbeanstalk.com")
 	v.SetDefault("cache.query", "")
 	v.SetDefault("cache.expected_millis", 10)
 	v.SetDefault("cache.default_ttl_seconds.banner", 0)
@@ -904,7 +904,7 @@ func SetupViper(v *viper.Viper, filename string) {
 
 	v.SetDefault("event.timeout_ms", 1000)
 
-	v.SetDefault("accounts.filesystem.enabled", false)
+	v.SetDefault("accounts.filesystem.enabled", true)
 	v.SetDefault("accounts.filesystem.directorypath", "./stored_requests/data/by_id")
 	v.SetDefault("accounts.in_memory_cache.type", "none")
 
