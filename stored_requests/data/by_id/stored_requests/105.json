@@ -1,0 +1,220 @@
+{
+  "id": "1be32453-4056-40d8-aa2f-bc643f9e51aa",
+  "source": {
+    "tid": "1be32453-4056-40d8-aa2f-bc643f9e51aa"
+  },
+  "tmax": 1500,
+  "imp": [
+    {
+      "id": "web_de-20minuten.ch_ros_native_3990",
+      "ext": {
+        "appnexus": {
+          "member": "3741",
+          "keywords": [
+            {
+              "key": "pagetype",
+              "value": [
+                "overview"
+              ]
+            },
+            {
+              "key": "orientation",
+              "value": [
+                "landscape"
+              ]
+            },
+            {
+              "key": "viewportwidth",
+              "value": [
+                "2560"
+              ]
+            },
+            {
+              "key": "viewportheight",
+              "value": [
+                "1297"
+              ]
+            },
+            {
+              "key": "screendensity",
+              "value": [
+                "1"
+              ]
+            },
+            {
+              "key": "weather_temp",
+              "value": [
+                "undefined"
+              ]
+            },
+            {
+              "key": "weather",
+              "value": [
+                "undefined"
+              ]
+            },
+            {
+              "key": "weather_cluster",
+              "value": [
+                "undefined"
+              ]
+            },
+            {
+              "key": "adt",
+              "value": [
+                "veryLow"
+              ]
+            },
+            {
+              "key": "alc",
+              "value": [
+                "veryLow"
+              ]
+            },
+            {
+              "key": "dlm",
+              "value": [
+                "veryLow"
+              ]
+            },
+            {
+              "key": "drg",
+              "value": [
+                "veryLow"
+              ]
+            },
+            {
+              "key": "hat",
+              "value": [
+                "veryLow"
+              ]
+            },
+            {
+              "key": "off",
+              "value": [
+                "veryLow"
+              ]
+            },
+            {
+              "key": "vio",
+              "value": [
+                "low"
+              ]
+            },
+            {
+              "key": "fr",
+              "value": [
+                "false"
+              ]
+            },
+            {
+              "key": "id",
+              "value": [
+                "bbd438d6-3970-11eb-9e09-062810ec67f6"
+              ]
+            },
+            {
+              "key": "vw30",
+              "value": [
+                "40"
+              ]
+            },
+            {
+              "key": "vw",
+              "value": [
+                "40",
+                "50",
+                "60",
+                "70",
+                "80"
+              ]
+            },
+            {
+              "key": "vw05",
+              "value": [
+                "40",
+                "50",
+                "60",
+                "70",
+                "80"
+              ]
+            },
+            {
+              "key": "vw15",
+              "value": [
+                "40",
+                "50",
+                "60"
+              ]
+            },
+            {
+              "key": "grm",
+              "value": [
+                "40",
+                "50",
+                "60",
+                "70",
+                "80"
+              ]
+            },
+            {
+              "key": "vw10",
+              "value": [
+                "40",
+                "50",
+                "60"
+              ]
+            }
+          ],
+          "use_pmt_rule": false,
+          "inv_code": "web_de-20minuten.ch_ros_native"
+        }
+      },
+      "native": {
+        "request": "{\"context\":1,\"plcmttype\":1,\"eventtrackers\":[{\"event\":1,\"methods\":[1]}],\"assets\":[{\"required\":1,\"img\":{\"type\":3,\"wmin\":300,\"hmin\":200,\"ext\":{\"aspectratios\":[\"2:3\"]}}},{\"required\":1,\"title\":{\"len\":25}},{\"required\":1,\"data\":{\"type\":2,\"len\":90}}]}",
+        "ver": "1.2"
+      }
+    }
+  ],
+  "test": 0,
+  "ext": {
+    "prebid": {
+      "auctiontimestamp": 1607444196234,
+      "targeting": {
+        "pricegranularity": {
+          "ranges": [
+            {
+              "max": 50,
+              "increment": 0.1
+            }
+          ]
+        }
+      },
+      "cache": {
+        "vastxml": {
+          "returnCreative": false
+        }
+      }
+    }
+  },
+  "site": {
+    "publisher": {
+      "id": "1"
+    },
+    "page": "https://www.20min.ch/"
+  },
+  "device": {
+    "w": 2560,
+    "h": 1297
+  },
+  "regs": {
+    "ext": {
+      "gdpr": 0
+    }
+  },
+  "user": {
+    "ext": {
+      "consent": "BO-HITqO-HITqBQABBDECK-AAABCVY_KfQrC0oWQ3LTh5AAkALqlgRiFSEAIHYRE4AIRZUACSAEggHMoyUBIA8RAAERATIJABBgQEAISkAOAAIAgIpACEAgYAJAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAf____3____8A"
+    }
+  }
+}

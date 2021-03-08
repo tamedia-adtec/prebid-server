@@ -1,0 +1,82 @@
+{
+  "id": "104",
+  "imp": [
+    {
+      "id": "104",
+      "banner": {
+        "format": [
+          {
+            "w": 160,
+            "h": 600
+          },
+          {
+            "w": 300,
+            "h": 250
+          },
+          {
+            "w": 728,
+            "h": 90
+          }
+        ]
+      },
+      "tagid": "/000/amp_test",
+      "secure": 1,
+      "ext": {
+        "appnexus": {
+            "placementId": 20831790,
+          "member": "3741"
+        }
+      }
+    }
+  ],
+  "site": {
+    "page": "https://test.example.com/index.html",
+    "publisher": {
+      "id": "0000"
+    },
+    "ext": {
+      "amp": 1,
+      "data": {
+        "key1": "val1"
+      }
+    }
+  },
+  "user": {
+    "ext": {
+      "data": {
+        "key2": "val2"
+      }
+    }
+  },
+  "device": {
+    "ua": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/83.0.4103.106 Safari/537.36"
+  },
+  "at": 1,
+  "tmax": 1000,
+  "cur": [
+    "USD"
+  ],
+  "source": {
+    "tid": "54af66d6-3008-4e2e-87db-051137aa89a3"
+  },
+  "ext": {
+    "prebid": {
+      "auctiontimestamp": 1607444196234,
+      "targeting": {
+        "pricegranularity": {
+          "ranges": [
+            {
+              "max": 50,
+              "increment": 0.1
+            }
+          ]
+        }
+      },
+      "cache": {
+        "vastxml": {
+          "returnCreative": false
+        }
+      }
+    }
+  }
+}

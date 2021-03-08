@@ -1,0 +1,56 @@
+{
+  "id": "some-request-id",
+  "cur": ["CHF"],
+  "source": {
+    "ext": {
+      "schain": {
+      }
+    }
+  },
+  "site": {
+    "page": "prebid.org"
+  },
+  "ext": {
+    "prebid": {
+      "cache": {
+        "bids": {}
+      },
+      "targeting": {
+        "pricegranularity": {
+          "precision": 2,
+          "ranges": [{
+            "max": 50.00,
+            "increment": 0.10
+          }]
+        }
+      }
+    }
+  },
+  "imp": [
+    {
+      "id": "some-impression-id",
+      "banner": {
+        "format": [
+          {
+            "w": 160,
+            "h": 600
+          },
+          {
+            "w": 300,
+            "h": 600
+          },
+          {
+            "w": 468,
+            "h": 60
+          }
+        ]
+      },
+      "ext": {
+        "appnexus": {
+          "placementId": 8570123,
+          "member": "3741"
+        }
+      }
+    }
+  ]
+}
