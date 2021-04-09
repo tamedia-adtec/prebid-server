@@ -1,20 +1,16 @@
 {
-  "id": "mobile_web_amp_test",
+  "id": "mobile_web_de-20minuten.ch_ros",
   "imp": [
     {
-      "id": "web_de-20minuten.ch_ros_8814",
+      "id": "mobile_web_de-20minuten.ch_ros",
       "ext": {
         "appnexus": {
           "member": "3741",
-          "inv_code": "mobile_web_amp_test"
+          "inv_code": "mobile_web_de-20minuten.ch_ros"
         }
       },
       "banner": {
         "format": [
-          {
-            "w": 160,
-            "h": 600
-          },
           {
             "w": 300,
             "h": 250
