@@ -1,0 +1,47 @@
+{
+  "id": "mobile_web_fr-lematin.ch_ros",
+  "imp": [
+    {
+      "id": "mobile_web_fr-lematin.ch_ros",
+      "ext": {
+        "appnexus": {
+          "member": "3741",
+          "inv_code": "mobile_web_fr-lematin.ch_ros"
+        }
+      },
+      "banner": {
+        "format": [
+          {
+            "w": 300,
+            "h": 250
+          }
+        ]
+      }
+    }
+  ],
+  "targeting": {
+    "test": 100
+  },
+  "site": {
+    "id": "20min.ch"
+  },
+  "ext": {
+    "prebid": {
+      "targeting": {
+        "pricegranularity": {
+          "ranges": [
+            {
+              "max": 50,
+              "increment": 0.1
+            }
+          ]
+        }
+      },
+      "cache": {
+        "vastxml": {
+          "returnCreative": false
+        }
+      }
+    }
+  }
+}
