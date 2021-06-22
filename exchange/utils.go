@@ -154,10 +154,10 @@ func cleanOpenRTBRequests(ctx context.Context,
 			}
 		}
 
-		if bidRequestAllowed {
+		//if bidRequestAllowed {
 			privacyEnforcement.Apply(bidderRequest.BidRequest)
 			allowedBidderRequests = append(allowedBidderRequests, bidderRequest)
-		}
+		//}
 	}
 
 	return

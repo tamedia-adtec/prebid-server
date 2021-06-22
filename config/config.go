@@ -208,11 +208,11 @@ type GDPR struct {
 }
 
 func (cfg *GDPR) validate(v *viper.Viper, errs []error) []error {
-	if !v.IsSet("gdpr.default_value") {
-		errs = append(errs, fmt.Errorf("gdpr.default_value is required and must be specified"))
-	} else if cfg.DefaultValue != "0" && cfg.DefaultValue != "1" {
-		errs = append(errs, fmt.Errorf("gdpr.default_value must be 0 or 1"))
-	}
+	//if !v.IsSet("gdpr.default_value") {
+	//	errs = append(errs, fmt.Errorf("gdpr.default_value is required and must be specified"))
+	//} else if cfg.DefaultValue != "0" && cfg.DefaultValue != "1" {
+	//	errs = append(errs, fmt.Errorf("gdpr.default_value must be 0 or 1"))
+	//}
 	if cfg.HostVendorID < 0 || cfg.HostVendorID > 0xffff {
 		errs = append(errs, fmt.Errorf("gdpr.host_vendor_id must be in the range [0, %d]. Got %d", 0xffff, cfg.HostVendorID))
 	}
@@ -833,7 +833,7 @@ func SetupViper(v *viper.Viper, filename string) {
 	v.SetDefault("adapters.amx.endpoint", "http://pbs.amxrtb.com/auction/openrtb")
 	v.SetDefault("adapters.applogy.endpoint", "http://rtb.applogy.com/v1/prebid")
 	v.SetDefault("adapters.appnexus.endpoint", "https://ib.adnxs.com/openrtb2") // Docs: https://wiki.appnexus.com/display/supply/Incoming+Bid+Request+from+SSPs
-	                                                                            // ?query_param=true&member_id=3741
+	// ?query_param=true&member_id=3741
 	v.SetDefault("adapters.appnexus.platform_id", "3741")
 	v.SetDefault("adapters.audiencenetwork.disabled", true)
 	v.SetDefault("adapters.audiencenetwork.endpoint", "https://an.facebook.com/placementbid.ortb")
@@ -864,6 +864,9 @@ func SetupViper(v *viper.Viper, filename string) {
 	v.SetDefault("adapters.e_volution.endpoint", "http://service.e-volution.ai/pbserver")
 	v.SetDefault("adapters.gamma.endpoint", "https://hb.gammaplatform.com/adx/request/")
 	v.SetDefault("adapters.gamoshi.endpoint", "https://rtb.gamoshi.io")
+	v.SetDefault("adapters.goldbach.endpoint", "https://ib.adnxs.com/openrtb2") // Docs: https://wiki.appnexus.com/display/supply/Incoming+Bid+Request+from+SSPs
+	// ?query_param=true&member_id=3741
+	v.SetDefault("adapters.goldbach.platform_id", "3741")
 	v.SetDefault("adapters.grid.endpoint", "https://grid.bidswitch.net/sp_bid?sp=prebid")
 	v.SetDefault("adapters.gumgum.endpoint", "https://g2.gumgum.com/providers/prbds2s/bid")
 	v.SetDefault("adapters.improvedigital.endpoint", "http://ad.360yield.com/pbs")
