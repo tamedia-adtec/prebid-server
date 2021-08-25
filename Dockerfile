@@ -1,4 +1,4 @@
-FROM ubuntu:18.04 AS build
+FROM ubuntu:20.04
 RUN apt-get update && \
     apt-get -y upgrade && \
     apt-get install -y wget
@@ -22,10 +22,10 @@ ARG TEST="false"
 RUN if [ "$TEST" != "false" ]; then ./validate.sh ; fi
 RUN go build -mod=vendor .
 
-FROM ubuntu:18.04 AS release
-LABEL maintainer="hans.hjort@xandr.com" 
+FROM ubuntu:20.04
+LABEL maintainer="hans.hjort@xandr.com"
 WORKDIR /usr/local/bin/
-COPY --from=build /app/prebid-server/prebid-server .
+COPY --from=0 /app/prebid-server/prebid-server .
 COPY static static/
 COPY stored_requests/data stored_requests/data
 RUN apt-get update && \
