@@ -713,7 +713,7 @@ func SetupViper(v *viper.Viper, filename string) {
 	v.SetDefault("http_client.max_idle_connections_per_host", 10)
 	v.SetDefault("http_client.idle_connection_timeout_seconds", 60)
 	v.SetDefault("http_client_cache.max_connections_per_host", 0) // unlimited
-	v.SetDefault("http_client_cache.max_idle_connections", 10)
+	v.SetDefault("http_client_cache.max_idle_connections", 100)
 	v.SetDefault("http_client_cache.max_idle_connections_per_host", 2)
 	v.SetDefault("http_client_cache.idle_connection_timeout_seconds", 60)
 	// no metrics configured by default (metrics{host|database|username|password})
