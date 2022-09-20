@@ -97,7 +97,8 @@ func (scrubber) ScrubDevice(device *openrtb2.Device, id ScrubStrategyDeviceID, i
 		deviceCopy.DIDSHA1 = ""
 		deviceCopy.DPIDMD5 = ""
 		deviceCopy.DPIDSHA1 = ""
-		deviceCopy.IFA = ""
+		//activate IFA for openrtb2/auction to boots inapp openauction traffic
+		//deviceCopy.IFA = ""
 		deviceCopy.MACMD5 = ""
 		deviceCopy.MACSHA1 = ""
 	}
