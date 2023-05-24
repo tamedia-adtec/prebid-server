@@ -108,6 +108,10 @@ Bug reports may be submitted by [opening a new issue](https://github.com/prebid/
 The quickest way to start developing Prebid Server in a reproducible environment isolated from your host OS
 is by using Visual Studio Code with [Remote Container Setup](devcontainer.md).
 
-## Learning Materials
+## Additional information (Goldbach)
 
-To understand more about how Prebid Server in Go works and quickly spins up sample instances, refer to the `sample` folder which describes various structured and integrated examples. The examples are designed to run on any platform that supports `docker` container.
+Build and run image locally:
+
+```bash
+docker build --platform linux/x86_64 -t prebserv . && docker run -p 8000:8000 -p 6060:6060  prebserv
+```
