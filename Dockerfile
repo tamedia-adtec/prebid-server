@@ -36,6 +36,7 @@ RUN apt-get update && \
 RUN adduser prebid_user
 USER prebid_user
 EXPOSE 8000
-EXPOSE 6060
+# admin access port not used currently
+# EXPOSE 6060
 ENTRYPOINT ["/usr/local/bin/prebid-server"]
 CMD ["-v", "1", "-logtostderr"]
