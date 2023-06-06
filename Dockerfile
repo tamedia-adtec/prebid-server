@@ -18,12 +18,12 @@ ENV CGO_ENABLED 0
 COPY ./ ./
 RUN go mod tidy
 RUN go mod vendor
-ARG TEST="true"
+ARG TEST="false"
 RUN if [ "$TEST" != "false" ]; then ./validate.sh ; fi
 RUN go build -mod=vendor -ldflags "-X github.com/prebid/prebid-server/version.Ver=`git describe --tags | sed 's/^v//'` -X github.com/prebid/prebid-server/version.Rev=`git rev-parse HEAD`" .
 
 FROM ubuntu:20.04 AS release
-LABEL maintainer="hans.hjort@xandr.com" 
+LABEL maintainer="hans.hjort@xandr.com"
 WORKDIR /usr/local/bin/
 COPY --from=build /app/prebid-server .
 RUN chmod a+xr prebid-server
