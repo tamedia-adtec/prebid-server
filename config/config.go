@@ -831,7 +831,7 @@ func SetupViper(v *viper.Viper, filename string, bidderInfos BidderInfos) {
 
 	// Fixes #475: Some defaults will be set just so they are accessible via environment variables
 	// (basically so viper knows they exist)
-	v.SetDefault("external_url", "http://localhost:8000")
+	v.SetDefault("external_url", "dev-prebid.da-services.ch")
 	v.SetDefault("host", "")
 	v.SetDefault("port", 8000)
 	v.SetDefault("unix_socket_enable", false)              // boolean which decide if the socket-server will be started.
@@ -851,9 +851,9 @@ func SetupViper(v *viper.Viper, filename string, bidderInfos BidderInfos) {
 	v.SetDefault("cache.default_ttl_seconds.video", 0)
 	v.SetDefault("cache.default_ttl_seconds.native", 0)
 	v.SetDefault("cache.default_ttl_seconds.audio", 0)
-	v.SetDefault("external_cache.scheme", "")
-	v.SetDefault("external_cache.host", "")
-	v.SetDefault("external_cache.path", "")
+	v.SetDefault("external_cache.scheme", "https")
+	v.SetDefault("external_cache.host", "prebid-cache.da-services.ch")
+	v.SetDefault("external_cache.path", "cache")
 	v.SetDefault("recaptcha_secret", "")
 	v.SetDefault("host_cookie.domain", "")
 	v.SetDefault("host_cookie.family", "")
