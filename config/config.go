@@ -951,7 +951,7 @@ func SetupViper(v *viper.Viper, filename string, bidderInfos BidderInfos) {
 	v.SetDefault("http_client_cache.idle_connection_timeout_seconds", 60)
 	// no metrics configured by default (metrics{host|database|username|password})
 	v.SetDefault("metrics.disabled_metrics.account_adapter_details", false)
-	v.SetDefault("metrics.disabled_metrics.account_debug", true)
+	v.SetDefault("metrics.disabled_metrics.account_debug", false)
 	v.SetDefault("metrics.disabled_metrics.account_stored_responses", true)
 	v.SetDefault("metrics.disabled_metrics.adapter_connections_metrics", true)
 	v.SetDefault("metrics.disabled_metrics.adapter_buyeruid_scrubbed", true)
