@@ -18,7 +18,7 @@ ENV CGO_ENABLED 0
 COPY ./ ./
 RUN go mod tidy
 RUN go mod vendor
-ARG TEST="false"
+ARG TEST="true"
 RUN if [ "$TEST" != "false" ]; then ./validate.sh ; fi
 RUN go build -mod=vendor -ldflags "-X github.com/prebid/prebid-server/version.Ver=`git describe --tags | sed 's/^v//'` -X github.com/prebid/prebid-server/version.Rev=`git rev-parse HEAD`" .
 
