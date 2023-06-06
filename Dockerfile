@@ -38,5 +38,6 @@ USER prebid_user
 EXPOSE 8000
 # admin access port not used currently
 # EXPOSE 6060
-ENTRYPOINT ["/usr/sbin/dumb-init", "--"]
-CMD ["/usr/local/bin/prebid-server", "-v", "1", "-logtostderr"]
+ENTRYPOINT ["/usr/local/bin/prebid-server"]
+CMD ["-v", "1", "-logtostderr"]
+
