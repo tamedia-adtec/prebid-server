@@ -31,12 +31,12 @@ COPY static static/
 COPY stored_requests/data stored_requests/data
 RUN chmod -R a+r static/ stored_requests/data
 RUN apt-get update && \
-    apt-get install -y ca-certificates mtr && \
+    apt-get install -y ca-certificates mtr dumb-init && \
     apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 RUN adduser prebid_user
 USER prebid_user
 EXPOSE 8000
 # admin access port not used currently
 # EXPOSE 6060
-ENTRYPOINT ["/usr/local/bin/prebid-server"]
-CMD ["-v", "1", "-logtostderr"]
+ENTRYPOINT ["/usr/sbin/dumb-init", "--"]
+CMD ["/usr/local/bin/prebid-server", "-v", "1", "-logtostderr"]
