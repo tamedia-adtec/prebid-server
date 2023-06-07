@@ -24,5 +24,5 @@ EXPOSE 8000
 #EXPOSE 6060
 
 ENTRYPOINT ["/sbin/tini", "--"]
-CMD ["/prebid-app"]
+CMD ["/prebid-app", "-v", "1", "-logtostderr"]
 
