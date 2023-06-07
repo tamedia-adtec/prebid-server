@@ -832,7 +832,7 @@ func SetupViper(v *viper.Viper, filename string, bidderInfos BidderInfos) {
 
 	// Fixes #475: Some defaults will be set just so they are accessible via environment variables
 	// (basically so viper knows they exist)
-	v.SetDefault("external_url", "https://dev-prebid.da-services.ch/")
+	v.SetDefault("external_url", "http://localhost:8000")
 	v.SetDefault("host", "")
 	v.SetDefault("port", 8000)
 	v.SetDefault("unix_socket_enable", false)              // boolean which decide if the socket-server will be started.
@@ -880,7 +880,7 @@ func SetupViper(v *viper.Viper, filename string, bidderInfos BidderInfos) {
 	v.SetDefault("http_client_cache.idle_connection_timeout_seconds", 60)
 	// no metrics configured by default (metrics{host|database|username|password})
 	v.SetDefault("metrics.disabled_metrics.account_adapter_details", false)
-	v.SetDefault("metrics.disabled_metrics.account_debug", true)
+	v.SetDefault("metrics.disabled_metrics.account_debug", false)
 	v.SetDefault("metrics.disabled_metrics.account_stored_responses", true)
 	v.SetDefault("metrics.disabled_metrics.adapter_connections_metrics", true)
 	v.SetDefault("metrics.disabled_metrics.adapter_gdpr_request_blocked", false)
