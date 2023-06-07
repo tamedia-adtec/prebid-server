@@ -832,7 +832,7 @@ func SetupViper(v *viper.Viper, filename string, bidderInfos BidderInfos) {
 
 	// Fixes #475: Some defaults will be set just so they are accessible via environment variables
 	// (basically so viper knows they exist)
-	v.SetDefault("external_url", "https://dev-prebid.da-services.ch/")
+	v.SetDefault("external_url", "http://localhost:8000")
 	v.SetDefault("host", "")
 	v.SetDefault("port", 8000)
 	v.SetDefault("unix_socket_enable", false)              // boolean which decide if the socket-server will be started.
