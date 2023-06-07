@@ -54,3 +54,7 @@ prebid-server.iml
 *~
 *.swp
 *.swo
+
+# tdaci build system
+.tdaci_kvs/
+
