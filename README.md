@@ -7,7 +7,10 @@
 <p align="center"><img alt="Prebid Server Logo" src="/static/pbs-logo.svg" style="width:80%; max-width:600px;"></p>
 <br />
 
-<a href="https://prebid.org/product-suite/prebid-server/">Prebid Server</a> is an open-source solution for running real-time advertising auctions in the cloud. This project is part of the <a href="https://prebid.org/">Prebid</a> ecosystem, seamlessly integrating with  <a href="https://prebid.org/product-suite/prebidjs/">Prebid.js</a> and the <a href="https://prebid.org/product-suite/prebid-mobile/">Prebid Mobile SDKs</a> to deliver world-class header bidding for any ad format and for any type of digital media.
+
+Prebid Server is an open source implementation of Server-Side Header Bidding.
+It is managed by [Prebid.org](http://prebid.org/overview/what-is-prebid-org.html),
+and upholds the principles from the [Prebid Code of Conduct](http://prebid.org/wrapper_code_of_conduct.html).
 
 ## Getting Started
 - [What is Prebid Server](https://docs.prebid.org/prebid-server/overview/prebid-server-overview.html)
