@@ -18,12 +18,12 @@ ENV CGO_ENABLED 0
 COPY ./ ./
 RUN go mod tidy
 RUN go mod vendor
-ARG TEST="false"
+ARG TEST="true"
 RUN if [ "$TEST" != "false" ]; then ./validate.sh ; fi
 RUN go build -mod=vendor -ldflags "-X github.com/prebid/prebid-server/version.Ver=`git describe --tags | sed 's/^v//'` -X github.com/prebid/prebid-server/version.Rev=`git rev-parse HEAD`" .
 
 FROM ubuntu:20.04 AS release
-LABEL maintainer="hans.hjort@xandr.com"
+LABEL maintainer="hans.hjort@xandr.com" 
 WORKDIR /usr/local/bin/
 COPY --from=build /app/prebid-server .
 RUN chmod a+xr prebid-server
@@ -31,13 +31,11 @@ COPY static static/
 COPY stored_requests/data stored_requests/data
 RUN chmod -R a+r static/ stored_requests/data
 RUN apt-get update && \
-    apt-get install -y ca-certificates mtr dumb-init && \
+    apt-get install -y ca-certificates mtr && \
     apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 RUN adduser prebid_user
 USER prebid_user
 EXPOSE 8000
-# admin access port not used currently
-# EXPOSE 6060
+EXPOSE 6060
 ENTRYPOINT ["/usr/local/bin/prebid-server"]
 CMD ["-v", "1", "-logtostderr"]
-
