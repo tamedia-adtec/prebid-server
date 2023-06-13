@@ -1108,7 +1108,7 @@ func SetupViper(v *viper.Viper, filename string, bidderInfos BidderInfos) {
 	v.SetDefault("analytics.agma.buffers.timeout", "15m")
 	v.SetDefault("analytics.agma.accounts", []AgmaAnalyticsAccount{})
 	v.SetDefault("amp_timeout_adjustment_ms", 0)
-	v.SetDefault("gdpr.default_value", 0)
+	v.SetDefault("gdpr.default_value", 1)
 	v.SetDefault("gdpr.enabled", true)
 	v.SetDefault("gdpr.host_vendor_id", 0)
 	v.SetDefault("gdpr.timeouts_ms.init_vendorlist_fetches", 0)
