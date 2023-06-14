@@ -1,4 +1,4 @@
 # temp hack, run tests with no -race, and ignore test failures
 test:
-  - tdaci-container-exec 'go test -v ./... || true'
+  - tdaci_container_exec 'go test -v ./... || true'
 
