@@ -114,6 +114,7 @@ const (
 	BidderAdView            BidderName = "adview"
 	BidderAdxcg             BidderName = "adxcg"
 	BidderAdyoulike         BidderName = "adyoulike"
+	BidderAidem             BidderName = "aidem"
 	BidderAJA               BidderName = "aja"
 	BidderAlgorix           BidderName = "algorix"
 	BidderAMX               BidderName = "amx"
@@ -137,6 +138,7 @@ const (
 	BidderBizzclick         BidderName = "bizzclick"
 	BidderBliink            BidderName = "bliink"
 	BidderBlue              BidderName = "blue"
+	BidderBluesea           BidderName = "bluesea"
 	BidderBmtm              BidderName = "bmtm"
 	BidderBoldwin           BidderName = "boldwin"
 	BidderBrave             BidderName = "brave"
@@ -162,6 +164,7 @@ const (
 	BidderEmxDigital        BidderName = "emx_digital"
 	BidderEngageBDR         BidderName = "engagebdr"
 	BidderEPlanning         BidderName = "eplanning"
+	BidderEpsilon           BidderName = "epsilon"
 	BidderEpom              BidderName = "epom"
 	BidderEVolution         BidderName = "e_volution"
 	BidderEvtech            BidderName = "evtech"
@@ -172,8 +175,8 @@ const (
 	BidderGamma             BidderName = "gamma"
 	BidderGamoshi           BidderName = "gamoshi"
 	BidderGlobalsun         BidderName = "globalsun"
+	BidderGothamads         BidderName = "gothamads"
 	BidderGrid              BidderName = "grid"
-	BidderGroupm            BidderName = "groupm"
 	BidderGumGum            BidderName = "gumgum"
 	BidderHuaweiAds         BidderName = "huaweiads"
 	BidderIionads           BidderName = "iionads"
@@ -204,8 +207,10 @@ const (
 	BidderMediafuse         BidderName = "mediafuse"
 	BidderMedianet          BidderName = "medianet"
 	BidderMgid              BidderName = "mgid"
+	BidderMgidX             BidderName = "mgidX"
 	BidderMobfoxpb          BidderName = "mobfoxpb"
 	BidderMobileFuse        BidderName = "mobilefuse"
+	BidderMotorik           BidderName = "motorik"
 	BidderNanoInteractive   BidderName = "nanointeractive"
 	BidderNextMillennium    BidderName = "nextmillennium"
 	BidderNinthDecimal      BidderName = "ninthdecimal"
@@ -226,6 +231,7 @@ const (
 	BidderRevcontent        BidderName = "revcontent"
 	BidderRhythmone         BidderName = "rhythmone"
 	BidderRichaudience      BidderName = "richaudience"
+	BidderRise              BidderName = "rise"
 	BidderRTBHouse          BidderName = "rtbhouse"
 	BidderRubicon           BidderName = "rubicon"
 	BidderSeedingAlliance   BidderName = "seedingAlliance"
@@ -257,7 +263,6 @@ const (
 	BidderUnicorn           BidderName = "unicorn"
 	BidderUnruly            BidderName = "unruly"
 	BidderValueImpression   BidderName = "valueimpression"
-	BidderVerizonMedia      BidderName = "verizonmedia"
 	BidderVideoByte         BidderName = "videobyte"
 	BidderVideoHeroes       BidderName = "videoheroes"
 	BidderVidoomy           BidderName = "vidoomy"
@@ -265,6 +270,9 @@ const (
 	BidderVisibleMeasures   BidderName = "visiblemeasures"
 	BidderVisx              BidderName = "visx"
 	BidderVrtcal            BidderName = "vrtcal"
+	BidderXeworks           BidderName = "xeworks"
+	BidderYahooAds          BidderName = "yahooAds"
+	BidderYahooAdvertising  BidderName = "yahooAdvertising"
 	BidderYahooSSP          BidderName = "yahoossp"
 	BidderYeahmobi          BidderName = "yeahmobi"
 	BidderYieldlab          BidderName = "yieldlab"
@@ -305,6 +313,7 @@ func CoreBidderNames() []BidderName {
 		BidderAdView,
 		BidderAdxcg,
 		BidderAdyoulike,
+		BidderAidem,
 		BidderAJA,
 		BidderAlgorix,
 		BidderAMX,
@@ -328,6 +337,7 @@ func CoreBidderNames() []BidderName {
 		BidderBizzclick,
 		BidderBliink,
 		BidderBlue,
+		BidderBluesea,
 		BidderBmtm,
 		BidderBoldwin,
 		BidderBrave,
@@ -354,6 +364,7 @@ func CoreBidderNames() []BidderName {
 		BidderEngageBDR,
 		BidderEPlanning,
 		BidderEpom,
+		BidderEpsilon,
 		BidderEVolution,
 		BidderEvtech,
 		BidderFlipp,
@@ -363,8 +374,8 @@ func CoreBidderNames() []BidderName {
 		BidderGamma,
 		BidderGamoshi,
 		BidderGlobalsun,
+		BidderGothamads,
 		BidderGrid,
-		BidderGroupm,
 		BidderGumGum,
 		BidderHuaweiAds,
 		BidderIionads,
@@ -395,8 +406,10 @@ func CoreBidderNames() []BidderName {
 		BidderMediafuse,
 		BidderMedianet,
 		BidderMgid,
+		BidderMgidX,
 		BidderMobfoxpb,
 		BidderMobileFuse,
+		BidderMotorik,
 		BidderNanoInteractive,
 		BidderNextMillennium,
 		BidderNinthDecimal,
@@ -417,6 +430,7 @@ func CoreBidderNames() []BidderName {
 		BidderRevcontent,
 		BidderRhythmone,
 		BidderRichaudience,
+		BidderRise,
 		BidderRTBHouse,
 		BidderRubicon,
 		BidderSeedingAlliance,
@@ -448,7 +462,6 @@ func CoreBidderNames() []BidderName {
 		BidderUnicorn,
 		BidderUnruly,
 		BidderValueImpression,
-		BidderVerizonMedia,
 		BidderVideoByte,
 		BidderVideoHeroes,
 		BidderVidoomy,
@@ -456,6 +469,9 @@ func CoreBidderNames() []BidderName {
 		BidderVisibleMeasures,
 		BidderVisx,
 		BidderVrtcal,
+		BidderXeworks,
+		BidderYahooAds,
+		BidderYahooAdvertising,
 		BidderYahooSSP,
 		BidderYeahmobi,
 		BidderYieldlab,
