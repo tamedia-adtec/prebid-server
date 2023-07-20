@@ -116,5 +116,5 @@ is by using Visual Studio Code with [Remote Container Setup](devcontainer.md).
 Build and run image locally:
 
 ```bash
-docker build --platform linux/x86_64 -t prebserv . && docker run -p 8000:8000 -p 6060:6060  prebserv
+docker build -t pbs . && docker run -p 8000:8000 -p 6060:6060  pbs
 ```
