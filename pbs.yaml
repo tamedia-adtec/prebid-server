@@ -7,6 +7,3 @@ gdpr:
 cache:
   host: prebid-cache.prebid-server.svc
   scheme: http
-external_cache:
-  host: prebid-cache.prebid-server.svc
-  scheme: http
