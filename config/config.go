@@ -847,7 +847,7 @@ func SetupViper(v *viper.Viper, filename string, bidderInfos BidderInfos) {
 	v.SetDefault("datacenter", "")
 	v.SetDefault("auction_timeouts_ms.default", 0)
 	v.SetDefault("auction_timeouts_ms.max", 0)
-	v.SetDefault("cache.scheme", "https")
+	v.SetDefault("cache.scheme", "http")
 	v.SetDefault("cache.host", "prebid-cache.prebid-server.svc")
 	v.SetDefault("cache.query", "")
 	v.SetDefault("cache.expected_millis", 10)
