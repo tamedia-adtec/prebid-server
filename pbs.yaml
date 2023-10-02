@@ -7,3 +7,7 @@ gdpr:
 cache:
   host: prebid-cache.prebid-server.svc
   scheme: http
+external_cache:
+  scheme: https
+	host: prebid-server-cache.dev.gbads.net
+	path: /cache
