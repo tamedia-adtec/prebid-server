@@ -10,4 +10,4 @@ cache:
 external_cache:
   scheme: https
 	host: prebid-server-cache.dev.gbads.net
-	path: /cache
+	path: "/cache"
