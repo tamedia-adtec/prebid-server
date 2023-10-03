@@ -6,11 +6,12 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
-	"github.com/prebid/prebid-server/privacy"
 	"net/http"
 	"net/url"
 	"strings"
 	"time"
+
+	"github.com/prebid/prebid-server/privacy"
 
 	"github.com/buger/jsonparser"
 	"github.com/golang/glog"
@@ -69,13 +70,14 @@ func NewAmpEndpoint(
 	bidderMap map[string]openrtb_ext.BidderName,
 	storedRespFetcher stored_requests.Fetcher,
 	hookExecutionPlanBuilder hooks.ExecutionPlanBuilder,
+	tmaxAdjustments *exchange.TmaxAdjustmentsPreprocessed,
 ) (httprouter.Handle, error) {
 
 	if ex == nil || validator == nil || requestsById == nil || accounts == nil || cfg == nil || metricsEngine == nil {
 		return nil, errors.New("NewAmpEndpoint requires non-nil arguments.")
 	}
 
-	defRequest := defReqJSON != nil && len(defReqJSON) > 0
+	defRequest := len(defReqJSON) > 0
 
 	ipValidator := iputil.PublicNetworkIPValidator{
 		IPv4PrivateNetworks: cfg.RequestValidation.IPv4PrivateNetworksParsed,
@@ -100,7 +102,9 @@ func NewAmpEndpoint(
 		nil,
 		ipValidator,
 		storedRespFetcher,
-		hookExecutionPlanBuilder}).AmpAuction), nil
+		hookExecutionPlanBuilder,
+		tmaxAdjustments,
+	}).AmpAuction), nil
 
 }
 
@@ -204,7 +208,7 @@ func (deps *endpointDeps) AmpAuction(w http.ResponseWriter, r *http.Request, _ h
 		metricsStatus := metrics.RequestStatusBadInput
 		for _, er := range errL {
 			errCode := errortypes.ReadCode(er)
-			if errCode == errortypes.BlacklistedAppErrorCode || errCode == errortypes.BlacklistedAcctErrorCode {
+			if errCode == errortypes.BlacklistedAppErrorCode || errCode == errortypes.AccountDisabledErrorCode {
 				httpStatus = http.StatusServiceUnavailable
 				metricsStatus = metrics.RequestStatusBlacklisted
 				break
@@ -226,12 +230,7 @@ func (deps *endpointDeps) AmpAuction(w http.ResponseWriter, r *http.Request, _ h
 
 	tcf2Config := gdpr.NewTCF2Config(deps.cfg.GDPR.TCF2, account.GDPR)
 
-	activities, activitiesErr := privacy.NewActivityControl(account.Privacy)
-	if activitiesErr != nil {
-		errL = append(errL, activitiesErr)
-		writeError(errL, w, &labels)
-		return
-	}
+	activityControl := privacy.NewActivityControl(&account.Privacy)
 
 	secGPC := r.Header.Get("Sec-GPC")
 
@@ -250,10 +249,16 @@ func (deps *endpointDeps) AmpAuction(w http.ResponseWriter, r *http.Request, _ h
 		HookExecutor:               hookExecutor,
 		QueryParams:                r.URL.Query(),
 		TCF2Config:                 tcf2Config,
-		Activities:                 activities,
+		Activities:                 activityControl,
+		TmaxAdjustments:            deps.tmaxAdjustments,
 	}
 
 	auctionResponse, err := deps.ex.HoldAuction(ctx, auctionRequest, nil)
+	defer func() {
+		if !auctionRequest.BidderResponseStartTime.IsZero() {
+			deps.metricsEngine.RecordOverheadTime(metrics.MakeAuctionResponse, time.Since(auctionRequest.BidderResponseStartTime))
+		}
+	}()
 	var response *openrtb2.BidResponse
 	if auctionResponse != nil {
 		response = auctionResponse.BidResponse

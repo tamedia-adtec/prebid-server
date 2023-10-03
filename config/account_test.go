@@ -205,6 +205,7 @@ func TestAccountChannelGetByChannelType(t *testing.T) {
 		giveAppEnabled   *bool
 		giveVideoEnabled *bool
 		giveWebEnabled   *bool
+		giveDOOHEnabled  *bool
 		giveChannelType  ChannelType
 		wantEnabled      *bool
 	}{
@@ -276,6 +277,23 @@ func TestAccountChannelGetByChannelType(t *testing.T) {
 			giveChannelType: ChannelWeb,
 			wantEnabled:     &trueValue,
 		},
+		{
+			description:     "DOOH channel setting unspecified, returns nil",
+			giveChannelType: ChannelDOOH,
+			wantEnabled:     nil,
+		},
+		{
+			description:     "DOOH channel disabled, returns false",
+			giveDOOHEnabled: &falseValue,
+			giveChannelType: ChannelDOOH,
+			wantEnabled:     &falseValue,
+		},
+		{
+			description:     "DOOH channel enabled, returns true",
+			giveDOOHEnabled: &trueValue,
+			giveChannelType: ChannelDOOH,
+			wantEnabled:     &trueValue,
+		},
 	}
 
 	for _, tt := range tests {
@@ -284,6 +302,7 @@ func TestAccountChannelGetByChannelType(t *testing.T) {
 			App:   tt.giveAppEnabled,
 			Video: tt.giveVideoEnabled,
 			Web:   tt.giveWebEnabled,
+			DOOH:  tt.giveDOOHEnabled,
 		}
 
 		result := accountChannel.GetByChannelType(tt.giveChannelType)
@@ -836,7 +855,7 @@ func TestAccountChannelIsSet(t *testing.T) {
 	}{
 		{
 			name:                "AccountChannelSetAllFields",
-			givenAccountChannel: &AccountChannel{AMP: &trueBool, App: &falseBool, Video: &falseBool, Web: &falseBool},
+			givenAccountChannel: &AccountChannel{AMP: &trueBool, App: &falseBool, Video: &falseBool, Web: &falseBool, DOOH: &falseBool},
 			expected:            true,
 		},
 		{
@@ -907,6 +926,52 @@ func TestAccountPriceFloorsValidate(t *testing.T) {
 			var errs []error
 			got := tt.pf.validate(errs)
 			assert.ElementsMatch(t, got, tt.want)
+		})
+	}
+}
+
+func TestIPMaskingValidate(t *testing.T) {
+	tests := []struct {
+		name    string
+		privacy AccountPrivacy
+		want    []error
+	}{
+		{
+			name: "valid",
+			privacy: AccountPrivacy{
+				IPv4Config: IPv4{AnonKeepBits: 1},
+				IPv6Config: IPv6{AnonKeepBits: 0},
+			},
+		},
+		{
+			name: "invalid",
+			privacy: AccountPrivacy{
+				IPv4Config: IPv4{AnonKeepBits: -100},
+				IPv6Config: IPv6{AnonKeepBits: -200},
+			},
+			want: []error{
+				errors.New("bits cannot exceed 32 in ipv4 address, or be less than 0"),
+				errors.New("bits cannot exceed 128 in ipv6 address, or be less than 0"),
+			},
+		},
+		{
+			name: "mixed",
+			privacy: AccountPrivacy{
+				IPv4Config: IPv4{AnonKeepBits: 10},
+				IPv6Config: IPv6{AnonKeepBits: -10},
+			},
+			want: []error{
+				errors.New("bits cannot exceed 128 in ipv6 address, or be less than 0"),
+			},
+		},
+	}
+
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			var errs []error
+			errs = tt.privacy.IPv4Config.Validate(errs)
+			errs = tt.privacy.IPv6Config.Validate(errs)
+			assert.ElementsMatch(t, errs, tt.want)
 		})
 	}
 }

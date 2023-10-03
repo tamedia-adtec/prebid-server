@@ -88,7 +88,7 @@ func TestGoodAmpRequests(t *testing.T) {
 				continue
 			}
 
-			test.storedRequest = map[string]json.RawMessage{tagID: test.BidRequest}
+			test.StoredRequest = map[string]json.RawMessage{tagID: test.BidRequest}
 			test.endpointType = AMP_ENDPOINT
 
 			cfg := &config.Configuration{
@@ -98,8 +98,6 @@ func TestGoodAmpRequests(t *testing.T) {
 			if test.Config != nil {
 				cfg.BlacklistedApps = test.Config.BlacklistedApps
 				cfg.BlacklistedAppMap = test.Config.getBlacklistedAppMap()
-				cfg.BlacklistedAccts = test.Config.BlacklistedAccounts
-				cfg.BlacklistedAcctMap = test.Config.getBlackListedAccountMap()
 				cfg.AccountRequired = test.Config.AccountRequired
 			}
 
@@ -121,7 +119,7 @@ func TestGoodAmpRequests(t *testing.T) {
 			// Assertions
 			if assert.Equal(t, test.ExpectedReturnCode, recorder.Code, "Expected status %d. Got %d. Amp test file: %s", http.StatusOK, recorder.Code, filename) {
 				if test.ExpectedReturnCode == http.StatusOK {
-					assert.JSONEq(t, string(test.ExpectedAmpResponse), string(recorder.Body.Bytes()), "Not the expected response. Test file: %s", filename)
+					assert.JSONEq(t, string(test.ExpectedAmpResponse), recorder.Body.String(), "Not the expected response. Test file: %s", filename)
 				} else {
 					assert.Equal(t, test.ExpectedErrorMessage, recorder.Body.String(), filename)
 				}
@@ -148,11 +146,6 @@ func TestAccountErrors(t *testing.T) {
 			storedReqID: "1",
 			filename:    "account-malformed/malformed-acct.json",
 		},
-		{
-			description: "Blocked account",
-			storedReqID: "1",
-			filename:    "blacklisted/blacklisted-site-publisher.json",
-		},
 	}
 
 	for _, tt := range tests {
@@ -165,13 +158,11 @@ func TestAccountErrors(t *testing.T) {
 		if !assert.NoError(t, json.Unmarshal(fileJsonData, &test), "Failed to unmarshal data from file: %s. Error: %v", tt.filename, err) {
 			continue
 		}
-		test.storedRequest = map[string]json.RawMessage{tt.storedReqID: test.BidRequest}
+		test.StoredRequest = map[string]json.RawMessage{tt.storedReqID: test.BidRequest}
 		test.endpointType = AMP_ENDPOINT
 
 		cfg := &config.Configuration{
-			BlacklistedAccts:   []string{"bad_acct"},
-			BlacklistedAcctMap: map[string]bool{"bad_acct": true},
-			MaxRequestSize:     maxSize,
+			MaxRequestSize: maxSize,
 		}
 		cfg.MarshalAccountDefaults()
 
@@ -216,6 +207,7 @@ func TestAMPPageInfo(t *testing.T) {
 		openrtb_ext.BuildBidderMap(),
 		empty_fetcher.EmptyFetcher{},
 		hooks.EmptyPlanBuilder{},
+		nil,
 	)
 	request := httptest.NewRequest("GET", fmt.Sprintf("/openrtb2/auction/amp?tag_id=1&curl=%s", url.QueryEscape(page)), nil)
 	recorder := httptest.NewRecorder()
@@ -319,6 +311,7 @@ func TestGDPRConsent(t *testing.T) {
 			openrtb_ext.BuildBidderMap(),
 			empty_fetcher.EmptyFetcher{},
 			hooks.EmptyPlanBuilder{},
+			nil,
 		)
 
 		// Invoke Endpoint
@@ -742,6 +735,7 @@ func TestCCPAConsent(t *testing.T) {
 			openrtb_ext.BuildBidderMap(),
 			empty_fetcher.EmptyFetcher{},
 			hooks.EmptyPlanBuilder{},
+			nil,
 		)
 
 		// Invoke Endpoint
@@ -855,6 +849,7 @@ func TestConsentWarnings(t *testing.T) {
 			openrtb_ext.BuildBidderMap(),
 			empty_fetcher.EmptyFetcher{},
 			hooks.EmptyPlanBuilder{},
+			nil,
 		)
 
 		// Invoke Endpoint
@@ -953,6 +948,7 @@ func TestNewAndLegacyConsentBothProvided(t *testing.T) {
 			openrtb_ext.BuildBidderMap(),
 			empty_fetcher.EmptyFetcher{},
 			hooks.EmptyPlanBuilder{},
+			nil,
 		)
 
 		// Invoke Endpoint
@@ -1007,6 +1003,7 @@ func TestAMPSiteExt(t *testing.T) {
 		openrtb_ext.BuildBidderMap(),
 		empty_fetcher.EmptyFetcher{},
 		hooks.EmptyPlanBuilder{},
+		nil,
 	)
 	request, err := http.NewRequest("GET", "/openrtb2/auction/amp?tag_id=1", nil)
 	if !assert.NoError(t, err) {
@@ -1049,6 +1046,7 @@ func TestAmpBadRequests(t *testing.T) {
 		openrtb_ext.BuildBidderMap(),
 		empty_fetcher.EmptyFetcher{},
 		hooks.EmptyPlanBuilder{},
+		nil,
 	)
 	for requestID := range badRequests {
 		request := httptest.NewRequest("GET", fmt.Sprintf("/openrtb2/auction/amp?tag_id=%s", requestID), nil)
@@ -1082,6 +1080,7 @@ func TestAmpDebug(t *testing.T) {
 		openrtb_ext.BuildBidderMap(),
 		empty_fetcher.EmptyFetcher{},
 		hooks.EmptyPlanBuilder{},
+		nil,
 	)
 
 	for requestID := range requests {
@@ -1217,6 +1216,7 @@ func TestQueryParamOverrides(t *testing.T) {
 		openrtb_ext.BuildBidderMap(),
 		empty_fetcher.EmptyFetcher{},
 		hooks.EmptyPlanBuilder{},
+		nil,
 	)
 
 	requestID := "1"
@@ -1374,6 +1374,7 @@ func (s formatOverrideSpec) execute(t *testing.T) {
 		openrtb_ext.BuildBidderMap(),
 		empty_fetcher.EmptyFetcher{},
 		hooks.EmptyPlanBuilder{},
+		nil,
 	)
 
 	url := fmt.Sprintf("/openrtb2/auction/amp?tag_id=1&debug=1&w=%d&h=%d&ow=%d&oh=%d&ms=%s&account=%s", s.width, s.height, s.overrideWidth, s.overrideHeight, s.multisize, s.account)
@@ -1914,6 +1915,7 @@ func ampObjectTestSetup(t *testing.T, inTagId string, inStoredRequest json.RawMe
 		openrtb_ext.BuildBidderMap(),
 		empty_fetcher.EmptyFetcher{},
 		hooks.EmptyPlanBuilder{},
+		nil,
 	)
 	return &actualAmpObject, endpoint
 }
@@ -1966,6 +1968,7 @@ func TestAmpAuctionResponseHeaders(t *testing.T) {
 		openrtb_ext.BuildBidderMap(),
 		empty_fetcher.EmptyFetcher{},
 		hooks.EmptyPlanBuilder{},
+		nil,
 	)
 
 	for _, test := range testCases {
@@ -2001,6 +2004,7 @@ func TestRequestWithTargeting(t *testing.T) {
 		openrtb_ext.BuildBidderMap(),
 		empty_fetcher.EmptyFetcher{},
 		hooks.EmptyPlanBuilder{},
+		nil,
 	)
 	url, err := url.Parse("/openrtb2/auction/amp")
 	assert.NoError(t, err, "unexpected error received while parsing url")
@@ -2190,7 +2194,7 @@ func TestValidAmpResponseWhenRequestRejected(t *testing.T) {
 			query := request.URL.Query()
 			tagID := query.Get("tag_id")
 
-			test.storedRequest = map[string]json.RawMessage{tagID: test.BidRequest}
+			test.StoredRequest = map[string]json.RawMessage{tagID: test.BidRequest}
 			test.planBuilder = tc.planBuilder
 			test.endpointType = AMP_ENDPOINT
 
@@ -2315,7 +2319,7 @@ func TestSendAmpResponse_LogsErrors(t *testing.T) {
 			account := &config.Account{DebugAllow: true}
 			reqWrapper := openrtb_ext.RequestWrapper{BidRequest: test.request}
 
-			labels, ao = sendAmpResponse(test.writer, test.hookExecutor, &exchange.AuctionResponse{BidResponse: test.response}, &reqWrapper, account, labels, ao, nil)
+			_, ao = sendAmpResponse(test.writer, test.hookExecutor, &exchange.AuctionResponse{BidResponse: test.response}, &reqWrapper, account, labels, ao, nil)
 
 			assert.Equal(t, ao.Errors, test.expectedErrors, "Invalid errors.")
 			assert.Equal(t, test.expectedStatus, ao.Status, "Invalid HTTP response status.")

@@ -292,7 +292,7 @@ func TestVideoEndpointNoPods(t *testing.T) {
 	deps := mockDeps(t, ex)
 	deps.VideoAuctionEndpoint(recorder, req, nil)
 
-	errorMessage := string(recorder.Body.Bytes())
+	errorMessage := recorder.Body.String()
 
 	assert.Equal(t, recorder.Code, 500, "Should catch error in request")
 	assert.Equal(t, "Critical error while running the video endpoint:  request missing required field: PodConfig.DurationRangeSec request missing required field: PodConfig.Pods", errorMessage, "Incorrect request validation message")
@@ -739,7 +739,7 @@ func TestVideoBuildVideoResponsePodErrors(t *testing.T) {
 
 func TestVideoBuildVideoResponseNoBids(t *testing.T) {
 	openRtbBidResp := openrtb2.BidResponse{}
-	podErrors := make([]PodError, 0, 0)
+	podErrors := make([]PodError, 0)
 	openRtbBidResp.SeatBid = make([]openrtb2.SeatBid, 0)
 	bidRespVideo, err := buildVideoResponse(&openRtbBidResp, podErrors)
 	assert.NoError(t, err, "Error should be nil")
@@ -808,7 +808,7 @@ func TestHandleError(t *testing.T) {
 		{
 			description: "Blocked account - return 503 with blocked metrics status",
 			giveErrors: []error{
-				&errortypes.BlacklistedAcct{},
+				&errortypes.AccountDisabled{},
 			},
 			wantCode:          503,
 			wantMetricsStatus: metrics.RequestStatusBlacklisted,
@@ -1225,6 +1225,7 @@ func mockDepsWithMetrics(t *testing.T, ex *mockExchangeVideo) (*endpointDeps, *m
 		hardcodedResponseIPValidator{response: true},
 		empty_fetcher.EmptyFetcher{},
 		hooks.EmptyPlanBuilder{},
+		nil,
 	}
 	return deps, metrics, mockModule
 }
@@ -1270,6 +1271,7 @@ func mockDeps(t *testing.T, ex *mockExchangeVideo) *endpointDeps {
 		hardcodedResponseIPValidator{response: true},
 		empty_fetcher.EmptyFetcher{},
 		hooks.EmptyPlanBuilder{},
+		nil,
 	}
 }
 
@@ -1293,6 +1295,7 @@ func mockDepsAppendBidderNames(t *testing.T, ex *mockExchangeAppendBidderNames) 
 		hardcodedResponseIPValidator{response: true},
 		empty_fetcher.EmptyFetcher{},
 		hooks.EmptyPlanBuilder{},
+		nil,
 	}
 
 	return deps
@@ -1318,6 +1321,7 @@ func mockDepsNoBids(t *testing.T, ex *mockExchangeVideoNoBids) *endpointDeps {
 		hardcodedResponseIPValidator{response: true},
 		empty_fetcher.EmptyFetcher{},
 		hooks.EmptyPlanBuilder{},
+		nil,
 	}
 
 	return edep

@@ -76,7 +76,7 @@ type testCase struct {
 	ExpectedBidResponse json.RawMessage `json:"expectedBidResponse"`
 
 	// "/openrtb2/amp" endpoint JSON test info
-	storedRequest       map[string]json.RawMessage `json:"mockAmpStoredRequest"`
+	StoredRequest       map[string]json.RawMessage `json:"mockAmpStoredRequest"`
 	StoredResponse      map[string]json.RawMessage `json:"mockAmpStoredResponse"`
 	ExpectedAmpResponse json.RawMessage            `json:"expectedAmpResponse"`
 }
@@ -84,7 +84,6 @@ type testCase struct {
 type testConfigValues struct {
 	AccountRequired     bool                          `json:"accountRequired"`
 	AliasJSON           string                        `json:"aliases"`
-	BlacklistedAccounts []string                      `json:"blacklistedAccts"`
 	BlacklistedApps     []string                      `json:"blacklistedApps"`
 	DisabledAdapters    []string                      `json:"disabledAdapters"`
 	CurrencyRates       map[string]map[string]float64 `json:"currencyRates"`
@@ -932,7 +931,6 @@ func (s mockCurrencyRatesClient) handle(w http.ResponseWriter, req *http.Request
 		return
 	}
 	w.Write(currencyServerJsonResponse)
-	return
 }
 
 // mockBidderHandler carries mock bidder server information that will be read from JSON test files
@@ -994,7 +992,6 @@ func (b mockBidderHandler) bid(w http.ResponseWriter, req *http.Request) {
 		return
 	}
 	w.Write(serverJsonResponse)
-	return
 }
 
 // mockAdapter is a mock impression-splitting adapter
@@ -1154,18 +1151,6 @@ func (tc *testConfigValues) getBlacklistedAppMap() map[string]bool {
 	return blacklistedAppMap
 }
 
-func (tc *testConfigValues) getBlackListedAccountMap() map[string]bool {
-	var blacklistedAccountMap map[string]bool
-
-	if len(tc.BlacklistedAccounts) > 0 {
-		blacklistedAccountMap = make(map[string]bool, len(tc.BlacklistedAccounts))
-		for _, account := range tc.BlacklistedAccounts {
-			blacklistedAccountMap[account] = true
-		}
-	}
-	return blacklistedAccountMap
-}
-
 // exchangeTestWrapper is a wrapper that asserts the openrtb2 bid request just before the HoldAuction call
 type exchangeTestWrapper struct {
 	ex                    exchange.Exchange
@@ -1246,7 +1231,7 @@ func buildTestEndpoint(test testCase, cfg *config.Configuration) (httprouter.Han
 
 	bidderInfos := getBidderInfos(test.Config.DisabledAdapters, openrtb_ext.CoreBidderNames())
 	bidderMap := exchange.GetActiveBidders(bidderInfos)
-	disabledBidders := exchange.GetDisabledBiddersErrorMessages(bidderInfos)
+	disabledBidders := exchange.GetDisabledBidderWarningMessages(bidderInfos)
 	met := &metricsConfig.NilMetricsEngine{}
 	mockFetcher := empty_fetcher.EmptyFetcher{}
 
@@ -1265,8 +1250,8 @@ func buildTestEndpoint(test testCase, cfg *config.Configuration) (httprouter.Han
 	testExchange, mockBidServersArray := buildTestExchange(test.Config, adapterMap, mockBidServersArray, mockCurrencyRatesServer, bidderInfos, cfg, met, mockFetcher)
 
 	var storedRequestFetcher stored_requests.Fetcher
-	if len(test.storedRequest) > 0 {
-		storedRequestFetcher = &mockAmpStoredReqFetcher{test.storedRequest}
+	if len(test.StoredRequest) > 0 {
+		storedRequestFetcher = &mockAmpStoredReqFetcher{test.StoredRequest}
 	} else {
 		storedRequestFetcher = &mockStoredReqFetcher{}
 	}
@@ -1278,10 +1263,10 @@ func buildTestEndpoint(test testCase, cfg *config.Configuration) (httprouter.Han
 		storedResponseFetcher = empty_fetcher.EmptyFetcher{}
 	}
 
-	var accountFetcher stored_requests.AccountFetcher
-	accountFetcher = &mockAccountFetcher{
+	accountFetcher := &mockAccountFetcher{
 		data: map[string]json.RawMessage{
 			"malformed_acct": json.RawMessage(`{"disabled":"invalid type"}`),
+			"disabled_acct":  json.RawMessage(`{"disabled":true}`),
 		},
 	}
 
@@ -1290,7 +1275,7 @@ func buildTestEndpoint(test testCase, cfg *config.Configuration) (httprouter.Han
 		planBuilder = hooks.EmptyPlanBuilder{}
 	}
 
-	var endpointBuilder func(uuidutil.UUIDGenerator, exchange.Exchange, openrtb_ext.BidderParamValidator, stored_requests.Fetcher, stored_requests.AccountFetcher, *config.Configuration, metrics.MetricsEngine, analytics.PBSAnalyticsModule, map[string]string, []byte, map[string]openrtb_ext.BidderName, stored_requests.Fetcher, hooks.ExecutionPlanBuilder) (httprouter.Handle, error)
+	var endpointBuilder func(uuidutil.UUIDGenerator, exchange.Exchange, openrtb_ext.BidderParamValidator, stored_requests.Fetcher, stored_requests.AccountFetcher, *config.Configuration, metrics.MetricsEngine, analytics.PBSAnalyticsModule, map[string]string, []byte, map[string]openrtb_ext.BidderName, stored_requests.Fetcher, hooks.ExecutionPlanBuilder, *exchange.TmaxAdjustmentsPreprocessed) (httprouter.Handle, error)
 
 	switch test.endpointType {
 	case AMP_ENDPOINT:
@@ -1313,6 +1298,7 @@ func buildTestEndpoint(test testCase, cfg *config.Configuration) (httprouter.Han
 		bidderMap,
 		storedResponseFetcher,
 		planBuilder,
+		nil,
 	)
 
 	return endpoint, testExchange.(*exchangeTestWrapper), mockBidServersArray, mockCurrencyRatesServer, err
