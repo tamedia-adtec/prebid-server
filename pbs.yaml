@@ -4,9 +4,3 @@ gdpr:
   timeouts_ms:
     init_vendorlist_fetches: 1000
     active_vendorlist_fetch: 1000
-external_cache:
-  scheme: https
-  path: /cache
-cache:
-  host: prebid-cache.prebid-server.svc
-  scheme: http
