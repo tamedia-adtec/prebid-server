@@ -5,9 +5,9 @@ gdpr:
     init_vendorlist_fetches: 1000
     active_vendorlist_fetch: 1000
 cache:
-  host: prebid-cache.prebid-server.svc
-  scheme: http
+  host: "prebid-cache.prebid-server.svc"
+  scheme: "http"
 external_cache:
-  scheme: https
-	host: prebid-server-cache.dev.gbads.net
+	host: "prebid-server-cache.dev.gbads.net"
+  scheme: "https"
 	path: "/cache"
