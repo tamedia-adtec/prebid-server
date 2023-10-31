@@ -6,12 +6,12 @@ import (
 	"fmt"
 	"testing"
 
-	"github.com/prebid/prebid-server/config"
-	"github.com/prebid/prebid-server/errortypes"
-	"github.com/prebid/prebid-server/metrics"
-	"github.com/prebid/prebid-server/openrtb_ext"
-	"github.com/prebid/prebid-server/stored_requests"
-	"github.com/prebid/prebid-server/util/iputil"
+	"github.com/prebid/prebid-server/v2/config"
+	"github.com/prebid/prebid-server/v2/errortypes"
+	"github.com/prebid/prebid-server/v2/metrics"
+	"github.com/prebid/prebid-server/v2/openrtb_ext"
+	"github.com/prebid/prebid-server/v2/stored_requests"
+	"github.com/prebid/prebid-server/v2/util/iputil"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/mock"
 )
@@ -212,108 +212,5 @@ func TestSetDerivedConfig(t *testing.T) {
 		assert.ElementsMatch(t, basicEnforcementMapKeys, tt.basicEnforcementVendors, tt.description)
 
 		assert.Equal(t, account.GDPR.Purpose1.EnforceAlgoID, tt.wantEnforceAlgoID, tt.description)
-	}
-}
-
-func TestGdprCcpaChannelEnabledMetrics(t *testing.T) {
-	cfg := &config.Configuration{}
-	fetcher := &mockAccountFetcher{}
-	assert.NoError(t, cfg.MarshalAccountDefaults())
-
-	testCases := []struct {
-		name                string
-		givenAccountID      string
-		givenMetric         string
-		expectedMetricCount int
-	}{
-		{
-			name:                "ChannelEnabledGDPR",
-			givenAccountID:      "gdpr_channel_enabled_acct",
-			givenMetric:         "RecordAccountGDPRChannelEnabledWarning",
-			expectedMetricCount: 1,
-		},
-		{
-			name:                "ChannelEnabledCCPA",
-			givenAccountID:      "ccpa_channel_enabled_acct",
-			givenMetric:         "RecordAccountCCPAChannelEnabledWarning",
-			expectedMetricCount: 1,
-		},
-		{
-			name:                "NotChannelEnabledCCPA",
-			givenAccountID:      "valid_acct",
-			givenMetric:         "RecordAccountCCPAChannelEnabledWarning",
-			expectedMetricCount: 0,
-		},
-		{
-			name:                "NotChannelEnabledGDPR",
-			givenAccountID:      "valid_acct",
-			givenMetric:         "RecordAccountGDPRChannelEnabledWarning",
-			expectedMetricCount: 0,
-		},
-	}
-
-	for _, test := range testCases {
-		t.Run(test.name, func(t *testing.T) {
-			metrics := &metrics.MetricsEngineMock{}
-			metrics.Mock.On(test.givenMetric, mock.Anything, mock.Anything).Return()
-			metrics.Mock.On("RecordAccountUpgradeStatus", mock.Anything, mock.Anything).Return()
-
-			_, _ = GetAccount(context.Background(), cfg, fetcher, test.givenAccountID, metrics)
-
-			metrics.AssertNumberOfCalls(t, test.givenMetric, test.expectedMetricCount)
-		})
-	}
-}
-
-func TestAccountUpgradeStatusGetAccount(t *testing.T) {
-	cfg := &config.Configuration{}
-	fetcher := &mockAccountFetcher{}
-	assert.NoError(t, cfg.MarshalAccountDefaults())
-
-	testCases := []struct {
-		name                string
-		givenAccountIDs     []string
-		givenMetrics        []string
-		expectedMetricCount int
-	}{
-		{
-			name:                "ZeroDeprecatedConfigs",
-			givenAccountIDs:     []string{"valid_acct"},
-			givenMetrics:        []string{},
-			expectedMetricCount: 0,
-		},
-		{
-			name:                "OneDeprecatedConfigGDPRChannelEnabled",
-			givenAccountIDs:     []string{"gdpr_channel_enabled_acct"},
-			givenMetrics:        []string{"RecordAccountGDPRChannelEnabledWarning"},
-			expectedMetricCount: 1,
-		},
-		{
-			name:                "OneDeprecatedConfigCCPAChannelEnabled",
-			givenAccountIDs:     []string{"ccpa_channel_enabled_acct"},
-			givenMetrics:        []string{"RecordAccountCCPAChannelEnabledWarning"},
-			expectedMetricCount: 1,
-		},
-		{
-			name:                "MultipleAccountsWithDeprecatedConfigs",
-			givenAccountIDs:     []string{"gdpr_channel_enabled_acct", "ccpa_channel_enabled_acct"},
-			givenMetrics:        []string{"RecordAccountGDPRChannelEnabledWarning", "RecordAccountCCPAChannelEnabledWarning"},
-			expectedMetricCount: 2,
-		},
-	}
-
-	for _, test := range testCases {
-		t.Run(test.name, func(t *testing.T) {
-			metrics := &metrics.MetricsEngineMock{}
-			for _, metric := range test.givenMetrics {
-				metrics.Mock.On(metric, mock.Anything, mock.Anything).Return()
-			}
-			metrics.Mock.On("RecordAccountUpgradeStatus", mock.Anything, mock.Anything).Return()
-
-			for _, accountID := range test.givenAccountIDs {
-				_, _ = GetAccount(context.Background(), cfg, fetcher, accountID, metrics)
-			}
-			metrics.AssertNumberOfCalls(t, "RecordAccountUpgradeStatus", test.expectedMetricCount)
-		})
 	}
 }

@@ -2,17 +2,17 @@ package account
 
 import (
 	"context"
-	"encoding/json"
 	"fmt"
 
 	"github.com/prebid/go-gdpr/consentconstants"
 
-	"github.com/prebid/prebid-server/config"
-	"github.com/prebid/prebid-server/errortypes"
-	"github.com/prebid/prebid-server/metrics"
-	"github.com/prebid/prebid-server/openrtb_ext"
-	"github.com/prebid/prebid-server/stored_requests"
-	"github.com/prebid/prebid-server/util/iputil"
+	"github.com/prebid/prebid-server/v2/config"
+	"github.com/prebid/prebid-server/v2/errortypes"
+	"github.com/prebid/prebid-server/v2/metrics"
+	"github.com/prebid/prebid-server/v2/openrtb_ext"
+	"github.com/prebid/prebid-server/v2/stored_requests"
+	"github.com/prebid/prebid-server/v2/util/iputil"
+	"github.com/prebid/prebid-server/v2/util/jsonutil"
 )
 
 // GetAccount looks up the config.Account object referenced by the given accountID, with access rules applied
@@ -44,29 +44,12 @@ func GetAccount(ctx context.Context, cfg *config.Configuration, fetcher stored_r
 	} else {
 		// accountID resolved to a valid account, merge with AccountDefaults for a complete config
 		account = &config.Account{}
-		err := json.Unmarshal(accountJSON, account)
-		if _, ok := err.(*json.UnmarshalTypeError); ok {
+		if err := jsonutil.UnmarshalValid(accountJSON, account); err != nil {
 			return nil, []error{&errortypes.MalformedAcct{
 				Message: fmt.Sprintf("The prebid-server account config for account id \"%s\" is malformed. Please reach out to the prebid server host.", accountID),
 			}}
 		}
-		usingGDPRChannelEnabled := useGDPRChannelEnabled(account)
-		usingCCPAChannelEnabled := useCCPAChannelEnabled(account)
 
-		if usingGDPRChannelEnabled {
-			me.RecordAccountGDPRChannelEnabledWarning(accountID)
-		}
-		if usingCCPAChannelEnabled {
-			me.RecordAccountCCPAChannelEnabledWarning(accountID)
-		}
-		if usingGDPRChannelEnabled || usingCCPAChannelEnabled {
-			me.RecordAccountUpgradeStatus(accountID)
-		}
-
-		if err != nil {
-			errs = append(errs, err)
-			return nil, errs
-		}
 		// Fill in ID if needed, so it can be left out of account definition
 		if len(account.ID) == 0 {
 			account.ID = accountID
@@ -153,12 +136,4 @@ func setDerivedConfig(account *config.Account) {
 			account.GDPR.BasicEnforcementVendorsMap[v] = struct{}{}
 		}
 	}
-}
-
-func useGDPRChannelEnabled(account *config.Account) bool {
-	return account.GDPR.ChannelEnabled.IsSet() && !account.GDPR.IntegrationEnabled.IsSet()
-}
-
-func useCCPAChannelEnabled(account *config.Account) bool {
-	return account.CCPA.ChannelEnabled.IsSet() && !account.CCPA.IntegrationEnabled.IsSet()
 }
