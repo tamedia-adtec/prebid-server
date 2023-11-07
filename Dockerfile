@@ -21,7 +21,7 @@ RUN chown -R prebid-server:prebid-server /app/prebid-server/
 USER prebid-server
 
 EXPOSE 8000
-#EXPOSE 6060
+EXPOSE 8001
 
 ENTRYPOINT ["/sbin/tini", "--"]
 CMD ["/prebid-app", "-v", "1", "-logtostderr"]
