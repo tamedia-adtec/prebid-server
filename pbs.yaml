@@ -7,4 +7,9 @@ gdpr:
 metrics:
   prometheus:
     port: 8001
+compression:
+  response:
+    enable_gzip: true
+  request:
+    enable_gzip: true
 
