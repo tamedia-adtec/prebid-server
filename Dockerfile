@@ -15,13 +15,12 @@ COPY static static/
 COPY stored_requests/data stored_requests/data
 RUN chmod -R a+r static/ stored_requests/data
 
-RUN addgroup -g 29018 prebid-server
-RUN adduser -D -H -u 29018 -G prebid-server prebid-server
-RUN chown -R prebid-server:prebid-server /app/prebid-server/
-USER prebid-server
+RUN addgroup -g 29018 prebid-server-group
+RUN adduser -D -H -u 29018 -G prebid-server-group prebid-server-user
+RUN chown -R prebid-server-user:prebid-server-group /app/prebid-server/
+USER prebid-server-user
 
-EXPOSE 8000
-EXPOSE 8001
+EXPOSE 8080
 
 ENTRYPOINT ["/sbin/tini", "--"]
 CMD ["/prebid-app", "-v", "1", "-logtostderr"]
