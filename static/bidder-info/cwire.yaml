@@ -1,4 +1,4 @@
-endpoint: "https://ortb.cwi.re/v1/bid"
+endpoint: "https://ortb-tx.cwi.re/v1/bid"
 maintainer:
   email: "devs@cwire.com"
 endpointCompression: gzip
@@ -8,3 +8,10 @@ capabilities:
   site:
     mediaTypes:
       - banner
+      - native
+      - video
+  app:
+    mediaTypes:
+      - banner
+      - native
+      - video
