@@ -44,8 +44,7 @@
           "sizes": "",
           "type": "banner",
           "v": "server"
-        },
-        "impIDs":["1"]
+        }
       },
       "mockResponse": {
         "status": 200,

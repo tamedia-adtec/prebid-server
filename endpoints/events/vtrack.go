@@ -29,13 +29,15 @@ const (
 	ImpressionOpenTag    = "<Impression>"
 )
 
+type normalizeBidderName func(name string) (openrtb_ext.BidderName, bool)
+
 type vtrackEndpoint struct {
 	Cfg                 *config.Configuration
 	Accounts            stored_requests.AccountFetcher
 	BidderInfos         config.BidderInfos
 	Cache               prebid_cache_client.Client
 	MetricsEngine       metrics.MetricsEngine
-	normalizeBidderName openrtb_ext.BidderNameNormalizer
+	normalizeBidderName normalizeBidderName
 }
 
 type BidCacheRequest struct {
@@ -72,7 +74,7 @@ func (v *vtrackEndpoint) Handle(w http.ResponseWriter, r *http.Request, _ httpro
 	// account id is required
 	if accountId == "" {
 		w.WriteHeader(http.StatusBadRequest)
-		fmt.Fprintf(w, "Account '%s' is required query parameter and can't be empty", AccountParameter)
+		w.Write([]byte(fmt.Sprintf("Account '%s' is required query parameter and can't be empty", AccountParameter)))
 		return
 	}
 
@@ -80,7 +82,7 @@ func (v *vtrackEndpoint) Handle(w http.ResponseWriter, r *http.Request, _ httpro
 	integrationType, err := getIntegrationType(r)
 	if err != nil {
 		w.WriteHeader(http.StatusBadRequest)
-		fmt.Fprintf(w, "Invalid integration type: %s\n", err.Error())
+		w.Write([]byte(fmt.Sprintf("Invalid integration type: %s\n", err.Error())))
 		return
 	}
 
@@ -90,7 +92,7 @@ func (v *vtrackEndpoint) Handle(w http.ResponseWriter, r *http.Request, _ httpro
 	// check if there was any error while parsing puts request
 	if err != nil {
 		w.WriteHeader(http.StatusBadRequest)
-		fmt.Fprintf(w, "Invalid request: %s\n", err.Error())
+		w.Write([]byte(fmt.Sprintf("Invalid request: %s\n", err.Error())))
 		return
 	}
 
@@ -104,7 +106,7 @@ func (v *vtrackEndpoint) Handle(w http.ResponseWriter, r *http.Request, _ httpro
 		w.WriteHeader(status)
 
 		for _, message := range messages {
-			fmt.Fprintf(w, "Invalid request: %s\n", message)
+			w.Write([]byte(fmt.Sprintf("Invalid request: %s\n", message)))
 		}
 		return
 	}
@@ -116,7 +118,7 @@ func (v *vtrackEndpoint) Handle(w http.ResponseWriter, r *http.Request, _ httpro
 		if len(errs) > 0 {
 			w.WriteHeader(http.StatusInternalServerError)
 			for _, err := range errs {
-				fmt.Fprintf(w, "Error(s) updating vast: %s\n", err.Error())
+				w.Write([]byte(fmt.Sprintf("Error(s) updating vast: %s\n", err.Error())))
 
 				return
 			}
@@ -126,7 +128,7 @@ func (v *vtrackEndpoint) Handle(w http.ResponseWriter, r *http.Request, _ httpro
 
 		if err != nil {
 			w.WriteHeader(http.StatusInternalServerError)
-			fmt.Fprintf(w, "Error serializing pbs cache response: %s\n", err.Error())
+			w.Write([]byte(fmt.Sprintf("Error serializing pbs cache response: %s\n", err.Error())))
 
 			return
 		}
@@ -192,12 +194,12 @@ func ParseVTrackRequest(httpRequest *http.Request, maxRequestSize int64) (req *B
 
 	for _, bcr := range req.Puts {
 		if bcr.BidID == "" {
-			err = error(&errortypes.BadInput{Message: "'bidid' is required field and can't be empty"})
+			err = error(&errortypes.BadInput{Message: fmt.Sprint("'bidid' is required field and can't be empty")})
 			return req, err
 		}
 
 		if bcr.Bidder == "" {
-			err = error(&errortypes.BadInput{Message: "'bidder' is required field and can't be empty"})
+			err = error(&errortypes.BadInput{Message: fmt.Sprint("'bidder' is required field and can't be empty")})
 			return req, err
 		}
 	}
@@ -255,7 +257,7 @@ func (v *vtrackEndpoint) cachePutObjects(ctx context.Context, req *BidCacheReque
 }
 
 // getBiddersAllowingVastUpdate returns a list of bidders that allow VAST XML modification
-func getBiddersAllowingVastUpdate(req *BidCacheRequest, bidderInfos *config.BidderInfos, allowUnknownBidder bool, normalizeBidderName openrtb_ext.BidderNameNormalizer) map[string]struct{} {
+func getBiddersAllowingVastUpdate(req *BidCacheRequest, bidderInfos *config.BidderInfos, allowUnknownBidder bool, normalizeBidderName normalizeBidderName) map[string]struct{} {
 	bl := map[string]struct{}{}
 
 	for _, bcr := range req.Puts {
@@ -268,14 +270,13 @@ func getBiddersAllowingVastUpdate(req *BidCacheRequest, bidderInfos *config.Bidd
 }
 
 // isAllowVastForBidder checks if a bidder is active and allowed to modify vast xml data
-func isAllowVastForBidder(bidder string, bidderInfos *config.BidderInfos, allowUnknownBidder bool, normalizeBidderName openrtb_ext.BidderNameNormalizer) bool {
-	// if bidder is active and isModifyingVastXmlAllowed is true
+func isAllowVastForBidder(bidder string, bidderInfos *config.BidderInfos, allowUnknownBidder bool, normalizeBidderName normalizeBidderName) bool {
+	//if bidder is active and isModifyingVastXmlAllowed is true
 	// check if bidder is configured
 	if normalizedBidder, ok := normalizeBidderName(bidder); ok {
-		if bidderInfos != nil {
-			if b, ok := (*bidderInfos)[normalizedBidder.String()]; ok {
-				return b.IsEnabled() && b.ModifyingVastXmlAllowed
-			}
+		if b, ok := (*bidderInfos)[normalizedBidder.String()]; bidderInfos != nil && ok {
+			// check if bidder is enabled
+			return b.IsEnabled() && b.ModifyingVastXmlAllowed
 		}
 	}
 

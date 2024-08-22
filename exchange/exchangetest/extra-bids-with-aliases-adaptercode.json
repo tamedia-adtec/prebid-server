@@ -81,6 +81,7 @@
                 },
                 "bidType": "video",
                 "bidMeta": {
+                  "adaptercode": "pmbidder"
                 }
               },
               {
@@ -94,6 +95,7 @@
                 },
                 "bidType": "video",
                 "bidMeta": {
+                  "adaptercode": "pmbidder"
                 }
               },
               {
@@ -107,6 +109,7 @@
                 },
                 "bidType": "video",
                 "bidMeta": {
+                  "adaptercode": "pmbidder"
                 }
               }
             ],
@@ -125,6 +128,7 @@
                 },
                 "bidType": "video",
                 "bidMeta": {
+                  "adaptercode": "pmbidder"
                 }
               }
             ],
@@ -152,6 +156,7 @@
                 "origbidcpm": 0.51,
                 "prebid": {
                   "meta": {
+                    "adaptercode": "pmbidder"
                   },
                   "type": "video",
                   "targeting": {
@@ -180,6 +185,7 @@
                 "origbidcpm": 0.71,
                 "prebid": {
                   "meta": {
+                    "adaptercode": "groupm"
                   },
                   "type": "video",
                   "targeting": {
@@ -208,6 +214,7 @@
                 "origbidcpm": 0.21,
                 "prebid": {
                   "meta": {
+                    "adaptercode": "groupm"
                   },
                   "type": "video"
                 }
@@ -224,6 +231,7 @@
                 "origbidcpm": 0.61,
                 "prebid": {
                   "meta": {
+                    "adaptercode": "groupm"
                   },
                   "type": "video",
                   "targeting": {

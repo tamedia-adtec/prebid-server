@@ -55,8 +55,7 @@
               "id": "blue-id"
             }
           ]
-        },
-        "impIDs":["blue-id"]
+        }
       },
       "mockResponse": {
         "status": 200,

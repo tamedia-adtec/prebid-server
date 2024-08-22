@@ -83,8 +83,7 @@
           "sizes": "320x100,300x250",
           "type": "banner",
           "v": "server"
-        },
-        "impIDs":["1"]
+        }
       },
       "mockResponse": {
         "status": 200,
@@ -154,8 +153,7 @@
           "sizes": "300x250",
           "type": "banner",
           "v": "server"
-        },
-        "impIDs":["2"]
+        }
       },
       "mockResponse": {
         "status": 200,

@@ -9,66 +9,59 @@ import (
 )
 
 func TestPurposeConfigBasicEnforcementVendor(t *testing.T) {
-	var (
-		appnexus = string(openrtb_ext.BidderAppnexus)
-		ix       = string(openrtb_ext.BidderIx)
-		pubmatic = string(openrtb_ext.BidderPubmatic)
-		rubicon  = string(openrtb_ext.BidderRubicon)
-	)
-
 	tests := []struct {
 		description      string
 		giveBasicVendors map[string]struct{}
-		giveBidder       string
+		giveBidder       openrtb_ext.BidderName
 		wantFound        bool
 	}{
 		{
 			description:      "vendor map is nil",
 			giveBasicVendors: nil,
-			giveBidder:       appnexus,
+			giveBidder:       openrtb_ext.BidderAppnexus,
 			wantFound:        false,
 		},
 		{
 			description:      "vendor map is empty",
 			giveBasicVendors: map[string]struct{}{},
-			giveBidder:       appnexus,
+			giveBidder:       openrtb_ext.BidderAppnexus,
 			wantFound:        false,
 		},
 		{
 			description: "vendor map has one bidders - bidder not found",
 			giveBasicVendors: map[string]struct{}{
-				pubmatic: {},
+				string(openrtb_ext.BidderPubmatic): {},
 			},
-			giveBidder: appnexus,
+			giveBidder: openrtb_ext.BidderAppnexus,
 			wantFound:  false,
 		},
 		{
 			description: "vendor map has one bidders - bidder found",
 			giveBasicVendors: map[string]struct{}{
-				appnexus: {},
+				string(openrtb_ext.BidderAppnexus): {},
 			},
-			giveBidder: appnexus,
+			giveBidder: openrtb_ext.BidderAppnexus,
 			wantFound:  true,
 		},
 		{
 			description: "vendor map has many bidderss - bidder not found",
 			giveBasicVendors: map[string]struct{}{
-				ix:       {},
-				pubmatic: {},
-				rubicon:  {},
+				string(openrtb_ext.BidderIx):       {},
+				string(openrtb_ext.BidderPubmatic): {},
+				string(openrtb_ext.BidderRubicon):  {},
 			},
-			giveBidder: appnexus,
+			giveBidder: openrtb_ext.BidderAppnexus,
 			wantFound:  false,
 		},
 		{
 			description: "vendor map has many bidderss - bidder found",
 			giveBasicVendors: map[string]struct{}{
-				ix:       {},
-				pubmatic: {},
-				appnexus: {},
-				rubicon:  {},
+				string(openrtb_ext.BidderIx):       {},
+				string(openrtb_ext.BidderPubmatic): {},
+				string(openrtb_ext.BidderAppnexus): {},
+				string(openrtb_ext.BidderRubicon):  {},
 			},
-			giveBidder: appnexus,
+			giveBidder: openrtb_ext.BidderAppnexus,
 			wantFound:  true,
 		},
 	}
@@ -84,66 +77,59 @@ func TestPurposeConfigBasicEnforcementVendor(t *testing.T) {
 }
 
 func TestPurposeConfigVendorException(t *testing.T) {
-	var (
-		appnexus = string(openrtb_ext.BidderAppnexus)
-		ix       = string(openrtb_ext.BidderIx)
-		pubmatic = string(openrtb_ext.BidderPubmatic)
-		rubicon  = string(openrtb_ext.BidderRubicon)
-	)
-
 	tests := []struct {
 		description    string
-		giveExceptions map[string]struct{}
-		giveBidder     string
+		giveExceptions map[openrtb_ext.BidderName]struct{}
+		giveBidder     openrtb_ext.BidderName
 		wantFound      bool
 	}{
 		{
 			description:    "vendor exception map is nil",
 			giveExceptions: nil,
-			giveBidder:     appnexus,
+			giveBidder:     openrtb_ext.BidderAppnexus,
 			wantFound:      false,
 		},
 		{
 			description:    "vendor exception map is empty",
-			giveExceptions: map[string]struct{}{},
-			giveBidder:     appnexus,
+			giveExceptions: map[openrtb_ext.BidderName]struct{}{},
+			giveBidder:     openrtb_ext.BidderAppnexus,
 			wantFound:      false,
 		},
 		{
 			description: "vendor exception map has one bidders - bidder not found",
-			giveExceptions: map[string]struct{}{
-				pubmatic: {},
+			giveExceptions: map[openrtb_ext.BidderName]struct{}{
+				openrtb_ext.BidderPubmatic: {},
 			},
-			giveBidder: appnexus,
+			giveBidder: openrtb_ext.BidderAppnexus,
 			wantFound:  false,
 		},
 		{
 			description: "vendor exception map has one bidders - bidder found",
-			giveExceptions: map[string]struct{}{
-				appnexus: {},
+			giveExceptions: map[openrtb_ext.BidderName]struct{}{
+				openrtb_ext.BidderAppnexus: {},
 			},
-			giveBidder: appnexus,
+			giveBidder: openrtb_ext.BidderAppnexus,
 			wantFound:  true,
 		},
 		{
 			description: "vendor exception map has many bidderss - bidder not found",
-			giveExceptions: map[string]struct{}{
-				ix:       {},
-				pubmatic: {},
-				rubicon:  {},
+			giveExceptions: map[openrtb_ext.BidderName]struct{}{
+				openrtb_ext.BidderIx:       {},
+				openrtb_ext.BidderPubmatic: {},
+				openrtb_ext.BidderRubicon:  {},
 			},
-			giveBidder: appnexus,
+			giveBidder: openrtb_ext.BidderAppnexus,
 			wantFound:  false,
 		},
 		{
 			description: "vendor exception map has many bidderss - bidder found",
-			giveExceptions: map[string]struct{}{
-				ix:       {},
-				pubmatic: {},
-				appnexus: {},
-				rubicon:  {},
+			giveExceptions: map[openrtb_ext.BidderName]struct{}{
+				openrtb_ext.BidderIx:       {},
+				openrtb_ext.BidderPubmatic: {},
+				openrtb_ext.BidderAppnexus: {},
+				openrtb_ext.BidderRubicon:  {},
 			},
-			giveBidder: appnexus,
+			giveBidder: openrtb_ext.BidderAppnexus,
 			wantFound:  true,
 		},
 	}

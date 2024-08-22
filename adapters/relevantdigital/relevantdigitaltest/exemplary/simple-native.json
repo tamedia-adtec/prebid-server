@@ -51,8 +51,7 @@
                     }
                 },
                 "tmax": 750
-                },
-                "impIDs":["test-native-id"]
+                }
             },
             "mockResponse": {
                 "status": 200,

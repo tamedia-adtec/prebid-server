@@ -47,8 +47,7 @@
               "str": "10.0"
             }
           }
-        },
-        "impIDs":["native-imp-id"]
+        }
       },
       "mockResponse": {
         "status": 200,

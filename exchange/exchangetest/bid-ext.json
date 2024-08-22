@@ -97,6 +97,7 @@
                                 "someField": "someValue",
                                 "prebid": {
                                     "meta": {
+                                        "adaptercode":"appnexus"
                                     },
                                     "type": "video"
                                 }

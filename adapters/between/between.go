@@ -24,11 +24,11 @@ func (a *BetweenAdapter) MakeRequests(request *openrtb2.BidRequest, reqInfo *ada
 	var errors []error
 	if len(request.Imp) == 0 {
 		return nil, []error{&errortypes.BadInput{
-			Message: "No valid Imps in Bid Request",
+			Message: fmt.Sprintf("No valid Imps in Bid Request"),
 		}}
 	}
 	ext, errors := preprocess(request)
-	if len(errors) > 0 {
+	if errors != nil && len(errors) > 0 {
 		return nil, errors
 	}
 	endpoint, err := a.buildEndpointURL(ext)
@@ -40,7 +40,7 @@ func (a *BetweenAdapter) MakeRequests(request *openrtb2.BidRequest, reqInfo *ada
 	data, err := json.Marshal(request)
 	if err != nil {
 		return nil, []error{&errortypes.BadInput{
-			Message: "Error in packaging request to JSON",
+			Message: fmt.Sprintf("Error in packaging request to JSON"),
 		}}
 	}
 	headers := http.Header{}
@@ -63,7 +63,6 @@ func (a *BetweenAdapter) MakeRequests(request *openrtb2.BidRequest, reqInfo *ada
 		Uri:     endpoint,
 		Body:    data,
 		Headers: headers,
-		ImpIDs:  openrtb_ext.GetImpIDs(request.Imp),
 	}}, errors
 }
 
@@ -103,14 +102,14 @@ func (a *BetweenAdapter) buildEndpointURL(e *openrtb_ext.ExtImpBetween) (string,
 func buildImpBanner(imp *openrtb2.Imp) error {
 	if imp.Banner == nil {
 		return &errortypes.BadInput{
-			Message: "Request needs to include a Banner object",
+			Message: fmt.Sprintf("Request needs to include a Banner object"),
 		}
 	}
 	banner := *imp.Banner
 	if banner.W == nil && banner.H == nil {
 		if len(banner.Format) == 0 {
 			return &errortypes.BadInput{
-				Message: "Need at least one size to build request",
+				Message: fmt.Sprintf("Need at least one size to build request"),
 			}
 		}
 		format := banner.Format[0]

@@ -86,8 +86,7 @@
                     "user":{
                        "key":"30470a14-2949-4110-abce-b62d57304ad5"
                     }
-                },
-                "impIDs":["test-imp-id"]
+                }
             },
             "mockResponse": {
                 "status": 200,

@@ -18,5 +18,10 @@
       "description": "Token ID"
     }
   },
-  "required": ["sspId","seatId","tokenId"]
+
+  "oneOf": [
+    { "required": ["sspId"] },
+    { "required": ["feedId"] },
+    { "required": ["token"] }
+  ]
 }

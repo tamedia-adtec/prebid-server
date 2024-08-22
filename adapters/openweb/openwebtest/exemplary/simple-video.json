@@ -14,22 +14,22 @@
         },
         "ext": {
           "bidder": {
-            "aid": 777,
-            "placementId": "1"
+            "aid": 1000
           }
         }
       }
     ]
   },
+
   "httpCalls": [
     {
       "expectedRequest": {
-        "uri": "https://pbs.openwebmp.com/pbs?publisher_id=777",
+        "uri": "http://ghb.spotim.market/pbs/ortb?aid=1000",
         "body": {
           "id": "test-request-id",
           "imp": [
             {
-              "id": "test-imp-id",
+              "id":"test-imp-id",
               "video": {
                 "w": 900,
                 "h": 250,
@@ -39,17 +39,13 @@
                 ]
               },
               "ext": {
-                "bidder": {
-                  "aid": 777,
-                  "placementId": "1"
+                "openweb": {
+                  "aid": 1000
                 }
               }
             }
           ]
-        },
-        "impIDs": [
-          "test-imp-id"
-        ]
+        }
       },
       "mockResponse": {
         "status": 200,
@@ -63,8 +59,7 @@
                   "impid": "test-imp-id",
                   "price": 3.5,
                   "w": 900,
-                  "h": 250,
-                  "mtype": 2
+                  "h": 250
                 }
               ]
             }
@@ -83,8 +78,7 @@
             "impid": "test-imp-id",
             "price": 3.5,
             "w": 900,
-            "h": 250,
-            "mtype": 2
+            "h": 250
           },
           "type": "video"
         }

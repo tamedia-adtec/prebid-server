@@ -42,8 +42,7 @@
             }
           }
         }]
-      },
-      "impIDs":["testImpressionId"]
+      }
     },
       "mockResponse": {
         "status": 204,

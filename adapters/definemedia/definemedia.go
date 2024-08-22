@@ -37,7 +37,6 @@ func (a *adapter) MakeRequests(request *openrtb2.BidRequest, reqInfo *adapters.E
 		Method: "POST",
 		Uri:    a.endpoint,
 		Body:   requestJSON,
-		ImpIDs: openrtb_ext.GetImpIDs(request.Imp),
 	}
 
 	return []*adapters.RequestData{requestData}, errors
@@ -99,7 +98,7 @@ func getMediaTypeForBid(bid openrtb2.Bid) (openrtb_ext.BidType, error) {
 				return openrtb_ext.ParseBidType(string(bidExt.Prebid.Type))
 			}
 			return "", &errortypes.BadServerResponse{
-				Message: "Invalid mediatype in the impression",
+				Message: fmt.Sprintf("Invalid mediatype in the impression"),
 			}
 		}
 	}

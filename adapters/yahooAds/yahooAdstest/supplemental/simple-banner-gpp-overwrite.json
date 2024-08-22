@@ -84,8 +84,7 @@
               "param1": "val1"
             }
           }
-        },
-        "impIDs":["test-imp-id"]
+        }
       },
       "mockResponse": {
         "status": 200,

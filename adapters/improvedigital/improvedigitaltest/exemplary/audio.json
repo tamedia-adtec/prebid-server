@@ -108,8 +108,7 @@
               }
             }
           }
-        },
-        "impIDs":["audio"]
+        }
       },
       "mockResponse": {
         "status": 200,

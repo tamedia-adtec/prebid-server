@@ -31,8 +31,7 @@
             }
           }
         }]
-      },
-      "impIDs":["Impression id #1"]
+      }
     },
 
     "mockResponse": {

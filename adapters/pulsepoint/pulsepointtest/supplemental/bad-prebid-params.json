@@ -17,14 +17,14 @@
             "ext": {
                 "bidder": {
                     "cp": "1234",
-                    "ct": "ab1001"
+                    "ct": "1001"
                 }
             }
         }]
     },
     "httpCalls": [],
     "expectedMakeRequestsErrors": [{
-        "value": "Value looks like Number/Boolean/None, but can't find its end: ',' or '}' symbol",
+        "value": "json: cannot unmarshal string into Go struct field ExtImpPulsePoint.cp of type int",
         "comparison": "literal"
     }],
     "expectedBidResponses": [],

@@ -146,6 +146,7 @@
                                 },
                                 "bidType": "video",
                                 "bidMeta": {
+                                    "adaptercode": "pubmatic"
                                 }
                             },
                             {
@@ -159,6 +160,7 @@
                                 },
                                 "bidType": "video",
                                 "bidMeta": {
+                                    "adaptercode": "pubmatic"
                                 }
                             },
                             {
@@ -172,6 +174,7 @@
                                 },
                                 "bidType": "video",
                                 "bidMeta": {
+                                    "adaptercode": "pubmatic"
                                 }
                             }
                         ],
@@ -190,6 +193,7 @@
                                 },
                                 "bidType": "video",
                                 "bidMeta": {
+                                    "adaptercode": "pubmatic"
                                 }
                             }
                         ],
@@ -258,6 +262,7 @@
                                 },
                                 "bidType": "banner",
                                 "bidMeta": {
+                                    "adaptercode": "appnexus"
                                 }
                             }
                         ],
@@ -276,6 +281,7 @@
                                 },
                                 "bidType": "banner",
                                 "bidMeta": {
+                                    "adaptercode": "appnexus"
                                 }
                             }
                         ],
@@ -303,6 +309,7 @@
                                 "origbidcpm": 0.51,
                                 "prebid": {
                                     "meta": {
+                                        "adaptercode": "groupm"
                                     },
                                     "type": "video",
                                     "targeting": {
@@ -326,6 +333,7 @@
                                 "origbidcpm": 0.3,
                                 "prebid": {
                                     "meta": {
+                                        "adaptercode": "groupm"
                                     },
                                     "type": "banner"
                                 }
@@ -347,6 +355,7 @@
                                 "origbidcpm": 0.71,
                                 "prebid": {
                                     "meta": {
+                                        "adaptercode": "pubmatic"
                                     },
                                     "type": "video",
                                     "targeting": {
@@ -375,6 +384,7 @@
                                 "origbidcpm": 0.21,
                                 "prebid": {
                                     "meta": {
+                                        "adaptercode": "pubmatic"
                                     },
                                     "type": "video"
                                 }
@@ -391,6 +401,7 @@
                                 "origbidcpm": 0.61,
                                 "prebid": {
                                     "meta": {
+                                        "adaptercode": "pubmatic"
                                     },
                                     "type": "video",
                                     "targeting": {
@@ -424,6 +435,7 @@
                                 "origbidcpm": 0.3,
                                 "prebid": {
                                     "meta": {
+                                        "adaptercode": "appnexus"
                                     },
                                     "type": "banner",
                                     "targeting": {

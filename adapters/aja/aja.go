@@ -48,7 +48,6 @@ func (a *AJAAdapter) MakeRequests(bidReq *openrtb2.BidRequest, extraInfo *adapte
 			Method: "POST",
 			Uri:    a.endpoint,
 			Body:   body,
-			ImpIDs: openrtb_ext.GetImpIDs(req.Imp),
 		})
 	}
 

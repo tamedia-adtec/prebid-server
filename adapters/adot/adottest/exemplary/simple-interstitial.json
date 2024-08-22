@@ -46,8 +46,7 @@
               }
             }
           ]
-        },
-        "impIDs":["test-imp-inter-id"]
+        }
       },
       "mockResponse": {
         "status": 200,

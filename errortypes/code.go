@@ -17,7 +17,6 @@ const (
 	TmaxTimeoutErrorCode
 	FailedToMarshalErrorCode
 	FailedToUnmarshalErrorCode
-	InvalidImpFirstPartyDataErrorCode
 )
 
 // Defines numeric codes for well-known warnings.
@@ -33,8 +32,6 @@ const (
 	BidAdjustmentWarningCode
 	FloorBidRejectionWarningCode
 	InvalidBidResponseDSAWarningCode
-	SecCookieDeprecationLenWarningCode
-	SecBrowsingTopicsWarningCode
 )
 
 // Coder provides an error or warning code with severity.

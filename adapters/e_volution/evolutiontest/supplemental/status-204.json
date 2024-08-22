@@ -113,8 +113,7 @@
               "gdpr": 0
             }
           }
-        },
-        "impIDs":["126365"]
+        }
       },
       "mockResponse": {
         "status": 204,

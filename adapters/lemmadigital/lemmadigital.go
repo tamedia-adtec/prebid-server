@@ -65,7 +65,6 @@ func (a *adapter) MakeRequests(request *openrtb2.BidRequest, requestInfo *adapte
 		Method: "POST",
 		Uri:    endpoint,
 		Body:   requestJSON,
-		ImpIDs: openrtb_ext.GetImpIDs(request.Imp),
 	}
 
 	return []*adapters.RequestData{requestData}, nil
@@ -94,14 +93,15 @@ func (a *adapter) MakeBids(request *openrtb2.BidRequest, requestData *adapters.R
 	if len(response.Cur) > 0 {
 		bidResponse.Currency = response.Cur
 	}
-	if len(response.SeatBid) > 0 {
-		for i := range response.SeatBid[0].Bid {
+	for _, seatBid := range response.SeatBid {
+		for i := range seatBid.Bid {
 			b := &adapters.TypedBid{
-				Bid:     &response.SeatBid[0].Bid[i],
+				Bid:     &seatBid.Bid[i],
 				BidType: bidType,
 			}
 			bidResponse.Bids = append(bidResponse.Bids, b)
 		}
+		break
 	}
 
 	return bidResponse, nil

@@ -194,8 +194,7 @@
             "us_privacy": "1---"
           }
         }
-      },
-      "impIDs":["1"]
+      }
     },
     "mockResponse": {
       "status": 200,

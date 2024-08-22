@@ -108,8 +108,7 @@
               }
             }
           }
-        },
-        "impIDs":["native"]
+        }
       },
       "mockResponse": {
         "status": 200,

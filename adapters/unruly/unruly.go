@@ -43,7 +43,6 @@ func (a *adapter) MakeRequests(request *openrtb2.BidRequest, reqInfo *adapters.E
 				Uri:     a.endPoint,
 				Body:    reqJSON,
 				Headers: headers,
-				ImpIDs:  openrtb_ext.GetImpIDs(request.Imp),
 			}}, errs
 		}
 	}
@@ -113,7 +112,7 @@ func (a *adapter) MakeBids(internalRequest *openrtb2.BidRequest, externalRequest
 		}}
 	}
 
-	bidResponse := adapters.NewBidderResponseWithBidsCapacity(len(internalRequest.Imp))
+	bidResponse := adapters.NewBidderResponseWithBidsCapacity(5)
 
 	var errs []error
 	for _, sb := range bidResp.SeatBid {
@@ -122,16 +121,10 @@ func (a *adapter) MakeBids(internalRequest *openrtb2.BidRequest, externalRequest
 			if err != nil {
 				errs = append(errs, err...)
 			} else {
-				bid := adapters.TypedBid{
+				bidResponse.Bids = append(bidResponse.Bids, &adapters.TypedBid{
 					Bid:     &sb.Bid[i],
 					BidType: bidType,
-				}
-				if bidType == openrtb_ext.BidTypeVideo && sb.Bid[i].Dur > 0 {
-					bid.BidVideo = &openrtb_ext.ExtBidPrebidVideo{
-						Duration: int(sb.Bid[i].Dur),
-					}
-				}
-				bidResponse.Bids = append(bidResponse.Bids, &bid)
+				})
 			}
 		}
 	}

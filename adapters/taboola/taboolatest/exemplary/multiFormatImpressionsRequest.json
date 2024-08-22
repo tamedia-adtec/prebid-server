@@ -114,8 +114,7 @@
             "h": 300,
             "w": 300
           }
-        },
-        "impIDs":["native-impression-id"]
+        }
       },
       "mockResponse": {
         "status": 200,
@@ -223,8 +222,7 @@
             "h": 300,
             "w": 300
           }
-        },
-        "impIDs":["banner-impression-id","banner-impression-id-2"]
+        }
       },
       "mockResponse": {
         "status": 200,

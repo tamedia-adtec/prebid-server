@@ -60,11 +60,13 @@ func merge(req *openrtb_ext.RequestWrapper, acct *openrtb_ext.ExtRequestPrebidBi
 	}
 	extPrebid := reqExt.GetPrebid()
 
-	if extPrebid == nil || extPrebid.BidAdjustments == nil {
+	if extPrebid == nil && acct == nil {
+		return nil, nil
+	}
+	if extPrebid == nil && acct != nil {
 		return acct, nil
 	}
-
-	if acct == nil {
+	if extPrebid != nil && acct == nil {
 		return extPrebid.BidAdjustments, nil
 	}
 

@@ -317,7 +317,6 @@ func (a *adapter) MakeRequests(openRTBRequest *openrtb2.BidRequest,
 		Uri:     getFinalEndPoint(countryCode, a.endpoint, a.extraInfo),
 		Body:    reqJSON,
 		Headers: header,
-		ImpIDs:  openrtb_ext.GetImpIDs(openRTBRequest.Imp),
 	}
 
 	return []*adapters.RequestData{bidRequest}, nil

@@ -102,7 +102,7 @@ func runTargetingAuction(t *testing.T, mockBids map[openrtb_ext.BidderName][]*op
 		currencyConverter: currency.NewRateConverter(&http.Client{}, "", time.Duration(0)),
 		gdprDefaultValue:  gdpr.SignalYes,
 		categoriesFetcher: categoriesFetcher,
-		bidIDGenerator:    &fakeBidIDGenerator{GenerateBidID: false, ReturnError: false},
+		bidIDGenerator:    &mockBidIDGenerator{false, false},
 	}
 	ex.requestSplitter = requestSplitter{
 		me:               ex.me,

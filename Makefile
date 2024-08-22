@@ -33,7 +33,3 @@ image:
 # format runs format
 format:
 	./scripts/format.sh -f true
-
-# formatcheck runs format for diagnostics, without modifying the code
-formatcheck:
-	./scripts/format.sh -f false

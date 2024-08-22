@@ -89,8 +89,7 @@
             "id": "some-user"
           },
           "tmax": 1000
-        },
-        "impIDs":["impression-id"]
+        }
       },
       "mockResponse": {
         "status": 200,

@@ -78,8 +78,7 @@
             "nodes": null,
             "ver": ""
           }
-        },
-        "impIDs":["mix1"]
+        }
       },
       "mockResponse": {
         "status": 200,
@@ -124,8 +123,7 @@
           "cur": [
             "USD"
           ]
-        },
-        "impIDs":["mix1"]
+        }
       },
       "mockResponse": {
         "status": 200,

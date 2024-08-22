@@ -29,6 +29,9 @@ func Listen(cfg *config.Configuration, handler http.Handler, adminHandler http.H
 	stopPrometheus := make(chan os.Signal)
 	done := make(chan struct{})
 
+	adminServer := newAdminServer(cfg, adminHandler)
+	go shutdownAfterSignals(adminServer, stopAdmin, done)
+
 	if cfg.UnixSocketEnable && len(cfg.UnixSocketName) > 0 { // start the unix_socket server if config enable-it.
 		var (
 			socketListener net.Listener
@@ -53,17 +56,12 @@ func Listen(cfg *config.Configuration, handler http.Handler, adminHandler http.H
 		go runServer(mainServer, "Main", mainListener)
 	}
 
-	if cfg.Admin.Enabled {
-		adminServer := newAdminServer(cfg, adminHandler)
-		go shutdownAfterSignals(adminServer, stopAdmin, done)
-
-		var adminListener net.Listener
-		if adminListener, err = newTCPListener(adminServer.Addr, nil); err != nil {
-			glog.Errorf("Error listening for TCP connections on %s: %v for admin server", adminServer.Addr, err)
-			return
-		}
-		go runServer(adminServer, "Admin", adminListener)
+	var adminListener net.Listener
+	if adminListener, err = newTCPListener(adminServer.Addr, nil); err != nil {
+		glog.Errorf("Error listening for TCP connections on %s: %v for admin server", adminServer.Addr, err)
+		return
 	}
+	go runServer(adminServer, "Admin", adminListener)
 
 	if cfg.Metrics.Prometheus.Port != 0 {
 		var (
@@ -72,7 +70,7 @@ func Listen(cfg *config.Configuration, handler http.Handler, adminHandler http.H
 		)
 		go shutdownAfterSignals(prometheusServer, stopPrometheus, done)
 		if prometheusListener, err = newTCPListener(prometheusServer.Addr, nil); err != nil {
-			glog.Errorf("Error listening for TCP connections on %s: %v for prometheus server", prometheusServer.Addr, err)
+			glog.Errorf("Error listening for TCP connections on %s: %v for prometheus server", adminServer.Addr, err)
 			return
 		}
 

@@ -14,10 +14,11 @@ import (
 	"github.com/prebid/prebid-server/v2/errortypes"
 	"github.com/prebid/prebid-server/v2/metrics"
 	"github.com/prebid/prebid-server/v2/openrtb_ext"
+	"github.com/prebid/prebid-server/v2/util/ptrutil"
 	"github.com/prebid/prebid-server/v2/util/timeutil"
 )
 
-const clientVersion = "prebid_server_1.1"
+const clientVersion = "prebid_server_0.6"
 
 type adMarkupType string
 
@@ -57,8 +58,7 @@ type bidRequestExt struct {
 
 // bidExt defines Bid.Ext object for Smaato
 type bidExt struct {
-	Duration int      `json:"duration"`
-	Curls    []string `json:"curls"`
+	Duration int `json:"duration"`
 }
 
 // videoExt defines Video.Ext object for Smaato
@@ -114,23 +114,18 @@ func (adapter *adapter) MakeBids(internalRequest *openrtb2.BidRequest, externalR
 
 	bidResponse := adapters.NewBidderResponseWithBidsCapacity(5)
 
-	adMarkupType, err := getAdMarkupType(response)
-	if err != nil {
-		return nil, []error{err}
-	}
-
 	var errors []error
 	for _, seatBid := range bidResp.SeatBid {
 		for i := 0; i < len(seatBid.Bid); i++ {
 			bid := seatBid.Bid[i]
 
-			bidExt, err := extractBidExt(&bid)
+			adMarkupType, err := getAdMarkupType(response, bid.AdM)
 			if err != nil {
 				errors = append(errors, err)
 				continue
 			}
 
-			bid.AdM, err = renderAdMarkup(adMarkupType, &bidExt, bid)
+			bid.AdM, err = renderAdMarkup(adMarkupType, bid.AdM)
 			if err != nil {
 				errors = append(errors, err)
 				continue
@@ -142,7 +137,7 @@ func (adapter *adapter) MakeBids(internalRequest *openrtb2.BidRequest, externalR
 				continue
 			}
 
-			bidVideo, err := buildBidVideo(&bid, &bidExt, bidType)
+			bidVideo, err := buildBidVideo(&bid, bidType)
 			if err != nil {
 				errors = append(errors, err)
 				continue
@@ -262,16 +257,23 @@ func (adapter *adapter) makeRequest(request *openrtb2.BidRequest) (*adapters.Req
 		Uri:     adapter.endpoint,
 		Body:    reqJSON,
 		Headers: headers,
-		ImpIDs:  openrtb_ext.GetImpIDs(request.Imp),
 	}, nil
 }
 
-func getAdMarkupType(response *adapters.ResponseData) (adMarkupType, error) {
+func getAdMarkupType(response *adapters.ResponseData, adMarkup string) (adMarkupType, error) {
 	if admType := adMarkupType(response.Headers.Get("X-Smt-Adtype")); admType != "" {
 		return admType, nil
+	} else if strings.HasPrefix(adMarkup, `{"image":`) {
+		return smtAdTypeImg, nil
+	} else if strings.HasPrefix(adMarkup, `{"richmedia":`) {
+		return smtAdTypeRichmedia, nil
+	} else if strings.HasPrefix(adMarkup, `<?xml`) {
+		return smtAdTypeVideo, nil
+	} else if strings.HasPrefix(adMarkup, `{"native":`) {
+		return smtAdTypeNative, nil
 	} else {
 		return "", &errortypes.BadServerResponse{
-			Message: fmt.Sprintf("X-Smt-Adtype header is missing."),
+			Message: fmt.Sprintf("Invalid ad markup %s.", adMarkup),
 		}
 	}
 }
@@ -290,14 +292,16 @@ func (adapter *adapter) getTTLFromHeaderOrDefault(response *adapters.ResponseDat
 	return ttl
 }
 
-func renderAdMarkup(adMarkupType adMarkupType, bidExt *bidExt, bid openrtb2.Bid) (string, error) {
+func renderAdMarkup(adMarkupType adMarkupType, adMarkup string) (string, error) {
 	switch adMarkupType {
-	case smtAdTypeImg, smtAdTypeRichmedia:
-		return extractAdmBanner(bid.AdM, bidExt.Curls), nil
+	case smtAdTypeImg:
+		return extractAdmImage(adMarkup)
+	case smtAdTypeRichmedia:
+		return extractAdmRichMedia(adMarkup)
 	case smtAdTypeVideo:
-		return bid.AdM, nil
+		return adMarkup, nil
 	case smtAdTypeNative:
-		return extractAdmNative(bid.AdM)
+		return extractAdmNative(adMarkup)
 	default:
 		return "", &errortypes.BadServerResponse{
 			Message: fmt.Sprintf("Unknown markup type %s.", adMarkupType),
@@ -307,7 +311,9 @@ func renderAdMarkup(adMarkupType adMarkupType, bidExt *bidExt, bid openrtb2.Bid)
 
 func convertAdMarkupTypeToMediaType(adMarkupType adMarkupType) (openrtb_ext.BidType, error) {
 	switch adMarkupType {
-	case smtAdTypeImg, smtAdTypeRichmedia:
+	case smtAdTypeImg:
+		return openrtb_ext.BidTypeBanner, nil
+	case smtAdTypeRichmedia:
 		return openrtb_ext.BidTypeBanner, nil
 	case smtAdTypeVideo:
 		return openrtb_ext.BidTypeVideo, nil
@@ -330,7 +336,6 @@ func prepareCommonRequest(request *openrtb2.BidRequest) error {
 	}
 
 	setApp(request)
-	setDOOH(request)
 
 	return setExt(request)
 }
@@ -435,13 +440,6 @@ func setApp(request *openrtb2.BidRequest) {
 	}
 }
 
-func setDOOH(request *openrtb2.BidRequest) {
-	if request.DOOH != nil {
-		doohCopy := *request.DOOH
-		request.DOOH = &doohCopy
-	}
-}
-
 func setPublisherId(request *openrtb2.BidRequest, imp *openrtb2.Imp) error {
 	publisherID, err := jsonparser.GetString(imp.Ext, "bidder", "publisherId")
 	if err != nil {
@@ -456,12 +454,8 @@ func setPublisherId(request *openrtb2.BidRequest, imp *openrtb2.Imp) error {
 		// App is already a copy
 		request.App.Publisher = &openrtb2.Publisher{ID: publisherID}
 		return nil
-	} else if request.DOOH != nil {
-		// DOOH is already a copy
-		request.DOOH.Publisher = &openrtb2.Publisher{ID: publisherID}
-		return nil
 	} else {
-		return &errortypes.BadInput{Message: "Missing Site/App/DOOH."}
+		return &errortypes.BadInput{Message: "Missing Site/App."}
 	}
 }
 
@@ -476,7 +470,18 @@ func setImpForAdspace(imp *openrtb2.Imp) error {
 		return err
 	}
 
-	if imp.Banner != nil || imp.Video != nil || imp.Native != nil {
+	if imp.Banner != nil {
+		bannerCopy, err := setBannerDimension(imp.Banner)
+		if err != nil {
+			return err
+		}
+		imp.Banner = bannerCopy
+		imp.TagID = adSpaceID
+		imp.Ext = impExt
+		return nil
+	}
+
+	if imp.Video != nil || imp.Native != nil {
 		imp.TagID = adSpaceID
 		imp.Ext = impExt
 		return nil
@@ -539,6 +544,20 @@ func makeImpExt(impExtRaw *json.RawMessage) (json.RawMessage, error) {
 	}
 }
 
+func setBannerDimension(banner *openrtb2.Banner) (*openrtb2.Banner, error) {
+	if banner.W != nil && banner.H != nil {
+		return banner, nil
+	}
+	if len(banner.Format) == 0 {
+		return banner, &errortypes.BadInput{Message: "No sizes provided for Banner."}
+	}
+	bannerCopy := *banner
+	bannerCopy.W = ptrutil.ToPtr(banner.Format[0].W)
+	bannerCopy.H = ptrutil.ToPtr(banner.Format[0].H)
+
+	return &bannerCopy, nil
+}
+
 func groupImpressionsByPod(imps []openrtb2.Imp) (map[string]([]openrtb2.Imp), []string, []error) {
 	pods := make(map[string][]openrtb2.Imp)
 	orderKeys := make([]string, 0)
@@ -559,12 +578,12 @@ func groupImpressionsByPod(imps []openrtb2.Imp) (map[string]([]openrtb2.Imp), []
 	return pods, orderKeys, errors
 }
 
-func buildBidVideo(bid *openrtb2.Bid, bidExt *bidExt, bidType openrtb_ext.BidType) (*openrtb_ext.ExtBidPrebidVideo, error) {
+func buildBidVideo(bid *openrtb2.Bid, bidType openrtb_ext.BidType) (*openrtb_ext.ExtBidPrebidVideo, error) {
 	if bidType != openrtb_ext.BidTypeVideo {
 		return nil, nil
 	}
 
-	if bidExt == nil {
+	if bid.Ext == nil {
 		return nil, nil
 	}
 
@@ -573,20 +592,13 @@ func buildBidVideo(bid *openrtb2.Bid, bidExt *bidExt, bidType openrtb_ext.BidTyp
 		primaryCategory = bid.Cat[0]
 	}
 
+	var bidExt bidExt
+	if err := json.Unmarshal(bid.Ext, &bidExt); err != nil {
+		return nil, &errortypes.BadServerResponse{Message: "Invalid bid.ext."}
+	}
+
 	return &openrtb_ext.ExtBidPrebidVideo{
 		Duration:        bidExt.Duration,
 		PrimaryCategory: primaryCategory,
 	}, nil
-}
-
-func extractBidExt(bid *openrtb2.Bid) (bidExt, error) {
-	var bidExt bidExt
-
-	if bid.Ext == nil {
-		return bidExt, nil
-	}
-	if err := json.Unmarshal(bid.Ext, &bidExt); err != nil {
-		return bidExt, &errortypes.BadServerResponse{Message: "Invalid bid.ext."}
-	}
-	return bidExt, nil
 }

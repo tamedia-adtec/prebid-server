@@ -56,8 +56,7 @@
               }
             }
           }]
-        },
-        "impIDs":["imp123"]
+        }
       },
       "mockResponse": {
         "status": 200,

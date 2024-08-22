@@ -6,7 +6,6 @@
     },
     "imp": [
       {
-        "id":"test-imp-id",
         "bidfloor": 0.02,
         "banner": {
           "format": [
@@ -33,7 +32,7 @@
         "body": {
           "slots": [
             {
-              "slot": "test-imp-id",
+              "slot": "",
               "id": "bannerAppId1",
               "bidfloor": 0.02,
               "sizes": [
@@ -65,8 +64,7 @@
             "nodes": null,
             "ver": ""
           }
-        },
-        "impIDs":["test-imp-id"]
+        }
       },
       "mockResponse": {
         "status": 200,

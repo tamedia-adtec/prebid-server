@@ -261,7 +261,6 @@ func (a *YieldlabAdapter) MakeRequests(request *openrtb2.BidRequest, _ *adapters
 		Method:  "GET",
 		Uri:     bidURL,
 		Headers: headers,
-		ImpIDs:  openrtb_ext.GetImpIDs(request.Imp),
 	}}, nil
 }
 
@@ -498,20 +497,20 @@ func makeSupplyChain(openRtbSchain openrtb2.SupplyChain) string {
 
 // makeNodeValue converts any known value type from a schain node to a string and does URL encoding if necessary.
 func makeNodeValue(nodeParam any) string {
-	switch nodeParam := nodeParam.(type) {
+	switch nodeParam.(type) {
 	case string:
-		return url.QueryEscape(nodeParam)
+		return url.QueryEscape(nodeParam.(string))
 	case *int8:
-		pointer := nodeParam
+		pointer := nodeParam.(*int8)
 		if pointer == nil {
 			return ""
 		}
 		return makeNodeValue(int(*pointer))
 	case int:
-		return strconv.Itoa(nodeParam)
+		return strconv.Itoa(nodeParam.(int))
 	case json.RawMessage:
-		if nodeParam != nil {
-			freeFormJson, err := json.Marshal(nodeParam)
+		if freeFormData := nodeParam.(json.RawMessage); freeFormData != nil {
+			freeFormJson, err := json.Marshal(freeFormData)
 			if err != nil {
 				return ""
 			}

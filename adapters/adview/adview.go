@@ -105,7 +105,6 @@ func (a *adapter) MakeRequests(request *openrtb2.BidRequest, requestInfo *adapte
 			Method: http.MethodPost,
 			Uri:    url,
 			Body:   reqJSON,
-			ImpIDs: openrtb_ext.GetImpIDs(requestCopy.Imp),
 		}
 		requests = append(requests, requestData)
 	}

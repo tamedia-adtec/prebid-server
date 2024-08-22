@@ -75,8 +75,7 @@
               "bcrid": ["4","5","6"]
             }
           }
-        },
-        "impIDs":["adunit-1"]
+        }
       },
       "mockResponse": {
         "status": 200,

@@ -4,8 +4,7 @@ import (
 	"bytes"
 	"fmt"
 
-	cglog "github.com/chasex/glog"
-	"github.com/golang/glog"
+	"github.com/chasex/glog"
 	"github.com/prebid/openrtb/v20/openrtb2"
 	"github.com/prebid/prebid-server/v2/analytics"
 	"github.com/prebid/prebid-server/v2/util/jsonutil"
@@ -22,14 +21,9 @@ const (
 	NOTIFICATION_EVENT RequestType = "/event"
 )
 
-type Logger interface {
-	Debug(v ...interface{})
-	Flush()
-}
-
 // Module that can perform transactional logging
 type FileLogger struct {
-	Logger Logger
+	Logger *glog.Logger
 }
 
 // Writes AuctionObject to file
@@ -91,22 +85,15 @@ func (f *FileLogger) LogNotificationEventObject(ne *analytics.NotificationEvent)
 	f.Logger.Flush()
 }
 
-// Shutdown the logger
-func (f *FileLogger) Shutdown() {
-	// clear all pending buffered data in case there is any
-	glog.Info("[FileLogger] Shutdown, trying to flush buffer")
-	f.Logger.Flush()
-}
-
 // Method to initialize the analytic module
 func NewFileLogger(filename string) (analytics.Module, error) {
-	options := cglog.LogOptions{
+	options := glog.LogOptions{
 		File:  filename,
-		Flag:  cglog.LstdFlags,
-		Level: cglog.Ldebug,
-		Mode:  cglog.R_Day,
+		Flag:  glog.LstdFlags,
+		Level: glog.Ldebug,
+		Mode:  glog.R_Day,
 	}
-	if logger, err := cglog.New(options); err == nil {
+	if logger, err := glog.New(options); err == nil {
 		return &FileLogger{
 			logger,
 		}, nil

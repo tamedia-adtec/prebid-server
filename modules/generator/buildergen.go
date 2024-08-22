@@ -10,7 +10,6 @@ import (
 	"os"
 	"path/filepath"
 	"regexp"
-	"sort"
 	"strings"
 	"text/template"
 )
@@ -21,25 +20,25 @@ var (
 	outName  = "builder.go"
 )
 
+type Module struct {
+	Vendor string
+	Module string
+}
+
 func main() {
-	modules := make(map[string][]string)
+	var modules []Module
 
 	filepath.WalkDir("./", func(path string, d fs.DirEntry, err error) error {
 		if !r.MatchString(path) {
 			return nil
 		}
 		match := r.FindStringSubmatch(path)
-		vendorModules := modules[match[1]]
-		vendorModules = append(vendorModules, match[2])
-		modules[match[1]] = vendorModules
-
+		modules = append(modules, Module{
+			Vendor: match[1],
+			Module: match[2],
+		})
 		return nil
 	})
-
-	for vendorName, names := range modules {
-		sort.Strings(names)
-		modules[vendorName] = names
-	}
 
 	funcMap := template.FuncMap{"Title": strings.Title}
 	t, err := template.New(tmplName).Funcs(funcMap).ParseFiles(fmt.Sprintf("generator/%s", tmplName))

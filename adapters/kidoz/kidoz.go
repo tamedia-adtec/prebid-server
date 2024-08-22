@@ -91,7 +91,6 @@ func (a *KidozAdapter) MakeRequests(request *openrtb2.BidRequest, _ *adapters.Ex
 			Uri:     a.endpoint,
 			Body:    body,
 			Headers: headers,
-			ImpIDs:  openrtb_ext.GetImpIDs(request.Imp),
 		})
 	}
 

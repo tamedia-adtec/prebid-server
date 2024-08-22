@@ -267,6 +267,7 @@
                                 },
                                 "bidType": "video",
                                 "bidMeta": {
+                                    "adaptercode": "appnexus"
                                 }
                             },
                             {
@@ -294,6 +295,7 @@
                                 },
                                 "bidType": "video",
                                 "bidMeta": {
+                                    "adaptercode": "appnexus"
                                 }
                             },
                             {
@@ -321,6 +323,7 @@
                                 },
                                 "bidType": "video",
                                 "bidMeta": {
+                                    "adaptercode": "appnexus"
                                 }
                             }
                         ],
@@ -468,6 +471,7 @@
                                 },
                                 "bidType": "video",
                                 "bidMeta": {
+                                    "adaptercode": "rubicon"
                                 }
                             },
                             {
@@ -494,6 +498,7 @@
                                 },
                                 "bidType": "video",
                                 "bidMeta": {
+                                    "adaptercode": "rubicon"
                                 }
                             },
                             {
@@ -520,6 +525,7 @@
                                 },
                                 "bidType": "banner",
                                 "bidMeta": {
+                                    "adaptercode": "rubicon"
                                 }
                             }
                         ],
@@ -546,6 +552,7 @@
                             "ext": {
                                 "prebid": {
                                     "meta": {
+                                        "adaptercode": "rubicon"
                                     },
                                     "type": "video",
                                     "targeting": {
@@ -586,6 +593,7 @@
                             "ext": {
                                 "prebid": {
                                     "meta": {
+                                        "adaptercode": "rubicon"
                                     },
                                     "type": "video",
                                     "targeting": {
@@ -630,6 +638,7 @@
                             "ext": {
                                 "prebid": {
                                     "meta": {
+                                        "adaptercode": "appnexus"
                                     },
                                     "type": "video",
                                     "targeting": {
@@ -665,6 +674,7 @@
                             "ext": {
                                 "prebid": {
                                     "meta": {
+                                        "adaptercode": "appnexus"
                                     },
                                     "type": "video"
                                 },

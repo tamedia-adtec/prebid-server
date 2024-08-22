@@ -82,8 +82,7 @@
               "city": "basel"
             }
           }
-        },
-        "impIDs":["102"]
+        }
       },
       "mockResponse": {
         "status": 200,

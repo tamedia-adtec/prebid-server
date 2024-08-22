@@ -9,7 +9,6 @@ import (
 	"github.com/prebid/prebid-server/v2/adapters"
 	"github.com/prebid/prebid-server/v2/config"
 	"github.com/prebid/prebid-server/v2/openrtb_ext"
-	"github.com/stretchr/testify/assert"
 )
 
 func TestMakeRequests(t *testing.T) {
@@ -55,43 +54,23 @@ func TestMakeRequests(t *testing.T) {
 	}
 
 	var testCases = []struct {
-		giveRequest openrtb2.BidRequest
-		wantErr     bool
-		wantRequest bool
-		wantImpIDs  []string
+		in   []openrtb2.BidRequest
+		out1 [](int)
+		out2 [](bool)
 	}{
 		{
-			giveRequest: internalRequest01,
-			wantErr:     true,
-			wantRequest: false,
-			wantImpIDs:  []string{},
-		},
-		{
-			giveRequest: internalRequest02,
-			wantErr:     true,
-			wantRequest: false,
-			wantImpIDs:  []string{imp.ID, imp2.ID, imp3.ID, imp4.ID, imp5.ID},
-		},
-		{
-			giveRequest: internalRequest03,
-			wantErr:     false,
-			wantRequest: true,
-			wantImpIDs:  []string{imp.ID, imp2.ID, imp3.ID, imp4.ID, imp5.ID},
+			in:   []openrtb2.BidRequest{internalRequest01, internalRequest02, internalRequest03},
+			out1: [](int){1, 1, 0},
+			out2: [](bool){false, false, true},
 		},
 	}
 
-	for _, tc := range testCases {
-		RequestData, err := bidder.MakeRequests(&tc.giveRequest, nil)
-		if tc.wantErr {
-			assert.Len(t, err, 1)
-		} else {
-			assert.Len(t, err, 0)
-		}
-		if tc.wantRequest {
-			assert.Len(t, RequestData, 1)
-			assert.ElementsMatch(t, tc.wantImpIDs, RequestData[0].ImpIDs)
-		} else {
-			assert.Len(t, RequestData, 0)
+	for idx := range testCases {
+		for i := range testCases[idx].in {
+			RequestData, err := bidder.MakeRequests(&testCases[idx].in[i], nil)
+			if ((RequestData == nil) == testCases[idx].out2[i]) && (len(err) == testCases[idx].out1[i]) {
+				t.Errorf("actual = %v expected = %v", len(err), testCases[idx].out1[i])
+			}
 		}
 	}
 }

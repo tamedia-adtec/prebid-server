@@ -78,8 +78,7 @@
             "buyeruid": "test_reader_id"
           },
           "device": { }
-        },
-        "impIDs":["test-imp-id"]
+        }
       },
       "mockResponse": {
         "status": 200,

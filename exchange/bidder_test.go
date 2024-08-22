@@ -1065,7 +1065,7 @@ func TestMultiCurrencies_RateConverterNotSet(t *testing.T) {
 		seatBid := seatBids[0]
 
 		// Verify:
-		assert.Falsef(t, seatBid == nil && tc.expectedBidsCount != 0, tc.description)
+		assert.Equal(t, false, (seatBid == nil && tc.expectedBidsCount != 0), tc.description)
 		assert.Equal(t, tc.expectedBidsCount, uint(len(seatBid.Bids)), tc.description)
 		assert.ElementsMatch(t, tc.expectedBadCurrencyErrors, errs, tc.description)
 		assert.False(t, extraBidderRespInfo.respProcessingStartTime.IsZero())
@@ -2414,7 +2414,10 @@ type goodMultiHTTPCallsBidder struct {
 func (bidder *goodMultiHTTPCallsBidder) MakeRequests(request *openrtb2.BidRequest, reqInfo *adapters.ExtraRequestInfo) ([]*adapters.RequestData, []error) {
 	bidder.bidRequest = request
 	response := make([]*adapters.RequestData, len(bidder.httpRequest))
-	copy(response, bidder.httpRequest)
+
+	for i, r := range bidder.httpRequest {
+		response[i] = r
+	}
 	return response, nil
 }
 

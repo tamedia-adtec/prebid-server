@@ -59,8 +59,7 @@
                   "site": {
                       "id": "test"
                   }
-              },
-              "impIDs":["testimpid"]
+              }
           },
           "mockResponse": {
             "body": {

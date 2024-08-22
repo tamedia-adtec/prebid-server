@@ -55,8 +55,7 @@
                         }
                     },
                     "tmax": 750
-                },
-                "impIDs":["test-audio-id"]
+                }
             },
             "mockResponse": {
                 "status": 200,

@@ -71,8 +71,7 @@
                             "tagid": "234567"
                         }
                     ]
-                },
-                "impIDs":["1","2"]
+                }
             },
 
             "mockResponse": {

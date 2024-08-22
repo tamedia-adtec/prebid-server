@@ -84,9 +84,13 @@ func shouldCreateSyncer(cfg config.BidderInfo) bool {
 		return false
 	}
 
+	if cfg.Syncer == nil {
+		return false
+	}
+
 	// a syncer may provide just a Supports field to provide hints to the host. we should only try to create a syncer
 	// if there is at least one non-Supports value populated.
-	return cfg.Syncer.Defined()
+	return cfg.Syncer.Key != "" || cfg.Syncer.IFrame != nil || cfg.Syncer.Redirect != nil || cfg.Syncer.SupportCORS != nil
 }
 
 func chooseSyncerConfig(biddersSyncerConfig []namedSyncerConfig) (namedSyncerConfig, error) {

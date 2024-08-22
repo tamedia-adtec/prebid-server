@@ -101,8 +101,7 @@
               "id": "pubid"
             }
           }
-        },
-        "impIDs":["1"]
+        }
       },
       "mockResponse": {
         "status": 200,
@@ -183,8 +182,7 @@
               "id": "pubid"
             }
           }
-        },
-        "impIDs":["2"]
+        }
       },
       "mockResponse": {
         "status": 200,

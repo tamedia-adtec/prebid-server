@@ -43,8 +43,7 @@
           "user": {
             "buyeruid": "test-buyer-user-id"
           }
-        },
-        "impIDs":["id"]
+        }
       },
       "mockResponse": {
         "status": 500

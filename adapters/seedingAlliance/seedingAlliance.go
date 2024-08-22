@@ -33,11 +33,11 @@ func Builder(_ openrtb_ext.BidderName, config config.Adapter, server config.Serv
 }
 
 func (a *adapter) MakeRequests(request *openrtb2.BidRequest, extraRequestInfo *adapters.ExtraRequestInfo) ([]*adapters.RequestData, []error) {
-	var accountId string
+	var seatId string
 	var err error
 
 	for i := range request.Imp {
-		if accountId, err = getExtInfo(&request.Imp[i]); err != nil {
+		if seatId, err = getExtInfo(&request.Imp[i]); err != nil {
 			return nil, []error{err}
 		}
 	}
@@ -51,7 +51,7 @@ func (a *adapter) MakeRequests(request *openrtb2.BidRequest, extraRequestInfo *a
 		return nil, []error{err}
 	}
 
-	url, err := macros.ResolveMacros(a.endpoint, macros.EndpointTemplateParams{AccountID: accountId})
+	url, err := macros.ResolveMacros(a.endpoint, macros.EndpointTemplateParams{AccountID: seatId})
 	if err != nil {
 		return nil, []error{err}
 	}
@@ -60,7 +60,6 @@ func (a *adapter) MakeRequests(request *openrtb2.BidRequest, extraRequestInfo *a
 		Method: http.MethodPost,
 		Uri:    url,
 		Body:   requestJSON,
-		ImpIDs: openrtb_ext.GetImpIDs(request.Imp),
 	}
 
 	return []*adapters.RequestData{requestData}, nil
@@ -147,7 +146,7 @@ func getExtInfo(imp *openrtb2.Imp) (string, error) {
 	var ext adapters.ExtImpBidder
 	var extSA openrtb_ext.ImpExtSeedingAlliance
 
-	accountId := "pbs"
+	seatID := "pbs"
 
 	if err := json.Unmarshal(imp.Ext, &ext); err != nil {
 		return "", fmt.Errorf("could not unmarshal adapters.ExtImpBidder: %w", err)
@@ -160,12 +159,8 @@ func getExtInfo(imp *openrtb2.Imp) (string, error) {
 	imp.TagID = extSA.AdUnitID
 
 	if extSA.SeatID != "" {
-		accountId = extSA.SeatID
+		seatID = extSA.SeatID
 	}
 
-	if extSA.AccountID != "" {
-		accountId = extSA.AccountID
-	}
-
-	return accountId, nil
+	return seatID, nil
 }

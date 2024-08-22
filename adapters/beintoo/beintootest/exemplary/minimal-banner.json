@@ -75,8 +75,7 @@
           "ip": "123.123.123.123",
           "dnt": 1
         }
-      },
-      "impIDs":["some_test_ad_id"]
+      }
     },
     "mockResponse": {
       "status": 200,

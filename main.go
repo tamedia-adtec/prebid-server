@@ -2,18 +2,17 @@ package main
 
 import (
 	"flag"
+	"math/rand"
 	"net/http"
 	"path/filepath"
 	"runtime"
 	"time"
 
-	jsoniter "github.com/json-iterator/go"
 	"github.com/prebid/prebid-server/v2/config"
 	"github.com/prebid/prebid-server/v2/currency"
 	"github.com/prebid/prebid-server/v2/openrtb_ext"
 	"github.com/prebid/prebid-server/v2/router"
 	"github.com/prebid/prebid-server/v2/server"
-	"github.com/prebid/prebid-server/v2/util/jsonutil"
 	"github.com/prebid/prebid-server/v2/util/task"
 
 	"github.com/golang/glog"
@@ -21,7 +20,7 @@ import (
 )
 
 func init() {
-	jsoniter.RegisterExtension(&jsonutil.RawMessageExtension{})
+	rand.Seed(time.Now().UnixNano())
 }
 
 func main() {
@@ -78,9 +77,7 @@ func serve(cfg *config.Configuration) error {
 	}
 
 	corsRouter := router.SupportCORS(r)
-	if err := server.Listen(cfg, router.NoCache{Handler: corsRouter}, router.Admin(currencyConverter, fetchingInterval), r.MetricsEngine); err != nil {
-		glog.Fatalf("prebid-server returned an error: %v", err)
-	}
+	server.Listen(cfg, router.NoCache{Handler: corsRouter}, router.Admin(currencyConverter, fetchingInterval), r.MetricsEngine)
 
 	r.Shutdown()
 	return nil

@@ -105,17 +105,14 @@ func (adapter *AMXAdapter) MakeRequests(request *openrtb2.BidRequest, req *adapt
 		Uri:     adapter.endpoint,
 		Body:    encoded,
 		Headers: headers,
-		ImpIDs:  openrtb_ext.GetImpIDs(reqCopy.Imp),
 	}
 	reqsBidder = append(reqsBidder, reqBidder)
 	return
 }
 
 type amxBidExt struct {
-	StartDelay   *int    `json:"startdelay,omitempty"`
-	CreativeType *int    `json:"ct,omitempty"`
-	DemandSource *string `json:"ds,omitempty"`
-	BidderCode   *string `json:"bc,omitempty"`
+	StartDelay   *int `json:"startdelay,omitempty"`
+	CreativeType *int `json:"ct,omitempty"`
 }
 
 // MakeBids will parse the bids from the AMX server
@@ -156,23 +153,10 @@ func (adapter *AMXAdapter) MakeBids(request *openrtb2.BidRequest, externalReques
 				continue
 			}
 
-			demandSource := ""
-			if bidExt.DemandSource != nil {
-				demandSource = *bidExt.DemandSource
-			}
-
 			bidType := getMediaTypeForBid(bidExt)
 			b := &adapters.TypedBid{
-				Bid: &bid,
-				BidMeta: &openrtb_ext.ExtBidPrebidMeta{
-					AdvertiserDomains: bid.ADomain,
-					DemandSource:      demandSource,
-				},
+				Bid:     &bid,
 				BidType: bidType,
-			}
-
-			if bidExt.BidderCode != nil {
-				b.Seat = openrtb_ext.BidderName(*bidExt.BidderCode)
 			}
 
 			bidResponse.Bids = append(bidResponse.Bids, b)

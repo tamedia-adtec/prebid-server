@@ -45,8 +45,7 @@ func (adapter *adapter) getRequestData(bidRequest *openrtb2.BidRequest, impExt *
 		Method:  "POST",
 		Uri:     url,
 		Body:    reqJSON,
-		Headers: headers,
-		ImpIDs:  openrtb_ext.GetImpIDs(pbidRequest.Imp)}, nil
+		Headers: headers}, nil
 
 }
 func createBidRequest(rtbBidRequest *openrtb2.BidRequest, imps []openrtb2.Imp) *openrtb2.BidRequest {
@@ -56,9 +55,9 @@ func createBidRequest(rtbBidRequest *openrtb2.BidRequest, imps []openrtb2.Imp) *
 }
 func (adapter *adapter) buildEndpointURL(params *openrtb_ext.ExtImpOwnAdx) (string, error) {
 	endpointParams := macros.EndpointTemplateParams{
-		SspID:   params.SspId, // Macro
-		SeatID:  params.SeatId,
-		TokenID: params.TokenId,
+		ZoneID:    params.SspId,
+		AccountID: params.SeatId,
+		SourceId:  params.TokenId,
 	}
 	return macros.ResolveMacros(adapter.endpoint, endpointParams)
 }
@@ -124,7 +123,6 @@ func groupImpsByExt(imps []openrtb2.Imp) (map[openrtb_ext.ExtImpOwnAdx][]openrtb
 }
 
 func (adapter *adapter) MakeBids(internalRequest *openrtb2.BidRequest, externalRequest *adapters.RequestData, response *adapters.ResponseData) (*adapters.BidderResponse, []error) {
-
 	if response.StatusCode == http.StatusNoContent {
 		return nil, nil
 	}
@@ -146,31 +144,31 @@ func (adapter *adapter) MakeBids(internalRequest *openrtb2.BidRequest, externalR
 	if err := json.Unmarshal(response.Body, &bidResp); err != nil {
 		return nil, []error{
 			&errortypes.BadServerResponse{
-				Message: "Bad server response ",
+				Message: fmt.Sprintf("Bad server response "),
 			},
 		}
 	}
 	if len(bidResp.SeatBid) == 0 {
 		return nil, []error{
 			&errortypes.BadServerResponse{
-				Message: "Array SeatBid cannot be empty ",
+				Message: fmt.Sprintf("Array SeatBid cannot be empty "),
 			},
 		}
 	}
 
 	seatBid := bidResp.SeatBid[0]
 	bidResponse := adapters.NewBidderResponseWithBidsCapacity(len(bidResp.SeatBid[0].Bid))
-
 	if len(seatBid.Bid) == 0 {
 		return nil, []error{
 			&errortypes.BadServerResponse{
-				Message: "Bid cannot be empty ",
+				Message: fmt.Sprintf("Bid cannot be empty "),
 			},
 		}
 	}
 	for i := 0; i < len(seatBid.Bid); i++ {
 		var bidType openrtb_ext.BidType
 		bid := seatBid.Bid[i]
+
 		bidType, err := getMediaType(bid)
 		if err != nil {
 			return nil, []error{&errortypes.BadServerResponse{

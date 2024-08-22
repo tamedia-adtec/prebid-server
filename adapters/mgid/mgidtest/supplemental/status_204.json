@@ -55,8 +55,7 @@
             "domain": "fake-site-domain"
           },
           "tmax": 200
-        },
-        "impIDs":["test-imp-id"]
+        }
       },
       "mockResponse": {
         "status": 204,

@@ -136,27 +136,24 @@ func TestGetMediaTypeForBid(t *testing.T) {
 
 func TestGetExtInfo(t *testing.T) {
 	type args struct {
-		adUnitId  string
-		seatId    string
-		accountId string
+		adUnitId string
+		seatId   string
 	}
 	tests := []struct {
-		name              string
-		expectedAdUnitID  string
-		expectedAccountId string
-		data              args
-		wantErr           bool
+		name             string
+		expectedAdUnitID string
+		expectedSeatID   string
+		data             args
+		wantErr          bool
 	}{
 		{"regular case", "abc123", "pbs", args{adUnitId: "abc123"}, false},
 		{"nil case", "", "pbs", args{adUnitId: ""}, false},
 		{"unmarshal err case", "", "pbs", args{adUnitId: ""}, true},
 		{"seatId case", "abc123", "seat1", args{adUnitId: "abc123", seatId: "seat1"}, false},
-		{"accountId case", "abc123", "account1", args{adUnitId: "abc123", accountId: "account1"}, false},
-		{"accountId and seatId case", "abc123", "account1", args{adUnitId: "abc123", accountId: "account1", seatId: "seat1"}, false},
 	}
 
 	for _, test := range tests {
-		extSA, err := json.Marshal(openrtb_ext.ImpExtSeedingAlliance{AdUnitID: test.data.adUnitId, SeatID: test.data.seatId, AccountID: test.data.accountId})
+		extSA, err := json.Marshal(openrtb_ext.ImpExtSeedingAlliance{AdUnitID: test.data.adUnitId, SeatID: test.data.seatId})
 		if err != nil {
 			t.Fatalf("unexpected error %v", err)
 		}
@@ -171,7 +168,7 @@ func TestGetExtInfo(t *testing.T) {
 		}
 
 		ortbImp := openrtb2.Imp{Ext: extBidder}
-		accountId, err := getExtInfo(&ortbImp)
+		seatID, err := getExtInfo(&ortbImp)
 		if err != nil {
 			if test.wantErr {
 				continue
@@ -183,8 +180,8 @@ func TestGetExtInfo(t *testing.T) {
 			t.Fatalf("want: %v, got: %v", test.expectedAdUnitID, ortbImp.TagID)
 		}
 
-		if test.expectedAccountId != accountId {
-			t.Fatalf("want: %v, got: %v", test.expectedAccountId, accountId)
+		if test.expectedSeatID != seatID {
+			t.Fatalf("want: %v, got: %v", test.expectedSeatID, seatID)
 		}
 	}
 }

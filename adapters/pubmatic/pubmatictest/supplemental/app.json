@@ -84,8 +84,7 @@
                 },
                 "prebid": {}
             }
-          },
-          "impIDs":["app-imp"]
+          }
         },
         "mockResponse": {
           "status": 200,

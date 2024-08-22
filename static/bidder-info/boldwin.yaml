@@ -1,6 +1,6 @@
 endpoint: "http://ssp.videowalldirect.com/pserver"
 maintainer:
-  email: "info@bold-win.com"
+  email: "wls_demo_box@smartyads.com"
 capabilities:
   site:
     mediaTypes:

@@ -115,6 +115,7 @@
                                 "someField": "someValue",
                                 "prebid": {
                                     "meta": {
+                                        "adaptercode": "openx"
                                     },
                                     "type": "video"
                                 }

@@ -50,8 +50,7 @@
       {
         "expectedRequest": {
           "uri": "http://rtb.e-planning.net/pbs/1/6789/1/FILE/ROS?e=video_640x480_0%3A640x480%3B1&ncb=1&ur=FILE&vctx=1&vv=3",
-          "body": {},
-          "impIDs":["test-imp-id","test-imp-instream","test-imp-outstream"]
+          "body": {}
         },
         "mockResponse": {
           "status": 200,

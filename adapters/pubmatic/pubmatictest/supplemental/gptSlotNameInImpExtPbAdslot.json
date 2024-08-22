@@ -96,8 +96,7 @@
             },
             "prebid": {}
           }
-        },
-        "impIDs":["test-imp-id"]
+        }
       },
       "mockResponse": {
         "status": 200,

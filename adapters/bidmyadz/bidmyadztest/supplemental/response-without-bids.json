@@ -37,8 +37,7 @@
       "publisher": {
         "id": "1"
       }
-    },
-    "impIDs":["1"]
+    }
   },
 
   "httpCalls": [
@@ -84,8 +83,7 @@
               "id": "1"
             }
           }
-        },
-        "impIDs":["1"]
+        }
       },
       "mockResponse": {
         "status": 200,

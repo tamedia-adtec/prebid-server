@@ -9,6 +9,3 @@ capabilities:
   site:
     mediaTypes:
       - banner
-# This bidder does not operate globally. Please consider setting "disabled: true" outside of the following regions:
-geoscope:
-  - CAN

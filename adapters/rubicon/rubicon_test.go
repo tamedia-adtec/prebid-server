@@ -233,14 +233,6 @@ func TestOpenRTBRequestWithDifferentBidFloorAttributes(t *testing.T) {
 			expectedErrors:   nil,
 		},
 		{
-			bidFloor:         0,
-			bidFloorCur:      "EUR",
-			setMock:          func(m *mock.Mock) {},
-			expectedBidFloor: 0,
-			expectedBidCur:   "USD",
-			expectedErrors:   nil,
-		},
-		{
 			bidFloor:         -1,
 			bidFloorCur:      "CZK",
 			setMock:          func(m *mock.Mock) {},

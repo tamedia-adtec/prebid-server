@@ -75,8 +75,7 @@
             "buyeruid": "8299345306627569435"
           },
           "tmax": 500
-        },
-        "impIDs":["some-imp-id:opa:native"]
+        }
       },
       "mockResponse": {
         "status": 200,
@@ -153,8 +152,7 @@
             "buyeruid": "8299345306627569435"
           },
           "tmax": 500
-        },
-        "impIDs":["some-imp-id:opa:banner"]
+        }
       },
       "mockResponse": {
         "status": 200,

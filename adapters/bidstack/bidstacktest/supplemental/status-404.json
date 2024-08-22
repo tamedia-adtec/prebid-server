@@ -66,8 +66,7 @@
               }
             }
           ]
-        },
-        "impIDs":["imp-id-1"]
+        }
       },
       "mockResponse": {
         "status": 404,

@@ -49,7 +49,6 @@ func (a *adapter) MakeRequests(openRTBRequest *openrtb2.BidRequest, requestInfo 
 		Uri:     a.endpointURL,
 		Body:    openRTBRequestJSON,
 		Headers: headers,
-		ImpIDs:  openrtb_ext.GetImpIDs(openRTBRequest.Imp),
 	}), nil
 }
 

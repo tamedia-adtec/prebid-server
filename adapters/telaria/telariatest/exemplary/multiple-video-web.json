@@ -141,8 +141,7 @@
               "custom": "1234"
             }
           }
-        },
-        "impIDs":["0_0"]
+        }
       },
       "mockResponse": {
         "status": 200,

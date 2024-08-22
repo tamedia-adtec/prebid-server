@@ -64,6 +64,7 @@ func (adapter *DmxAdapter) MakeRequests(request *openrtb2.BidRequest, req *adapt
 	var publisherId string
 	var sellerId string
 	var userExt openrtb_ext.ExtUser
+	var anyHasId = false
 	var reqCopy openrtb2.BidRequest = *request
 	var dmxReq *openrtb2.BidRequest = &reqCopy
 	var dmxRawPubId dmxPubExt
@@ -84,7 +85,6 @@ func (adapter *DmxAdapter) MakeRequests(request *openrtb2.BidRequest, req *adapt
 		}
 	}
 
-	hasNoID := true
 	if request.App != nil {
 		appCopy := *request.App
 		appPublisherCopy := *request.App.Publisher
@@ -101,12 +101,12 @@ func (adapter *DmxAdapter) MakeRequests(request *openrtb2.BidRequest, req *adapt
 		}
 		dmxReq.App.Publisher.Ext = ext
 		if dmxReq.App.ID != "" {
-			hasNoID = false
+			anyHasId = true
 		}
-		if hasNoID {
+		if anyHasId == false {
 			if idfa, valid := getIdfa(request); valid {
 				dmxReq.App.ID = idfa
-				hasNoID = false
+				anyHasId = true
 			}
 		}
 	} else {
@@ -145,12 +145,12 @@ func (adapter *DmxAdapter) MakeRequests(request *openrtb2.BidRequest, req *adapt
 
 	if dmxReq.User != nil {
 		if dmxReq.User.ID != "" {
-			hasNoID = false
+			anyHasId = true
 		}
 		if dmxReq.User.Ext != nil {
 			if err := json.Unmarshal(dmxReq.User.Ext, &userExt); err == nil {
 				if len(userExt.Eids) > 0 {
-					hasNoID = false
+					anyHasId = true
 				}
 			}
 		}
@@ -190,7 +190,7 @@ func (adapter *DmxAdapter) MakeRequests(request *openrtb2.BidRequest, req *adapt
 
 	dmxReq.Imp = imps
 
-	if hasNoID {
+	if anyHasId == false {
 		return nil, []error{errors.New("This request contained no identifier")}
 	}
 
@@ -208,7 +208,6 @@ func (adapter *DmxAdapter) MakeRequests(request *openrtb2.BidRequest, req *adapt
 		Uri:     adapter.endpoint + addParams(sellerId), //adapter.endpoint,
 		Body:    oJson,
 		Headers: headers,
-		ImpIDs:  openrtb_ext.GetImpIDs(dmxReq.Imp),
 	}
 
 	reqsBidder = append(reqsBidder, reqBidder)
@@ -224,13 +223,13 @@ func (adapter *DmxAdapter) MakeBids(request *openrtb2.BidRequest, externalReques
 
 	if http.StatusBadRequest == response.StatusCode {
 		return nil, []error{&errortypes.BadInput{
-			Message: "Unexpected status code 400",
+			Message: fmt.Sprintf("Unexpected status code 400"),
 		}}
 	}
 
 	if http.StatusOK != response.StatusCode {
 		return nil, []error{&errortypes.BadInput{
-			Message: "Unexpected response no status code",
+			Message: fmt.Sprintf("Unexpected response no status code"),
 		}}
 	}
 
@@ -264,36 +263,37 @@ func (adapter *DmxAdapter) MakeBids(request *openrtb2.BidRequest, externalReques
 }
 
 func fetchParams(params dmxExt, inst openrtb2.Imp, ins openrtb2.Imp, imps []openrtb2.Imp, banner *openrtb2.Banner, video *openrtb2.Video, intVal int8) []openrtb2.Imp {
-	tempImp := inst
+	var tempimp openrtb2.Imp
+	tempimp = inst
 	if params.Bidder.Bidfloor != 0 {
-		tempImp.BidFloor = params.Bidder.Bidfloor
+		tempimp.BidFloor = params.Bidder.Bidfloor
 	}
 	if params.Bidder.TagId != "" {
-		tempImp.TagID = params.Bidder.TagId
-		tempImp.Secure = &intVal
+		tempimp.TagID = params.Bidder.TagId
+		tempimp.Secure = &intVal
 	}
 
 	if params.Bidder.DmxId != "" {
-		tempImp.TagID = params.Bidder.DmxId
-		tempImp.Secure = &intVal
+		tempimp.TagID = params.Bidder.DmxId
+		tempimp.Secure = &intVal
 	}
 	if banner != nil {
 		if banner.H == nil || banner.W == nil {
 			banner.H = &banner.Format[0].H
 			banner.W = &banner.Format[0].W
 		}
-		tempImp.Banner = banner
+		tempimp.Banner = banner
 	}
 
 	if video != nil {
 		video.Protocols = checkProtocols(video)
-		tempImp.Video = video
+		tempimp.Video = video
 	}
 
-	if tempImp.TagID == "" {
+	if tempimp.TagID == "" {
 		return imps
 	}
-	imps = append(imps, tempImp)
+	imps = append(imps, tempimp)
 	return imps
 }
 

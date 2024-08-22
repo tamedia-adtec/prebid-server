@@ -50,7 +50,6 @@ func (a *adapter) MakeRequests(
 		Body:    reqJSON,
 		Uri:     a.URI,
 		Headers: headers,
-		ImpIDs:  openrtb_ext.GetImpIDs(openRTBRequest.Imp),
 	}}, nil
 }
 
@@ -92,7 +91,7 @@ func (a *adapter) MakeBids(
 
 	if len(bidResp.SeatBid) == 0 {
 		return nil, []error{&errortypes.BadServerResponse{
-			Message: "Empty seatbid",
+			Message: fmt.Sprintf("Empty seatbid"),
 		}}
 	}
 

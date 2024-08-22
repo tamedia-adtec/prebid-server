@@ -37,8 +37,7 @@
                     "bidfloor": 1.25,
                     "bidfloorcur": "USD"
                 }]
-            },
-            "impIDs":["some_test_ad"]
+            }
         },
         "mockResponse": {
           "status": 200,

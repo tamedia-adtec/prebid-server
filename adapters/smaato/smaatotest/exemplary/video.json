@@ -22,13 +22,6 @@
                     "linearity": 1,
                     "skip": 1,
                     "skipmin": 5,
-                    "poddur": 1,
-                    "rqddurs": [
-                        5,
-                        10,
-                        15,
-                        30
-                    ],
                     "api": [
                         7
                     ],
@@ -69,18 +62,7 @@
                 "gdpr": 1,
                 "us_privacy": "uspConsentString",
                 "gpp": "gppString",
-                "gpp_sid": [7],
-                "dsa": {
-                    "dsarequired": 1,
-                    "pubrender": 1,
-                    "datatopub": 1,
-                    "transparency": [
-                        {
-                            "domain": "testdomain.com",
-                            "dsaparams": [1,3]
-                        }
-                    ]
-                }
+                "gpp_sid": [7]
             }
         },
         "ext": {
@@ -130,13 +112,6 @@
                                 "linearity": 1,
                                 "maxduration": 30,
                                 "skip": 1,
-                                "poddur": 1,
-                                "rqddurs": [
-                                    5,
-                                    10,
-                                    15,
-                                    30
-                                ],
                                 "protocols": [
                                     7
                                 ],
@@ -157,18 +132,7 @@
                             "gdpr": 1,
                             "us_privacy": "uspConsentString",
                             "gpp": "gppString",
-                            "gpp_sid": [7],
-                            "dsa": {
-                                "dsarequired": 1,
-                                "pubrender": 1,
-                                "datatopub": 1,
-                                "transparency": [
-                                    {
-                                        "domain": "testdomain.com",
-                                        "dsaparams": [1,3]
-                                    }
-                                ]
-                            }
+                            "gpp_sid": [7]
                         }
                     },
                     "device": {
@@ -180,16 +144,12 @@
                         }
                     },
                     "ext": {
-                        "client": "prebid_server_1.1"
+                        "client": "prebid_server_0.6"
                     }
-                },
-                "impIDs":["postbid_iframe"]
+                }
             },
             "mockResponse": {
                 "status": 200,
-                "headers": {
-                    "X-Smt-Adtype": ["Video"]
-                },
                 "body": {
                     "id": "5ebea288-f13a-4754-be6d-4ade66c68877",
                     "seatbid": [
@@ -210,20 +170,7 @@
                                     "nurl": "https://nurl",
                                     "price": 0.01,
                                     "w": 1024,
-                                    "h": 768,
-                                    "ext": {
-                                        "dsa": {
-                                            "behalf": "Advertiser",
-                                            "paid": "Advertiser",
-                                            "adrender": 1,
-                                            "transparency": [
-                                                {
-                                                    "domain": "dsp1domain.com",
-                                                    "dsaparams": [1,3]
-                                                }
-                                            ]
-                                        }
-                                    }
+                                    "h": 768
                                 }
                             ]
                         }
@@ -253,20 +200,7 @@
                         "price": 0.01,
                         "w": 1024,
                         "h": 768,
-                        "exp": 300,
-                        "ext": {
-                            "dsa": {
-                                "behalf": "Advertiser",
-                                "paid": "Advertiser",
-                                "adrender": 1,
-                                "transparency": [
-                                    {
-                                        "domain": "dsp1domain.com",
-                                        "dsaparams": [1,3]
-                                    }
-                                ]
-                            }
-                        }
+                        "exp": 300
                     },
                     "type": "video"
                 }

@@ -163,8 +163,7 @@
       "tmax": 200,
       "ext": {
       }
-          },
-          "impIDs":["8b1bdcca"]
+          }
         },
         "mockResponse": {
             "status": 200,

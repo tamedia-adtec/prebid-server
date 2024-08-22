@@ -37,8 +37,7 @@
             }
           }
         }]
-      },
-      "impIDs":["Impression id #4"]
+      }
     },
 
     "mockResponse": {

@@ -62,8 +62,7 @@
               }
             }
           ]
-        },
-        "impIDs":["i3"]
+        }
       },
       "mockResponse": {
         "status": 200,

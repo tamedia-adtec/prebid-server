@@ -79,8 +79,7 @@
               "id": "pubid"
             }
           }
-        },
-        "impIDs":["id"]
+        }
       },
       "mockResponse": {
         "status": 400,

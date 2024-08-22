@@ -7,7 +7,7 @@
         "banner": {},
         "ext": {
           "bidder": {
-            "unit": "111",
+            "unit": "banner-unit-1",
             "delDomain": "se-demo-d.openx.net"
           }
         }
@@ -17,7 +17,7 @@
         "video": {"mimes": ["video/mp4"]},
         "ext": {
           "bidder": {
-            "unit": "333",
+            "unit": "video-unit-1",
             "delDomain": "se-demo-d.openx.net"
           }
         }
@@ -27,7 +27,7 @@
         "banner": {},
         "ext": {
           "bidder": {
-            "unit": "222",
+            "unit": "banner-unit-2",
             "delDomain": "se-demo-d.openx.net"
           }
         }
@@ -37,7 +37,7 @@
         "video": {"mimes": ["video/mp4"]},
         "ext": {
           "bidder": {
-            "unit": "444",
+            "unit": "video-unit-2",
             "delDomain": "se-demo-d.openx.net"
           }
         }
@@ -48,7 +48,7 @@
         "video": {"mimes": ["video/mp4"]},
         "ext": {
           "bidder": {
-            "unit": "555",
+            "unit": "multi-type-unit",
             "delDomain": "se-demo-d.openx.net"
           }
         }
@@ -66,26 +66,25 @@
             {
               "id": "banner-imp-1",
               "banner": {},
-              "tagid": "111"
+              "tagid": "banner-unit-1"
             },
             {
               "id": "banner-imp-2",
               "banner": {},
-              "tagid": "222"
+              "tagid": "banner-unit-2"
             },
             {
               "id": "multi-type-imp",
               "banner": {},
               "video": {"mimes": ["video/mp4"]},
-              "tagid": "555"
+              "tagid": "multi-type-unit"
             }
           ],
           "ext": {
             "bc": "hb_pbs_1.0.0",
             "delDomain": "se-demo-d.openx.net"
           }
-        },
-        "impIDs":["banner-imp-1","banner-imp-2","multi-type-imp"]
+        }
       },
       "mockResponse": {
         "status": 200,
@@ -125,15 +124,14 @@
             {
               "id": "video-imp-1",
               "video": {"mimes": ["video/mp4"]},
-              "tagid": "333"
+              "tagid": "video-unit-1"
             }
           ],
           "ext": {
             "bc": "hb_pbs_1.0.0",
             "delDomain": "se-demo-d.openx.net"
           }
-        },
-        "impIDs":["video-imp-1"]
+        }
       },
       "mockResponse": {
         "status": 200,
@@ -163,15 +161,14 @@
             {
               "id": "video-imp-2",
               "video": {"mimes": ["video/mp4"]},
-              "tagid": "444"
+              "tagid": "video-unit-2"
             }
           ],
           "ext": {
             "bc": "hb_pbs_1.0.0",
             "delDomain": "se-demo-d.openx.net"
           }
-        },
-        "impIDs":["video-imp-2"]
+        }
       },
       "mockResponse": {
         "status": 200,

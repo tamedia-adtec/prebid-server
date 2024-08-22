@@ -88,8 +88,7 @@
           "buyeruid": "awesome-user"
         },
         "tmax": 1000
-      },
-      "impIDs":["some-impression-id"]
+      }
     },
     "mockResponse": {
       "status": 200,

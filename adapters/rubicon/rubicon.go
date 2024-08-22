@@ -317,11 +317,9 @@ func (a *RubiconAdapter) MakeRequests(request *openrtb2.BidRequest, reqInfo *ada
 			continue
 		}
 
-		if resolvedBidFloor >= 0 {
+		if resolvedBidFloor > 0 {
+			imp.BidFloorCur = "USD"
 			imp.BidFloor = resolvedBidFloor
-			if imp.BidFloorCur != "" {
-				imp.BidFloorCur = "USD"
-			}
 		}
 
 		if request.User != nil {
@@ -333,9 +331,14 @@ func (a *RubiconAdapter) MakeRequests(request *openrtb2.BidRequest, reqInfo *ada
 			}
 
 			userExtRP := rubiconUserExt{RP: rubiconUserExtRP{Target: target}}
+			userBuyerUID := userCopy.BuyerUID
 
 			if len(userCopy.EIDs) > 0 {
 				userExtRP.Eids = userCopy.EIDs
+
+				if userBuyerUID == "" {
+					userBuyerUID = extractUserBuyerUID(userExtRP.Eids)
+				}
 			}
 
 			if userCopy.Consent != "" {
@@ -351,6 +354,7 @@ func (a *RubiconAdapter) MakeRequests(request *openrtb2.BidRequest, reqInfo *ada
 			userCopy.Geo = nil
 			userCopy.Yob = 0
 			userCopy.Gender = ""
+			userCopy.BuyerUID = userBuyerUID
 			userCopy.EIDs = nil
 
 			rubiconRequest.User = &userCopy
@@ -454,14 +458,8 @@ func (a *RubiconAdapter) MakeRequests(request *openrtb2.BidRequest, reqInfo *ada
 		} else {
 			appCopy := *request.App
 			appCopy.Ext, err = json.Marshal(rubiconSiteExt{RP: rubiconSiteExtRP{SiteID: int(siteId)}})
-			if err != nil {
-				errs = append(errs, &errortypes.BadInput{Message: err.Error()})
-			}
 			appCopy.Publisher = &openrtb2.Publisher{}
 			appCopy.Publisher.Ext, err = json.Marshal(&pubExt)
-			if err != nil {
-				errs = append(errs, &errortypes.BadInput{Message: err.Error()})
-			}
 			rubiconRequest.App = &appCopy
 		}
 
@@ -558,7 +556,6 @@ func (a *RubiconAdapter) MakeRequests(request *openrtb2.BidRequest, reqInfo *ada
 			Uri:     a.URI,
 			Body:    reqJSON,
 			Headers: headers,
-			ImpIDs:  openrtb_ext.GetImpIDs(rubiconRequest.Imp),
 		}
 		reqData.SetBasicAuth(a.XAPIUsername, a.XAPIPassword)
 		requestData = append(requestData, reqData)
@@ -589,7 +586,7 @@ func createImpsToExtMap(imps []openrtb2.Imp) (map[*openrtb2.Imp]rubiconExtImpBid
 func prepareImpsToExtMap(impsToExtMap map[*openrtb2.Imp]rubiconExtImpBidder) map[*openrtb2.Imp]rubiconExtImpBidder {
 	preparedImpsToExtMap := make(map[*openrtb2.Imp]rubiconExtImpBidder)
 	for imp, bidderExt := range impsToExtMap {
-		if bidderExt.Bidder.BidOnMultiformat == false { //nolint: gosimple,staticcheck
+		if bidderExt.Bidder.BidOnMultiformat == false {
 			impCopy := imp
 			preparedImpsToExtMap[impCopy] = bidderExt
 			continue
@@ -916,6 +913,20 @@ func contains(s []int, e int) bool {
 	return false
 }
 
+func extractUserBuyerUID(eids []openrtb2.EID) string {
+	for _, eid := range eids {
+		if eid.Source != "rubiconproject.com" {
+			continue
+		}
+
+		for _, uid := range eid.UIDs {
+			return uid.ID
+		}
+	}
+
+	return ""
+}
+
 func isVideo(imp openrtb2.Imp) bool {
 	video := imp.Video
 	if video != nil {
@@ -927,7 +938,7 @@ func isVideo(imp openrtb2.Imp) bool {
 
 func isFullyPopulatedVideo(video *openrtb2.Video) bool {
 	// These are just recommended video fields for XAPI
-	return video.MIMEs != nil && video.Protocols != nil && video.MaxDuration != 0 && video.Linearity != 0
+	return video.MIMEs != nil && video.Protocols != nil && video.MaxDuration != 0 && video.Linearity != 0 && video.API != nil
 }
 
 func resolveNativeObject(native *openrtb2.Native, target map[string]interface{}) (*openrtb2.Native, error) {

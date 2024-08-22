@@ -47,8 +47,7 @@
               }
             }
           ]
-        },
-        "impIDs":["test-imp-publishPath-id"]
+        }
       },
       "mockResponse": {
         "status": 200,

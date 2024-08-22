@@ -42,8 +42,7 @@
     "httpCalls": [
       {
         "expectedRequest": {
-          "uri": "https://ads-demo.adhese.com/json/sl_adhese_prebid_demo_-leaderboard/ag55/cigent;brussels/tlall/xtdummy",
-          "impIDs":["test-req"]
+          "uri": "https://ads-demo.adhese.com/json/sl_adhese_prebid_demo_-leaderboard/ag55/cigent;brussels/tlall/xtdummy"
         },
         "mockResponse": {
           "status": 501,

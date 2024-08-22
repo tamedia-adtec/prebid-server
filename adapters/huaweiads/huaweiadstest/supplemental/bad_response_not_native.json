@@ -157,8 +157,7 @@
           },
           "version": "3.4",
           "clientAdRequestId": "test-req-id"
-        },
-        "impIDs":["test-imp-id"]
+        }
       },
       "mockResponse": {
         "status": 200,

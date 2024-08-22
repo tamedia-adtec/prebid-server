@@ -11,5 +11,4 @@ type Runner interface {
 	LogSetUIDObject(*SetUIDObject)
 	LogAmpObject(*AmpObject, privacy.ActivityControl)
 	LogNotificationEventObject(*NotificationEvent, privacy.ActivityControl)
-	Shutdown()
 }

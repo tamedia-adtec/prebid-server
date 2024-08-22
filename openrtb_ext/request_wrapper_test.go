@@ -705,7 +705,7 @@ func TestCloneUserExt(t *testing.T) {
 				eids[0].UIDs[1].ID = "G2"
 				eids[1].UIDs[0].AType = 0
 				eids[0].UIDs = append(eids[0].UIDs, openrtb2.UID{ID: "Z", AType: 2})
-				eids = append(eids, openrtb2.EID{Source: "Blank"}) //nolint: ineffassign, staticcheck // this value of `eids` is never used (staticcheck)
+				eids = append(eids, openrtb2.EID{Source: "Blank"})
 				userExt.eids = nil
 			},
 		},
@@ -767,13 +767,13 @@ func TestRebuildDeviceExt(t *testing.T) {
 		{
 			description:             "Nil - Dirty",
 			request:                 openrtb2.BidRequest{},
-			requestDeviceExtWrapper: DeviceExt{prebid: &prebidContent1, prebidDirty: true, cdep: "1", cdepDirty: true},
-			expectedRequest:         openrtb2.BidRequest{Device: &openrtb2.Device{Ext: json.RawMessage(`{"cdep":"1","prebid":{"interstitial":{"minwidthperc":1,"minheightperc":0}}}`)}},
+			requestDeviceExtWrapper: DeviceExt{prebid: &prebidContent1, prebidDirty: true},
+			expectedRequest:         openrtb2.BidRequest{Device: &openrtb2.Device{Ext: json.RawMessage(`{"prebid":{"interstitial":{"minwidthperc":1,"minheightperc":0}}}`)}},
 		},
 		{
 			description:             "Nil - Dirty - No Change",
 			request:                 openrtb2.BidRequest{},
-			requestDeviceExtWrapper: DeviceExt{prebid: nil, prebidDirty: true, cdep: "", cdepDirty: true},
+			requestDeviceExtWrapper: DeviceExt{prebid: nil, prebidDirty: true},
 			expectedRequest:         openrtb2.BidRequest{},
 		},
 		{
@@ -785,37 +785,37 @@ func TestRebuildDeviceExt(t *testing.T) {
 		{
 			description:             "Empty - Dirty",
 			request:                 openrtb2.BidRequest{Device: &openrtb2.Device{}},
-			requestDeviceExtWrapper: DeviceExt{prebid: &prebidContent1, prebidDirty: true, cdep: "1", cdepDirty: true},
-			expectedRequest:         openrtb2.BidRequest{Device: &openrtb2.Device{Ext: json.RawMessage(`{"cdep":"1","prebid":{"interstitial":{"minwidthperc":1,"minheightperc":0}}}`)}},
+			requestDeviceExtWrapper: DeviceExt{prebid: &prebidContent1, prebidDirty: true},
+			expectedRequest:         openrtb2.BidRequest{Device: &openrtb2.Device{Ext: json.RawMessage(`{"prebid":{"interstitial":{"minwidthperc":1,"minheightperc":0}}}`)}},
 		},
 		{
 			description:             "Empty - Dirty - No Change",
 			request:                 openrtb2.BidRequest{Device: &openrtb2.Device{}},
-			requestDeviceExtWrapper: DeviceExt{prebid: nil, prebidDirty: true, cdep: "", cdepDirty: true},
+			requestDeviceExtWrapper: DeviceExt{prebid: nil, prebidDirty: true},
 			expectedRequest:         openrtb2.BidRequest{Device: &openrtb2.Device{}},
 		},
 		{
 			description:             "Populated - Not Dirty",
-			request:                 openrtb2.BidRequest{Device: &openrtb2.Device{Ext: json.RawMessage(`{"cdep":"1","prebid":{"interstitial":{"minwidthperc":1,"minheightperc":0}}}`)}},
+			request:                 openrtb2.BidRequest{Device: &openrtb2.Device{Ext: json.RawMessage(`{"prebid":{"interstitial":{"minwidthperc":1,"minheightperc":0}}}`)}},
 			requestDeviceExtWrapper: DeviceExt{},
-			expectedRequest:         openrtb2.BidRequest{Device: &openrtb2.Device{Ext: json.RawMessage(`{"cdep":"1","prebid":{"interstitial":{"minwidthperc":1,"minheightperc":0}}}`)}},
+			expectedRequest:         openrtb2.BidRequest{Device: &openrtb2.Device{Ext: json.RawMessage(`{"prebid":{"interstitial":{"minwidthperc":1,"minheightperc":0}}}`)}},
 		},
 		{
 			description:             "Populated - Dirty",
-			request:                 openrtb2.BidRequest{Device: &openrtb2.Device{Ext: json.RawMessage(`{"cdep":"1","prebid":{"interstitial":{"minwidthperc":1,"minheightperc":0}}}`)}},
-			requestDeviceExtWrapper: DeviceExt{prebid: &prebidContent2, prebidDirty: true, cdep: "2", cdepDirty: true},
-			expectedRequest:         openrtb2.BidRequest{Device: &openrtb2.Device{Ext: json.RawMessage(`{"cdep":"2","prebid":{"interstitial":{"minwidthperc":2,"minheightperc":0}}}`)}},
+			request:                 openrtb2.BidRequest{Device: &openrtb2.Device{Ext: json.RawMessage(`{"prebid":{"interstitial":{"minwidthperc":1,"minheightperc":0}}}`)}},
+			requestDeviceExtWrapper: DeviceExt{prebid: &prebidContent2, prebidDirty: true},
+			expectedRequest:         openrtb2.BidRequest{Device: &openrtb2.Device{Ext: json.RawMessage(`{"prebid":{"interstitial":{"minwidthperc":2,"minheightperc":0}}}`)}},
 		},
 		{
 			description:             "Populated - Dirty - No Change",
-			request:                 openrtb2.BidRequest{Device: &openrtb2.Device{Ext: json.RawMessage(`{"cdep":"1","prebid":{"interstitial":{"minwidthperc":1,"minheightperc":0}}}`)}},
-			requestDeviceExtWrapper: DeviceExt{prebid: &prebidContent1, prebidDirty: true, cdep: "1", cdepDirty: true},
-			expectedRequest:         openrtb2.BidRequest{Device: &openrtb2.Device{Ext: json.RawMessage(`{"cdep":"1","prebid":{"interstitial":{"minwidthperc":1,"minheightperc":0}}}`)}},
+			request:                 openrtb2.BidRequest{Device: &openrtb2.Device{Ext: json.RawMessage(`{"prebid":{"interstitial":{"minwidthperc":1,"minheightperc":0}}}`)}},
+			requestDeviceExtWrapper: DeviceExt{prebid: &prebidContent1, prebidDirty: true},
+			expectedRequest:         openrtb2.BidRequest{Device: &openrtb2.Device{Ext: json.RawMessage(`{"prebid":{"interstitial":{"minwidthperc":1,"minheightperc":0}}}`)}},
 		},
 		{
 			description:             "Populated - Dirty - Cleared",
-			request:                 openrtb2.BidRequest{Device: &openrtb2.Device{Ext: json.RawMessage(`{"cdep":"1","prebid":{"interstitial":{"minwidthperc":1,"minheightperc":0}}}`)}},
-			requestDeviceExtWrapper: DeviceExt{prebid: nil, prebidDirty: true, cdep: "", cdepDirty: true},
+			request:                 openrtb2.BidRequest{Device: &openrtb2.Device{Ext: json.RawMessage(`{"prebid":{"interstitial":{"minwidthperc":1,"minheightperc":0}}}`)}},
+			requestDeviceExtWrapper: DeviceExt{prebid: nil, prebidDirty: true},
 			expectedRequest:         openrtb2.BidRequest{Device: &openrtb2.Device{}},
 		},
 	}
@@ -1014,8 +1014,6 @@ func TestCloneDeviceExt(t *testing.T) {
 				prebid: &ExtDevicePrebid{
 					Interstitial: &ExtDeviceInt{MinWidthPerc: 65.0, MinHeightPerc: 75.0},
 				},
-				cdep:      "1",
-				cdepDirty: true,
 			},
 			devExtCopy: &DeviceExt{
 				ext:      map[string]json.RawMessage{"A": json.RawMessage(`{}`), "B": json.RawMessage(`{"foo":"bar"}`)},
@@ -1023,8 +1021,6 @@ func TestCloneDeviceExt(t *testing.T) {
 				prebid: &ExtDevicePrebid{
 					Interstitial: &ExtDeviceInt{MinWidthPerc: 65.0, MinHeightPerc: 75.0},
 				},
-				cdep:      "1",
-				cdepDirty: true,
 			},
 			mutator: func(t *testing.T, devExt *DeviceExt) {},
 		},
@@ -1036,8 +1032,6 @@ func TestCloneDeviceExt(t *testing.T) {
 				prebid: &ExtDevicePrebid{
 					Interstitial: &ExtDeviceInt{MinWidthPerc: 65.0, MinHeightPerc: 75.0},
 				},
-				cdep:      "1",
-				cdepDirty: true,
 			},
 			devExtCopy: &DeviceExt{
 				ext:      map[string]json.RawMessage{"A": json.RawMessage(`{}`), "B": json.RawMessage(`{"foo":"bar"}`)},
@@ -1045,8 +1039,6 @@ func TestCloneDeviceExt(t *testing.T) {
 				prebid: &ExtDevicePrebid{
 					Interstitial: &ExtDeviceInt{MinWidthPerc: 65, MinHeightPerc: 75},
 				},
-				cdep:      "1",
-				cdepDirty: true,
 			},
 			mutator: func(t *testing.T, devExt *DeviceExt) {
 				devExt.ext["A"] = json.RawMessage(`"string"`)
@@ -1055,8 +1047,6 @@ func TestCloneDeviceExt(t *testing.T) {
 				devExt.prebid.Interstitial.MinHeightPerc = 55
 				devExt.prebid.Interstitial = &ExtDeviceInt{MinWidthPerc: 80}
 				devExt.prebid = nil
-				devExt.cdep = ""
-				devExt.cdepDirty = true
 			},
 		},
 	}
@@ -2079,7 +2069,7 @@ func TestRebuildRegExt(t *testing.T) {
 		{
 			name:    "req_regs_nil_-_dirty_and_different_-_change",
 			request: openrtb2.BidRequest{},
-			regExt:  RegExt{dsa: &ExtRegsDSA{Required: ptrutil.ToPtr[int8](1)}, dsaDirty: true, gdpr: ptrutil.ToPtr[int8](1), gdprDirty: true, usPrivacy: strA, usPrivacyDirty: true},
+			regExt:  RegExt{dsa: &ExtRegsDSA{Required: 1}, dsaDirty: true, gdpr: ptrutil.ToPtr[int8](1), gdprDirty: true, usPrivacy: strA, usPrivacyDirty: true},
 			expectedRequest: openrtb2.BidRequest{
 				Regs: &openrtb2.Regs{
 					Ext: json.RawMessage(`{"dsa":{"dsarequired":1},"gdpr":1,"us_privacy":"a"}`),
@@ -2095,7 +2085,7 @@ func TestRebuildRegExt(t *testing.T) {
 		{
 			name:    "req_regs_ext_nil_-_dirty_and_different_-_change",
 			request: openrtb2.BidRequest{Regs: &openrtb2.Regs{}},
-			regExt:  RegExt{dsa: &ExtRegsDSA{Required: ptrutil.ToPtr[int8](1)}, dsaDirty: true, gdpr: ptrutil.ToPtr[int8](1), gdprDirty: true, usPrivacy: strA, usPrivacyDirty: true},
+			regExt:  RegExt{dsa: &ExtRegsDSA{Required: 1}, dsaDirty: true, gdpr: ptrutil.ToPtr[int8](1), gdprDirty: true, usPrivacy: strA, usPrivacyDirty: true},
 			expectedRequest: openrtb2.BidRequest{
 				Regs: &openrtb2.Regs{
 					Ext: json.RawMessage(`{"dsa":{"dsarequired":1},"gdpr":1,"us_privacy":"a"}`),
@@ -2111,13 +2101,13 @@ func TestRebuildRegExt(t *testing.T) {
 		{
 			name:            "req_regs_dsa_populated_-_dirty_and_different-_change",
 			request:         openrtb2.BidRequest{Regs: &openrtb2.Regs{Ext: json.RawMessage(`{"dsa":{"dsarequired":1}}`)}},
-			regExt:          RegExt{dsa: &ExtRegsDSA{Required: ptrutil.ToPtr[int8](2)}, dsaDirty: true},
+			regExt:          RegExt{dsa: &ExtRegsDSA{Required: 2}, dsaDirty: true},
 			expectedRequest: openrtb2.BidRequest{Regs: &openrtb2.Regs{Ext: json.RawMessage(`{"dsa":{"dsarequired":2}}`)}},
 		},
 		{
 			name:            "req_regs_dsa_populated_-_dirty_and_same_-_no_change",
 			request:         openrtb2.BidRequest{Regs: &openrtb2.Regs{Ext: json.RawMessage(`{"dsa":{"dsarequired":1}}`)}},
-			regExt:          RegExt{dsa: &ExtRegsDSA{Required: ptrutil.ToPtr[int8](1)}, dsaDirty: true},
+			regExt:          RegExt{dsa: &ExtRegsDSA{Required: 1}, dsaDirty: true},
 			expectedRequest: openrtb2.BidRequest{Regs: &openrtb2.Regs{Ext: json.RawMessage(`{"dsa":{"dsarequired":1}}`)}},
 		},
 		{
@@ -2225,7 +2215,7 @@ func TestRegExtUnmarshal(t *testing.T) {
 			regExt:  &RegExt{},
 			extJson: json.RawMessage(`{"dsa":{"dsarequired":1}}`),
 			expectDSA: &ExtRegsDSA{
-				Required: ptrutil.ToPtr[int8](1),
+				Required: 1,
 			},
 			expectError: false,
 		},
@@ -2234,7 +2224,7 @@ func TestRegExtUnmarshal(t *testing.T) {
 			regExt:  &RegExt{},
 			extJson: json.RawMessage(`{"dsa":{"dsarequired":""}}`),
 			expectDSA: &ExtRegsDSA{
-				Required: ptrutil.ToPtr[int8](0),
+				Required: 0,
 			},
 			expectError: true,
 		},
@@ -2309,7 +2299,7 @@ func TestRegExtGetDSASetDSA(t *testing.T) {
 	assert.False(t, regExt.Dirty())
 
 	dsa := &ExtRegsDSA{
-		Required: ptrutil.ToPtr[int8](2),
+		Required: 2,
 	}
 	regExt.SetDSA(dsa)
 	assert.True(t, regExt.Dirty())

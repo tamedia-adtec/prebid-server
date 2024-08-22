@@ -1,13 +1,10 @@
-name: Adapter Code Coverage
-
+name: Adapter code coverage
 on:
   pull_request_target:
     paths: ["adapters/*/*.go"]
-
 permissions:
   pull-requests: write
   contents: write
-
 jobs:
   run-coverage:
     runs-on: ubuntu-latest
@@ -15,16 +12,16 @@ jobs:
       - name: Install Go
         uses: actions/setup-go@v5
         with:
-          go-version: 1.22.3
+          go-version: 1.20.5
 
-      - name: Checkout Code
+      - name: Checkout pull request branch
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
           ref: ${{github.event.pull_request.head.ref}}
           repository: ${{github.event.pull_request.head.repo.full_name}}
 
-      - name: Discover Adapter Directories
+      - name: Get adapter directories
         id: get_directories
         uses: actions/github-script@v7
         with:
@@ -43,7 +40,7 @@ jobs:
             // run coverage for maximum of 2 directories
             return (directories.length == 0 || directories.length > 2) ? "" : JSON.stringify(directories)
 
-      - name: Run Coverage Tests
+      - name: Run coverage tests
         id: run_coverage
         if: steps.get_directories.outputs.result != ''
         run: |
@@ -70,14 +67,14 @@ jobs:
           cd ..
           rm -f -r ./*
 
-      - name: Checkout Coverage Preview Branch
+      - name: Checkout coverage-preview branch
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
           ref: coverage-preview
           repository: prebid/prebid-server
 
-      - name: Upload Coverage Results
+      - name: Commit coverage files to coverage-preview branch
         if: steps.run_coverage.outputs.coverage_dir != ''
         id: commit_coverage
         run: |
@@ -91,11 +88,11 @@ jobs:
           git push origin coverage-preview
           echo "remote_coverage_preview_dir=${directory}" >> $GITHUB_OUTPUT
 
-      - name: Checkout Master Branch
+      - name: Checkout master branch
         if: steps.get_directories.outputs.result != ''
         run: git checkout master
 
-      - name: Add Coverage Summary To Pull Request
+      - name: Add coverage summary to pull request
         if: steps.run_coverage.outputs.coverage_dir != '' && steps.commit_coverage.outputs.remote_coverage_preview_dir != ''
         uses: actions/github-script@v7
         with:

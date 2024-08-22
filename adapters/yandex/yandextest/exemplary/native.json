@@ -85,8 +85,7 @@
             "language": "EN"
           },
           "tmax": 500
-        },
-        "impIDs":["imp_id"]
+        }
       },
       "mockResponse": {
         "status": 200,

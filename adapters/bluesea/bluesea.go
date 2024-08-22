@@ -67,7 +67,6 @@ func (a *adapter) MakeRequests(request *openrtb2.BidRequest, requestInfo *adapte
 			Uri:     fmt.Sprintf("%s?%s", a.endpoint, queryString),
 			Body:    reqJson,
 			Headers: headers,
-			ImpIDs:  openrtb_ext.GetImpIDs(request.Imp),
 		}
 		requestDatas = append(requestDatas, requestData)
 	}
@@ -97,7 +96,7 @@ func extraImpExt(imp *openrtb2.Imp) (*openrtb_ext.ExtImpBluesea, error) {
 	}
 	if len(blueseaImpExt.PubId) == 0 || len(blueseaImpExt.Token) == 0 {
 		return nil, &errortypes.BadInput{
-			Message: "Error in parsing imp.ext.bidder, empty pubid or token",
+			Message: fmt.Sprintf("Error in parsing imp.ext.bidder, empty pubid or token"),
 		}
 	}
 	return &blueseaImpExt, nil

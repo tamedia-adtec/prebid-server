@@ -99,7 +99,6 @@ func (a *ImprovedigitalAdapter) makeRequest(request openrtb2.BidRequest, imp ope
 		Uri:     a.buildEndpointURL(imp),
 		Body:    reqJSON,
 		Headers: headers,
-		ImpIDs:  openrtb_ext.GetImpIDs(request.Imp),
 	}, nil
 }
 

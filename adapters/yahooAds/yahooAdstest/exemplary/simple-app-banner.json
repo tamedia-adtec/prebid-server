@@ -69,8 +69,7 @@
           "app": {
             "id": "dcn1"
           }
-        },
-        "impIDs":["test-imp-id"]
+        }
       },
       "mockResponse": {
         "status": 200,

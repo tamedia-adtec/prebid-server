@@ -78,8 +78,7 @@
                     "user":{
                        "key":"1234"
                     }
-                },
-                "impIDs":["test-imp-id"]
+                }
             },
             "mockResponse": {
                 "status": 200,

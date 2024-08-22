@@ -29,7 +29,6 @@ type bidRequestExt struct {
 }
 
 // bidExt.CreativeType values.
-// nolint: staticcheck // staticcheck SA9004: only the first constant in this group has an explicit type
 const (
 	creativeTypeBanner string = "BANNER"
 	creativeTypeVideo         = "VIDEO"
@@ -141,7 +140,6 @@ func (s *SmartRTBAdapter) MakeRequests(brq *openrtb2.BidRequest, reqInfo *adapte
 		Uri:     url,
 		Body:    rq,
 		Headers: headers,
-		ImpIDs:  openrtb_ext.GetImpIDs(brq.Imp),
 	}}, errs
 }
 

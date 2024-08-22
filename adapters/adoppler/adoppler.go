@@ -91,7 +91,6 @@ func (ads *AdopplerAdapter) MakeRequests(
 			Uri:     uri,
 			Body:    body,
 			Headers: bidHeaders,
-			ImpIDs:  openrtb_ext.GetImpIDs(r.Imp),
 		}
 		datas = append(datas, data)
 	}

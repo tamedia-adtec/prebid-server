@@ -33,9 +33,6 @@ type adnAdunit struct {
 type extDeviceAdnuntius struct {
 	NoCookies bool `json:"noCookies,omitempty"`
 }
-type siteExt struct {
-	Data interface{} `json:"data"`
-}
 
 type Ad struct {
 	Bid struct {
@@ -74,10 +71,9 @@ type adnMetaData struct {
 	Usi string `json:"usi,omitempty"`
 }
 type adnRequest struct {
-	AdUnits   []adnAdunit `json:"adUnits"`
-	MetaData  adnMetaData `json:"metaData,omitempty"`
-	Context   string      `json:"context,omitempty"`
-	KeyValues interface{} `json:"kv,omitempty"`
+	AdUnits  []adnAdunit `json:"adUnits"`
+	MetaData adnMetaData `json:"metaData,omitempty"`
+	Context  string      `json:"context,omitempty"`
 }
 
 type RequestExt struct {
@@ -142,6 +138,7 @@ func makeEndpointUrl(ortbRequest openrtb2.BidRequest, a *adapter, noCookies bool
 		if deviceExt.NoCookies {
 			noCookies = true
 		}
+
 	}
 
 	_, offset := a.time.Now().Zone()
@@ -162,7 +159,7 @@ func makeEndpointUrl(ortbRequest openrtb2.BidRequest, a *adapter, noCookies bool
 	}
 
 	q.Set("tzo", fmt.Sprint(tzo))
-	q.Set("format", "prebid")
+	q.Set("format", "json")
 
 	url := endpointUrl + "?" + q.Encode()
 	return url, nil
@@ -218,7 +215,7 @@ func (a *adapter) generateRequests(ortbRequest openrtb2.BidRequest) ([]*adapters
 			}}
 		}
 
-		if adnuntiusExt.NoCookies {
+		if adnuntiusExt.NoCookies == true {
 			noCookies = true
 		}
 
@@ -252,31 +249,11 @@ func (a *adapter) generateRequests(ortbRequest openrtb2.BidRequest) ([]*adapters
 		site = ortbRequest.Site.Page
 	}
 
-	extSite, erro := getSiteExtAsKv(&ortbRequest)
-	if erro != nil {
-		return nil, []error{fmt.Errorf("failed to parse site Ext: %v", err)}
-	}
-
 	for _, networkAdunits := range networkAdunitMap {
 
 		adnuntiusRequest := adnRequest{
-			AdUnits:   networkAdunits,
-			Context:   site,
-			KeyValues: extSite.Data,
-		}
-
-		var extUser openrtb_ext.ExtUser
-		if ortbRequest.User != nil && ortbRequest.User.Ext != nil {
-			if err := json.Unmarshal(ortbRequest.User.Ext, &extUser); err != nil {
-				return nil, []error{fmt.Errorf("failed to parse Ext User: %v", err)}
-			}
-		}
-
-		// Will change when our adserver can accept multiple user IDS
-		if extUser.Eids != nil && len(extUser.Eids) > 0 {
-			if len(extUser.Eids[0].UIDs) > 0 {
-				adnuntiusRequest.MetaData.Usi = extUser.Eids[0].UIDs[0].ID
-			}
+			AdUnits: networkAdunits,
+			Context: site,
 		}
 
 		ortbUser := ortbRequest.User
@@ -299,7 +276,6 @@ func (a *adapter) generateRequests(ortbRequest openrtb2.BidRequest) ([]*adapters
 			Uri:     endpoint,
 			Body:    adnJson,
 			Headers: headers,
-			ImpIDs:  openrtb_ext.GetImpIDs(ortbRequest.Imp),
 		})
 
 	}
@@ -332,16 +308,6 @@ func (a *adapter) MakeBids(request *openrtb2.BidRequest, externalRequest *adapte
 	}
 
 	return bidResponse, nil
-}
-
-func getSiteExtAsKv(request *openrtb2.BidRequest) (siteExt, error) {
-	var extSite siteExt
-	if request.Site != nil && request.Site.Ext != nil {
-		if err := json.Unmarshal(request.Site.Ext, &extSite); err != nil {
-			return extSite, fmt.Errorf("failed to parse ExtSite in Adnuntius: %v", err)
-		}
-	}
-	return extSite, nil
 }
 
 func getGDPR(request *openrtb2.BidRequest) (string, string, error) {
@@ -463,7 +429,7 @@ func generateBidResponse(adnResponse *AdnResponse, request *openrtb2.BidRequest)
 			adBid, err := generateAdResponse(ad, imp, adunit.Html, request)
 			if err != nil {
 				return nil, []error{&errortypes.BadInput{
-					Message: "Error at ad generation",
+					Message: fmt.Sprintf("Error at ad generation"),
 				}}
 			}
 
@@ -476,7 +442,7 @@ func generateBidResponse(adnResponse *AdnResponse, request *openrtb2.BidRequest)
 				dealBid, err := generateAdResponse(deal, imp, deal.Html, request)
 				if err != nil {
 					return nil, []error{&errortypes.BadInput{
-						Message: "Error at ad generation",
+						Message: fmt.Sprintf("Error at ad generation"),
 					}}
 				}
 

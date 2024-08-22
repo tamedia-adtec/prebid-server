@@ -48,8 +48,7 @@
             },
             "tagid": "12345"
           }]
-        },
-        "impIDs":["test-imp-id","test-imp-id-2"]
+        }
       },
       "mockResponse": {
         "status": 200,

@@ -81,7 +81,6 @@ func (a *AdmixerAdapter) makeRequest(request *openrtb2.BidRequest) (*adapters.Re
 		Uri:     a.endpoint,
 		Body:    reqJSON,
 		Headers: headers,
-		ImpIDs:  openrtb_ext.GetImpIDs(request.Imp),
 	}, errs
 }
 

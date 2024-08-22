@@ -1,2 +1,0 @@
-endpoint: "http://felixads-prebid.smart-hub.io/pbserver/?seat={{.AccountID}}&token={{.SourceId}}"
-aliasOf: "smarthub"

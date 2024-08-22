@@ -38,7 +38,6 @@ func (a *AvocetAdapter) MakeRequests(request *openrtb2.BidRequest, reqInfo *adap
 		Uri:     a.Endpoint,
 		Body:    body,
 		Headers: headers,
-		ImpIDs:  openrtb_ext.GetImpIDs(request.Imp),
 	}
 	return []*adapters.RequestData{reqData}, nil
 }
@@ -102,9 +101,6 @@ func (a *AvocetAdapter) MakeBids(internalRequest *openrtb2.BidRequest, externalR
 			}
 			bidResponse.Bids = append(bidResponse.Bids, tbid)
 		}
-	}
-	if len(errs) > 0 {
-		return nil, errs
 	}
 	return bidResponse, nil
 }

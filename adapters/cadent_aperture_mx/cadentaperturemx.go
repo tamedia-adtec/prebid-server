@@ -38,11 +38,11 @@ func (a *adapter) MakeRequests(request *openrtb2.BidRequest, reqInfo *adapters.E
 
 	if len(request.Imp) == 0 {
 		return nil, []error{&errortypes.BadInput{
-			Message: "No Imps in Bid Request",
+			Message: fmt.Sprintf("No Imps in Bid Request"),
 		}}
 	}
 
-	if errs := preprocess(request); len(errs) > 0 {
+	if errs := preprocess(request); errs != nil && len(errs) > 0 {
 		return nil, append(errs, &errortypes.BadInput{
 			Message: fmt.Sprintf("Error in preprocess of Imp, err: %s", errs),
 		})
@@ -51,7 +51,7 @@ func (a *adapter) MakeRequests(request *openrtb2.BidRequest, reqInfo *adapters.E
 	data, err := json.Marshal(request)
 	if err != nil {
 		return nil, []error{&errortypes.BadInput{
-			Message: "Error in packaging request to JSON",
+			Message: fmt.Sprintf("Error in packaging request to JSON"),
 		}}
 	}
 
@@ -78,7 +78,6 @@ func (a *adapter) MakeRequests(request *openrtb2.BidRequest, reqInfo *adapters.E
 		Uri:     url,
 		Body:    data,
 		Headers: headers,
-		ImpIDs:  openrtb_ext.GetImpIDs(request.Imp),
 	}}, errs
 }
 
@@ -117,7 +116,7 @@ func buildImpBanner(imp *openrtb2.Imp) error {
 
 	if imp.Banner == nil {
 		return &errortypes.BadInput{
-			Message: "Request needs to include a Banner object",
+			Message: fmt.Sprintf("Request needs to include a Banner object"),
 		}
 	}
 
@@ -127,7 +126,7 @@ func buildImpBanner(imp *openrtb2.Imp) error {
 	if banner.W == nil && banner.H == nil {
 		if len(banner.Format) == 0 {
 			return &errortypes.BadInput{
-				Message: "Need at least one size to build request",
+				Message: fmt.Sprintf("Need at least one size to build request"),
 			}
 		}
 		format := banner.Format[0]
@@ -144,13 +143,13 @@ func buildImpVideo(imp *openrtb2.Imp) error {
 
 	if len(imp.Video.MIMEs) == 0 {
 		return &errortypes.BadInput{
-			Message: "Video: missing required field mimes",
+			Message: fmt.Sprintf("Video: missing required field mimes"),
 		}
 	}
 
 	if (imp.Video.H == nil || *imp.Video.H == 0) && (imp.Video.W == nil || *imp.Video.W == 0) {
 		return &errortypes.BadInput{
-			Message: "Video: Need at least one size to build request",
+			Message: fmt.Sprintf("Video: Need at least one size to build request"),
 		}
 	}
 
@@ -192,6 +191,8 @@ func addImpProps(imp *openrtb2.Imp, secure *int8, cadentExt *openrtb_ext.ExtImpC
 			imp.BidFloorCur = "USD"
 		}
 	}
+
+	return
 }
 
 // Adding header fields to request header

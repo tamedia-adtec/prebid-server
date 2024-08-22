@@ -32,14 +32,14 @@ func (a *ConnectAdAdapter) MakeRequests(request *openrtb2.BidRequest, reqInfo *a
 
 	if errs := preprocess(request); len(errs) > 0 {
 		return nil, append(errs, &errortypes.BadInput{
-			Message: "Error in preprocess of Imp",
+			Message: fmt.Sprintf("Error in preprocess of Imp"),
 		})
 	}
 
 	data, err := json.Marshal(request)
 	if err != nil {
 		return nil, []error{&errortypes.BadInput{
-			Message: "Error in packaging request to JSON",
+			Message: fmt.Sprintf("Error in packaging request to JSON"),
 		}}
 	}
 
@@ -66,7 +66,6 @@ func (a *ConnectAdAdapter) MakeRequests(request *openrtb2.BidRequest, reqInfo *a
 		Uri:     a.endpoint,
 		Body:    data,
 		Headers: headers,
-		ImpIDs:  openrtb_ext.GetImpIDs(request.Imp),
 	}}, errs
 }
 
@@ -146,6 +145,8 @@ func addImpInfo(imp *openrtb2.Imp, secure *int8, cadExt *openrtb_ext.ExtImpConne
 		imp.BidFloor = cadExt.Bidfloor
 		imp.BidFloorCur = "USD"
 	}
+
+	return
 }
 
 func addHeaderIfNonEmpty(headers http.Header, headerName string, headerValue string) {
@@ -183,7 +184,7 @@ func buildImpBanner(imp *openrtb2.Imp) error {
 
 	if imp.Banner == nil {
 		return &errortypes.BadInput{
-			Message: "We need a Banner Object in the request",
+			Message: fmt.Sprintf("We need a Banner Object in the request"),
 		}
 	}
 
@@ -193,7 +194,7 @@ func buildImpBanner(imp *openrtb2.Imp) error {
 
 		if len(banner.Format) == 0 {
 			return &errortypes.BadInput{
-				Message: "At least one size is required",
+				Message: fmt.Sprintf("At least one size is required"),
 			}
 		}
 		format := banner.Format[0]

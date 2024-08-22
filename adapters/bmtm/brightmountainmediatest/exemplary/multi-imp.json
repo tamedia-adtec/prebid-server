@@ -75,8 +75,7 @@
               "tagid": "329"
             }
           ]
-        },
-        "impIDs":["test-imp-id1"]
+        }
       },
       "mockResponse": {
         "status": 200,
@@ -133,8 +132,7 @@
               "tagid": "329"
             }
           ]
-        },
-        "impIDs":["test-imp-id2"]
+        }
       },
       "mockResponse": {
         "status": 200,

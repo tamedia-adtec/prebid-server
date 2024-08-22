@@ -147,8 +147,7 @@
           "user": {
             "buyeruid": "test-buyer-user-id"
           }
-        },
-        "impIDs":["3"]
+        }
       },
       "mockResponse": {
         "status": 200,

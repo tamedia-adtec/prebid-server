@@ -11,17 +11,15 @@ import (
 )
 
 func TestNewPurposeEnforcerBuilder(t *testing.T) {
-	appnexus := string(openrtb_ext.BidderAppnexus)
-
 	tests := []struct {
 		description        string
 		enforceAlgo        config.TCF2EnforcementAlgo
 		enforcePurpose     bool
 		enforceVendors     bool
 		basicVendorsMap    map[string]struct{}
-		vendorExceptionMap map[string]struct{}
+		vendorExceptionMap map[openrtb_ext.BidderName]struct{}
 		purpose            consentconstants.Purpose
-		bidder             string
+		bidder             openrtb_ext.BidderName
 		wantType           PurposeEnforcer
 	}{
 		{
@@ -30,9 +28,9 @@ func TestNewPurposeEnforcerBuilder(t *testing.T) {
 			enforcePurpose:     true,
 			enforceVendors:     true,
 			basicVendorsMap:    map[string]struct{}{},
-			vendorExceptionMap: map[string]struct{}{},
+			vendorExceptionMap: map[openrtb_ext.BidderName]struct{}{},
 			purpose:            consentconstants.Purpose(1),
-			bidder:             appnexus,
+			bidder:             openrtb_ext.BidderAppnexus,
 			wantType:           &FullEnforcement{},
 		},
 		{
@@ -40,10 +38,10 @@ func TestNewPurposeEnforcerBuilder(t *testing.T) {
 			enforceAlgo:        config.TCF2FullEnforcement,
 			enforcePurpose:     true,
 			enforceVendors:     true,
-			basicVendorsMap:    map[string]struct{}{appnexus: {}},
-			vendorExceptionMap: map[string]struct{}{},
+			basicVendorsMap:    map[string]struct{}{string(openrtb_ext.BidderAppnexus): {}},
+			vendorExceptionMap: map[openrtb_ext.BidderName]struct{}{},
 			purpose:            consentconstants.Purpose(1),
-			bidder:             appnexus,
+			bidder:             openrtb_ext.BidderAppnexus,
 			wantType:           &FullEnforcement{},
 		},
 		{
@@ -52,9 +50,9 @@ func TestNewPurposeEnforcerBuilder(t *testing.T) {
 			enforcePurpose:     true,
 			enforceVendors:     true,
 			basicVendorsMap:    map[string]struct{}{},
-			vendorExceptionMap: map[string]struct{}{},
+			vendorExceptionMap: map[openrtb_ext.BidderName]struct{}{},
 			purpose:            consentconstants.Purpose(1),
-			bidder:             appnexus,
+			bidder:             openrtb_ext.BidderAppnexus,
 			wantType:           &BasicEnforcement{},
 		},
 		{
@@ -63,9 +61,9 @@ func TestNewPurposeEnforcerBuilder(t *testing.T) {
 			enforcePurpose:     true,
 			enforceVendors:     true,
 			basicVendorsMap:    map[string]struct{}{},
-			vendorExceptionMap: map[string]struct{}{},
+			vendorExceptionMap: map[openrtb_ext.BidderName]struct{}{},
 			purpose:            consentconstants.Purpose(2),
-			bidder:             appnexus,
+			bidder:             openrtb_ext.BidderAppnexus,
 			wantType:           &FullEnforcement{},
 		},
 		{
@@ -73,10 +71,10 @@ func TestNewPurposeEnforcerBuilder(t *testing.T) {
 			enforceAlgo:        config.TCF2FullEnforcement,
 			enforcePurpose:     true,
 			enforceVendors:     true,
-			basicVendorsMap:    map[string]struct{}{appnexus: {}},
-			vendorExceptionMap: map[string]struct{}{},
+			basicVendorsMap:    map[string]struct{}{string(openrtb_ext.BidderAppnexus): {}},
+			vendorExceptionMap: map[openrtb_ext.BidderName]struct{}{},
 			purpose:            consentconstants.Purpose(2),
-			bidder:             appnexus,
+			bidder:             openrtb_ext.BidderAppnexus,
 			wantType:           &BasicEnforcement{},
 		},
 		{
@@ -85,9 +83,9 @@ func TestNewPurposeEnforcerBuilder(t *testing.T) {
 			enforcePurpose:     true,
 			enforceVendors:     true,
 			basicVendorsMap:    map[string]struct{}{},
-			vendorExceptionMap: map[string]struct{}{},
+			vendorExceptionMap: map[openrtb_ext.BidderName]struct{}{},
 			purpose:            consentconstants.Purpose(2),
-			bidder:             appnexus,
+			bidder:             openrtb_ext.BidderAppnexus,
 			wantType:           &BasicEnforcement{},
 		},
 	}
@@ -111,10 +109,10 @@ func TestNewPurposeEnforcerBuilder(t *testing.T) {
 		assert.IsType(t, tt.wantType, enforcer1, tt.description)
 
 		// assert enforcer 1 config values are properly set
-		switch enforcerCasted := enforcer1.(type) {
+		switch enforcer1.(type) {
 		case *FullEnforcement:
 			{
-				fullEnforcer := enforcerCasted
+				fullEnforcer := enforcer1.(*FullEnforcement)
 				assert.Equal(t, fullEnforcer.cfg.PurposeID, tt.purpose, tt.description)
 				assert.Equal(t, fullEnforcer.cfg.EnforceAlgo, tt.enforceAlgo, tt.description)
 				assert.Equal(t, fullEnforcer.cfg.EnforcePurpose, tt.enforcePurpose, tt.description)
@@ -132,21 +130,19 @@ func TestNewPurposeEnforcerBuilder(t *testing.T) {
 				assert.Equal(t, basicEnforcer.cfg.BasicEnforcementVendorsMap, tt.basicVendorsMap, tt.description)
 				assert.Equal(t, basicEnforcer.cfg.VendorExceptionMap, tt.vendorExceptionMap, tt.description)
 			}
-		default:
-			assert.FailNow(t, "unexpected type of enforcer")
 		}
 	}
 }
 
 func TestNewPurposeEnforcerBuilderCaching(t *testing.T) {
 
-	bidder1 := string(openrtb_ext.BidderAppnexus)
+	bidder1 := openrtb_ext.BidderAppnexus
 	bidder1Enforcers := make([]PurposeEnforcer, 11)
-	bidder2 := string(openrtb_ext.BidderIx)
+	bidder2 := openrtb_ext.BidderIx
 	bidder2Enforcers := make([]PurposeEnforcer, 11)
-	bidder3 := string(openrtb_ext.BidderPubmatic)
+	bidder3 := openrtb_ext.BidderPubmatic
 	bidder3Enforcers := make([]PurposeEnforcer, 11)
-	bidder4 := string(openrtb_ext.BidderRubicon)
+	bidder4 := openrtb_ext.BidderRubicon
 	bidder4Enforcers := make([]PurposeEnforcer, 11)
 
 	cfg := fakeTCF2ConfigReader{
@@ -202,7 +198,7 @@ type fakeTCF2ConfigReader struct {
 	enforceAlgo                config.TCF2EnforcementAlgo
 	enforcePurpose             bool
 	enforceVendors             bool
-	vendorExceptionMap         map[string]struct{}
+	vendorExceptionMap         map[openrtb_ext.BidderName]struct{}
 	basicEnforcementVendorsMap map[string]struct{}
 }
 
@@ -230,7 +226,7 @@ func (fcr *fakeTCF2ConfigReader) PurposeEnforcementAlgo(purpose consentconstants
 func (fcr *fakeTCF2ConfigReader) PurposeEnforcingVendors(purpose consentconstants.Purpose) bool {
 	return fcr.enforceVendors
 }
-func (fcr *fakeTCF2ConfigReader) PurposeVendorExceptions(purpose consentconstants.Purpose) map[string]struct{} {
+func (fcr *fakeTCF2ConfigReader) PurposeVendorExceptions(purpose consentconstants.Purpose) map[openrtb_ext.BidderName]struct{} {
 	return fcr.vendorExceptionMap
 }
 func (fcr *fakeTCF2ConfigReader) PurposeOneTreatmentEnabled() bool {

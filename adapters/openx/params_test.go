@@ -40,17 +40,14 @@ func TestInvalidParams(t *testing.T) {
 }
 
 var validParams = []string{
-	`{"unit": 123, "delDomain": "foo.ba"}`,
 	`{"unit": "123", "delDomain": "foo.ba"}`,
 	`{"unit": "123", "delDomain": "foo.bar"}`,
 	`{"unit": "123", "delDomain": "foo.bar", "customFloor": 0.1}`,
-	`{"unit": "123", "delDomain": "foo.bar", "customFloor": "0.1"}`,
 	`{"unit": "123", "delDomain": "foo.bar", "customParams": {"foo": "bar"}}`,
 	`{"unit": "123", "delDomain": "foo.bar", "customParams": {"foo": ["bar", "baz"]}}`,
 }
 
 var invalidParams = []string{
-	`{"unit": "", "delDomain": "foo.bar"}`,
 	`{"unit": "123"}`,
 	`{"delDomain": "foo.bar"}`,
 	`{"unit": "", "delDomain": "foo.bar"}`,
@@ -59,10 +56,7 @@ var invalidParams = []string{
 	`{"unit": "123", "delDomain": "foo.b"}`,
 	`{"unit": "123", "delDomain": "foo.barr"}`,
 	`{"unit": "123", "delDomain": ".bar"}`,
-	`{"unit": "123", "delDomain": "foo.bar", "customFloor": ""}`,
-	`{"unit": "123", "delDomain": "foo.bar", "customFloor": "1."}`,
-	`{"unit": "123", "delDomain": "foo.bar", "customFloor": "1.0x"}`,
-	`{"unit": "123", "delDomain": "foo.bar", "customFloor": "-0.1"}`,
+	`{"unit": "123", "delDomain": "foo.bar", "customFloor": "0.1"}`,
 	`{"unit": "123", "delDomain": "foo.bar", "customFloor": -0.1}`,
 	`{"unit": "123", "delDomain": "foo.bar", "customParams": "foo: bar"}`,
 }

@@ -130,8 +130,7 @@
               }
             }
           ]
-        },
-        "impIDs":["test-imp-id-banner"]
+        }
       },
       "mockResponse": {
         "status": 200,
@@ -202,8 +201,7 @@
               }
             }
           ]
-        },
-        "impIDs":["test-imp-id-banner"]
+        }
       },
       "mockResponse": {
         "status": 200,
@@ -274,8 +272,7 @@
               }
             }
           ]
-        },
-        "impIDs":["test-imp-id-banner"]
+        }
       },
       "mockResponse": {
         "status": 200,
@@ -345,8 +342,7 @@
               }
             }
           ]
-        },
-        "impIDs":["test-imp-id-banner"]
+        }
       },
       "mockResponse": {
         "status": 200,
@@ -417,8 +413,7 @@
               }
             }
           ]
-        },
-        "impIDs":["test-imp-id-banner"]
+        }
       },
       "mockResponse": {
         "status": 200,

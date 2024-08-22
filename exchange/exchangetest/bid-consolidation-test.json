@@ -128,6 +128,7 @@
                 "origbidcpm": 0.4,
                 "prebid": {
                   "meta": {
+                    "adaptercode":"rubicon"
                   },
                   "type": "video"
                 }
@@ -149,6 +150,7 @@
                 "origbidcpm": 0.3,
                 "prebid": {
                   "meta": {
+                    "adaptercode":"appnexus"
                   },
                   "type": "video"
                 }
@@ -165,6 +167,7 @@
                 "origbidcpm": 0.6,
                 "prebid": {
                   "meta": {
+                    "adaptercode":"appnexus"
                   },
                   "type": "video"
                 }

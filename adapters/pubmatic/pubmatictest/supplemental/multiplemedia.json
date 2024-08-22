@@ -57,8 +57,7 @@
               "ext" : {
                 "prebid": {}
               }
-            },
-            "impIDs":["multiple-media-imp"]
+            }
           },
           "mockResponse": {
             "status": 200,

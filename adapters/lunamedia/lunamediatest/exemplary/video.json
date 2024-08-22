@@ -38,8 +38,7 @@
                 "h": 480
               }
           }]
-        },
-        "impIDs":["testimpid"]
+        }
       },
       "mockResponse": {
         "status": 200,

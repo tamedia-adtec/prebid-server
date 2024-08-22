@@ -41,7 +41,6 @@ func (rcv *adapter) MakeRequests(request *openrtb2.BidRequest, reqInfo *adapters
 		Uri:     rcv.uri,
 		Body:    requestBodyJSON,
 		Headers: headers,
-		ImpIDs:  openrtb_ext.GetImpIDs(request.Imp),
 	}}, errs
 }
 

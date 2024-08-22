@@ -83,8 +83,7 @@
           },
           "test": 1,
           "tmax": 500
-        },
-        "impIDs":["some-impression-id"]
+        }
       },
       "mockResponse": {
         "status": 200,

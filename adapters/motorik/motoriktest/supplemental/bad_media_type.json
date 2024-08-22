@@ -95,8 +95,7 @@
             "buyeruid": "awesome-user"
           },
           "tmax": 1000
-        },
-        "impIDs":["1"]
+        }
       },
       "mockResponse": {
         "status": 200,

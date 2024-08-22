@@ -46,8 +46,7 @@
 							}
 						}
 					]
-				},
-				"impIDs":["test-impression-id-1"]
+				}
 			},
 			"mockResponse": {
 				"status": 504,

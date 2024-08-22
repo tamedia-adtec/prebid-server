@@ -156,11 +156,6 @@ func (me *MetricsEngineMock) RecordRequestPrivacy(privacy PrivacyLabels) {
 	me.Called(privacy)
 }
 
-// RecordAdapterBuyerUIDScrubbed mock
-func (me *MetricsEngineMock) RecordAdapterBuyerUIDScrubbed(adapterName openrtb_ext.BidderName) {
-	me.Called(adapterName)
-}
-
 // RecordAdapterGDPRRequestBlocked mock
 func (me *MetricsEngineMock) RecordAdapterGDPRRequestBlocked(adapterName openrtb_ext.BidderName) {
 	me.Called(adapterName)

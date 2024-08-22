@@ -15,10 +15,7 @@ import (
 )
 
 func TestLegalBasisWithPubRestrictionAllowNone(t *testing.T) {
-	var (
-		appnexus   = string(openrtb_ext.BidderAppnexus)
-		appnexusID = uint16(32)
-	)
+	appnexusID := uint16(32)
 
 	NoConsentsWithP1P2P3V32RestrictionAllowNone := "CPfMKEAPfMKEAAAAAAENCgCAAAAAAAAAAAAAAQAAAAAAAIAAAAAAAGCAAgAgCAAQAQBgAIAIAAAA"
 	P1P2P3PurposeConsentAndV32VendorConsentWithP1P2P3V32RestrictionAllowNone := "CPfMKEAPfMKEAAAAAAENCgCAAOAAAAAAAAAAAQAAAAAEAIAAAAAAAGCAAgAgCAAQAQBgAIAIAAAA"
@@ -47,7 +44,7 @@ func TestLegalBasisWithPubRestrictionAllowNone(t *testing.T) {
 			config: purposeConfig{
 				EnforcePurpose:     true,
 				EnforceVendors:     true,
-				VendorExceptionMap: map[string]struct{}{appnexus: {}},
+				VendorExceptionMap: map[openrtb_ext.BidderName]struct{}{openrtb_ext.BidderAppnexus: {}},
 			},
 			consent:                  NoConsentsWithP1P2P3V32RestrictionAllowNone,
 			wantConsentPurposeResult: false,
@@ -83,24 +80,21 @@ func TestLegalBasisWithPubRestrictionAllowNone(t *testing.T) {
 		enforcer := FullEnforcement{cfg: tt.config}
 
 		enforcer.cfg.PurposeID = consentconstants.Purpose(1)
-		consentPurposeResult := enforcer.LegalBasis(vendorInfo, appnexus, consentMeta, Overrides{})
+		consentPurposeResult := enforcer.LegalBasis(vendorInfo, openrtb_ext.BidderAppnexus, consentMeta, Overrides{})
 		assert.Equal(t, tt.wantConsentPurposeResult, consentPurposeResult, tt.description+" -- GVL consent purpose")
 
 		enforcer.cfg.PurposeID = consentconstants.Purpose(2)
-		LIPurposeresult := enforcer.LegalBasis(vendorInfo, appnexus, consentMeta, Overrides{})
+		LIPurposeresult := enforcer.LegalBasis(vendorInfo, openrtb_ext.BidderAppnexus, consentMeta, Overrides{})
 		assert.Equal(t, tt.wantLIPurposeResult, LIPurposeresult, tt.description+" -- GVL LI purpose")
 
 		enforcer.cfg.PurposeID = consentconstants.Purpose(3)
-		flexPurposeResult := enforcer.LegalBasis(vendorInfo, appnexus, consentMeta, Overrides{})
+		flexPurposeResult := enforcer.LegalBasis(vendorInfo, openrtb_ext.BidderAppnexus, consentMeta, Overrides{})
 		assert.Equal(t, tt.wantFlexPurposeResult, flexPurposeResult, tt.description+" -- GVL flex purpose")
 	}
 }
 
 func TestLegalBasisWithNoPubRestrictionsAndWithPubRestrictionAllowAll(t *testing.T) {
-	var (
-		appnexus   = string(openrtb_ext.BidderAppnexus)
-		appnexusID = uint16(32)
-	)
+	appnexusID := uint16(32)
 
 	NoConsents := "CPfCRQAPfCRQAAAAAAENCgCAAAAAAAAAAAAAAAAAAAAA"
 	P1P2P3PurposeConsent := "CPfCRQAPfCRQAAAAAAENCgCAAOAAAAAAAAAAAAAAAAAA"
@@ -331,7 +325,7 @@ func TestLegalBasisWithNoPubRestrictionsAndWithPubRestrictionAllowAll(t *testing
 			config: purposeConfig{
 				EnforcePurpose:     true,
 				EnforceVendors:     true,
-				VendorExceptionMap: map[string]struct{}{appnexus: {}},
+				VendorExceptionMap: map[openrtb_ext.BidderName]struct{}{openrtb_ext.BidderAppnexus: {}},
 			},
 			consentNoPubRestriction:   NoConsents,
 			consentWithPubRestriction: NoConsentsWithP1P2P3V32RestrictionAllowAll,
@@ -344,7 +338,7 @@ func TestLegalBasisWithNoPubRestrictionsAndWithPubRestrictionAllowAll(t *testing
 			config: purposeConfig{
 				EnforcePurpose:     true,
 				EnforceVendors:     true,
-				VendorExceptionMap: map[string]struct{}{appnexus: {}},
+				VendorExceptionMap: map[openrtb_ext.BidderName]struct{}{openrtb_ext.BidderAppnexus: {}},
 			},
 			consentNoPubRestriction:   NoConsents,
 			consentWithPubRestriction: NoConsentsWithP1P2P3V32RestrictionAllowAll,
@@ -376,25 +370,22 @@ func TestLegalBasisWithNoPubRestrictionsAndWithPubRestrictionAllowAll(t *testing
 			enforcer := FullEnforcement{cfg: tt.config}
 
 			enforcer.cfg.PurposeID = consentconstants.Purpose(1)
-			consentPurposeResult := enforcer.LegalBasis(vendorInfo, appnexus, consentMeta, tt.overrides)
+			consentPurposeResult := enforcer.LegalBasis(vendorInfo, openrtb_ext.BidderAppnexus, consentMeta, tt.overrides)
 			assert.Equal(t, tt.wantConsentPurposeResult, consentPurposeResult, tt.description+" -- GVL consent purpose -- consent string %d of %d", i+1, len(consents))
 
 			enforcer.cfg.PurposeID = consentconstants.Purpose(2)
-			LIPurposeresult := enforcer.LegalBasis(vendorInfo, appnexus, consentMeta, tt.overrides)
+			LIPurposeresult := enforcer.LegalBasis(vendorInfo, openrtb_ext.BidderAppnexus, consentMeta, tt.overrides)
 			assert.Equal(t, tt.wantLIPurposeResult, LIPurposeresult, tt.description+" -- GVL LI purpose -- consent string %d of %d", i+1, len(consents))
 
 			enforcer.cfg.PurposeID = consentconstants.Purpose(3)
-			flexPurposeResult := enforcer.LegalBasis(vendorInfo, appnexus, consentMeta, tt.overrides)
+			flexPurposeResult := enforcer.LegalBasis(vendorInfo, openrtb_ext.BidderAppnexus, consentMeta, tt.overrides)
 			assert.Equal(t, tt.wantFlexPurposeResult, flexPurposeResult, tt.description+" -- GVL flex purpose -- consent string %d of %d", i+1, len(consents))
 		}
 	}
 }
 
 func TestLegalBasisWithPubRestrictionRequireConsent(t *testing.T) {
-	var (
-		appnexus   = string(openrtb_ext.BidderAppnexus)
-		appnexusID = uint16(32)
-	)
+	appnexusID := uint16(32)
 
 	NoConsentsWithP1P2P3V32RestrictionRequireConsent := "CPfFkMAPfFkMAAAAAAENCgCAAAAAAAAAAAAAAQAAAAAAAIAAAAAAAGCgAgAgCQAQAQBoAIAIAAAA"
 	P1P2P3PurposeConsentWithP1P2P3V32RestrictionRequireConsent := "CPfFkMAPfFkMAAAAAAENCgCAAOAAAAAAAAAAAQAAAAAAAIAAAAAAAGCgAgAgCQAQAQBoAIAIAAAA"
@@ -599,7 +590,7 @@ func TestLegalBasisWithPubRestrictionRequireConsent(t *testing.T) {
 			config: purposeConfig{
 				EnforcePurpose:     true,
 				EnforceVendors:     true,
-				VendorExceptionMap: map[string]struct{}{appnexus: {}},
+				VendorExceptionMap: map[openrtb_ext.BidderName]struct{}{openrtb_ext.BidderAppnexus: {}},
 			},
 			consent:                  NoConsentsWithP1P2P3V32RestrictionRequireConsent,
 			wantConsentPurposeResult: true,
@@ -611,7 +602,7 @@ func TestLegalBasisWithPubRestrictionRequireConsent(t *testing.T) {
 			config: purposeConfig{
 				EnforcePurpose:     true,
 				EnforceVendors:     true,
-				VendorExceptionMap: map[string]struct{}{appnexus: {}},
+				VendorExceptionMap: map[openrtb_ext.BidderName]struct{}{openrtb_ext.BidderAppnexus: {}},
 			},
 			consent:                  NoConsentsWithP1P2P3V32RestrictionRequireConsent,
 			overrides:                Overrides{blockVendorExceptions: true},
@@ -637,24 +628,21 @@ func TestLegalBasisWithPubRestrictionRequireConsent(t *testing.T) {
 		enforcer := FullEnforcement{cfg: tt.config}
 
 		enforcer.cfg.PurposeID = consentconstants.Purpose(1)
-		consentPurposeResult := enforcer.LegalBasis(vendorInfo, appnexus, consentMeta, tt.overrides)
+		consentPurposeResult := enforcer.LegalBasis(vendorInfo, openrtb_ext.BidderAppnexus, consentMeta, tt.overrides)
 		assert.Equal(t, tt.wantConsentPurposeResult, consentPurposeResult, tt.description+" -- GVL consent purpose")
 
 		enforcer.cfg.PurposeID = consentconstants.Purpose(2)
-		LIPurposeresult := enforcer.LegalBasis(vendorInfo, appnexus, consentMeta, tt.overrides)
+		LIPurposeresult := enforcer.LegalBasis(vendorInfo, openrtb_ext.BidderAppnexus, consentMeta, tt.overrides)
 		assert.Equal(t, tt.wantLIPurposeResult, LIPurposeresult, tt.description+" -- GVL LI purpose")
 
 		enforcer.cfg.PurposeID = consentconstants.Purpose(3)
-		flexPurposeResult := enforcer.LegalBasis(vendorInfo, appnexus, consentMeta, tt.overrides)
+		flexPurposeResult := enforcer.LegalBasis(vendorInfo, openrtb_ext.BidderAppnexus, consentMeta, tt.overrides)
 		assert.Equal(t, tt.wantFlexPurposeResult, flexPurposeResult, tt.description+" -- GVL flex purpose")
 	}
 }
 
 func TestLegalBasisWithPubRestrictionRequireLI(t *testing.T) {
-	var (
-		appnexus   = string(openrtb_ext.BidderAppnexus)
-		appnexusID = uint16(32)
-	)
+	appnexusID := uint16(32)
 
 	NoConsentsWithP1P2P3V32RestrictionRequireLI := "CPfFkMAPfFkMAAAAAAENCgCAAAAAAAAAAAAAAQAAAAAAAIAAAAAAAGDAAgAgCgAQAQBwAIAIAAAA"
 	P1P2P3PurposeConsentWithP1P2P3V32RestrictionRequireLI := "CPfFkMAPfFkMAAAAAAENCgCAAOAAAAAAAAAAAQAAAAAAAIAAAAAAAGDAAgAgCgAQAQBwAIAIAAAA"
@@ -859,7 +847,7 @@ func TestLegalBasisWithPubRestrictionRequireLI(t *testing.T) {
 			config: purposeConfig{
 				EnforcePurpose:     true,
 				EnforceVendors:     true,
-				VendorExceptionMap: map[string]struct{}{appnexus: {}},
+				VendorExceptionMap: map[openrtb_ext.BidderName]struct{}{openrtb_ext.BidderAppnexus: {}},
 			},
 			consent:                  NoConsentsWithP1P2P3V32RestrictionRequireLI,
 			wantConsentPurposeResult: true,
@@ -871,7 +859,7 @@ func TestLegalBasisWithPubRestrictionRequireLI(t *testing.T) {
 			config: purposeConfig{
 				EnforcePurpose:     true,
 				EnforceVendors:     true,
-				VendorExceptionMap: map[string]struct{}{appnexus: {}},
+				VendorExceptionMap: map[openrtb_ext.BidderName]struct{}{openrtb_ext.BidderAppnexus: {}},
 			},
 			consent:                  NoConsentsWithP1P2P3V32RestrictionRequireLI,
 			overrides:                Overrides{blockVendorExceptions: true},
@@ -897,21 +885,20 @@ func TestLegalBasisWithPubRestrictionRequireLI(t *testing.T) {
 		enforcer := FullEnforcement{cfg: tt.config}
 
 		enforcer.cfg.PurposeID = consentconstants.Purpose(1)
-		consentPurposeResult := enforcer.LegalBasis(vendorInfo, appnexus, consentMeta, tt.overrides)
+		consentPurposeResult := enforcer.LegalBasis(vendorInfo, openrtb_ext.BidderAppnexus, consentMeta, tt.overrides)
 		assert.Equal(t, tt.wantConsentPurposeResult, consentPurposeResult, tt.description+" -- GVL consent purpose")
 
 		enforcer.cfg.PurposeID = consentconstants.Purpose(2)
-		LIPurposeresult := enforcer.LegalBasis(vendorInfo, appnexus, consentMeta, tt.overrides)
+		LIPurposeresult := enforcer.LegalBasis(vendorInfo, openrtb_ext.BidderAppnexus, consentMeta, tt.overrides)
 		assert.Equal(t, tt.wantLIPurposeResult, LIPurposeresult, tt.description+" -- GVL LI purpose")
 
 		enforcer.cfg.PurposeID = consentconstants.Purpose(3)
-		flexPurposeResult := enforcer.LegalBasis(vendorInfo, appnexus, consentMeta, tt.overrides)
+		flexPurposeResult := enforcer.LegalBasis(vendorInfo, openrtb_ext.BidderAppnexus, consentMeta, tt.overrides)
 		assert.Equal(t, tt.wantFlexPurposeResult, flexPurposeResult, tt.description+" -- GVL flex purpose")
 	}
 }
 
 func TestLegalBasisWithoutVendor(t *testing.T) {
-	appnexus := string(openrtb_ext.BidderAppnexus)
 	P1P2P3PurposeConsent := "CPfCRQAPfCRQAAAAAAENCgCAAOAAAAAAAAAAAAAAAAAA"
 	tests := []struct {
 		name       string
@@ -931,7 +918,7 @@ func TestLegalBasisWithoutVendor(t *testing.T) {
 			config: purposeConfig{
 				EnforcePurpose:     true,
 				EnforceVendors:     false,
-				VendorExceptionMap: map[string]struct{}{appnexus: {}},
+				VendorExceptionMap: map[openrtb_ext.BidderName]struct{}{openrtb_ext.BidderAppnexus: {}},
 			},
 			wantResult: true,
 		},
@@ -965,7 +952,7 @@ func TestLegalBasisWithoutVendor(t *testing.T) {
 			enforcer := FullEnforcement{cfg: tt.config}
 			enforcer.cfg.PurposeID = consentconstants.Purpose(3)
 
-			result := enforcer.LegalBasis(vendorInfo, appnexus, consentMeta, Overrides{})
+			result := enforcer.LegalBasis(vendorInfo, openrtb_ext.BidderAppnexus, consentMeta, Overrides{})
 			assert.Equal(t, tt.wantResult, result)
 		})
 	}

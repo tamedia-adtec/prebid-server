@@ -3,7 +3,6 @@ package flipp
 import (
 	"encoding/base64"
 	"encoding/json"
-	"errors"
 	"fmt"
 	"net/http"
 	"net/url"
@@ -26,6 +25,8 @@ const (
 	defaultCurrency = "USD"
 )
 
+var uuidGenerator uuidutil.UUIDGenerator
+
 var (
 	count    int64 = 1
 	adTypes        = []int64{4309, 641}
@@ -33,19 +34,14 @@ var (
 )
 
 type adapter struct {
-	endpoint      string
-	uuidGenerator uuidutil.UUIDGenerator
+	endpoint string
 }
-
-var (
-	errRequestEmpty = errors.New("adapterRequest is empty")
-)
 
 // Builder builds a new instance of the Flipp adapter for the given bidder with the given config.
 func Builder(bidderName openrtb_ext.BidderName, config config.Adapter, server config.Server) (adapters.Bidder, error) {
+	uuidGenerator = uuidutil.UUIDRandomGenerator{}
 	bidder := &adapter{
-		endpoint:      config.Endpoint,
-		uuidGenerator: uuidutil.UUIDRandomGenerator{},
+		endpoint: config.Endpoint,
 	}
 	return bidder, nil
 }
@@ -63,12 +59,12 @@ func (a *adapter) MakeRequests(request *openrtb2.BidRequest, reqInfo *adapters.E
 		adapterRequests = append(adapterRequests, adapterReq)
 	}
 	if len(adapterRequests) == 0 {
-		return nil, append(errors, errRequestEmpty)
+		return nil, append(errors, fmt.Errorf("adapterRequest is empty"))
 	}
 	return adapterRequests, errors
 }
 
-func (a *adapter) makeRequest(request *openrtb2.BidRequest, campaignRequestBody CampaignRequestBody, impID string) (*adapters.RequestData, error) {
+func (a *adapter) makeRequest(request *openrtb2.BidRequest, campaignRequestBody CampaignRequestBody) (*adapters.RequestData, error) {
 	campaignRequestBodyJSON, err := json.Marshal(campaignRequestBody)
 	if err != nil {
 		return nil, err
@@ -84,7 +80,6 @@ func (a *adapter) makeRequest(request *openrtb2.BidRequest, campaignRequestBody 
 		Uri:     a.endpoint,
 		Body:    campaignRequestBodyJSON,
 		Headers: headers,
-		ImpIDs:  []string{impID},
 	}, err
 }
 
@@ -137,7 +132,8 @@ func (a *adapter) processImp(request *openrtb2.BidRequest, imp openrtb2.Imp) (*a
 	} else if flippExtParams.UserKey != "" && paramsUserKeyPermitted(request) {
 		userKey = flippExtParams.UserKey
 	} else {
-		uid, err := a.uuidGenerator.Generate()
+
+		uid, err := uuidGenerator.Generate()
 		if err != nil {
 			return nil, fmt.Errorf("unable to generate user uuid. %v", err)
 		}
@@ -156,7 +152,7 @@ func (a *adapter) processImp(request *openrtb2.BidRequest, imp openrtb2.Imp) (*a
 		},
 	}
 
-	adapterReq, err := a.makeRequest(request, campaignRequestBody, imp.ID)
+	adapterReq, err := a.makeRequest(request, campaignRequestBody)
 	if err != nil {
 		return nil, fmt.Errorf("make request failed with err %v", err)
 	}

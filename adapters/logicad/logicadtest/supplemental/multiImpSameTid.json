@@ -68,8 +68,7 @@
               }
             }
           ]
-        },
-        "impIDs":["testimpid","testimpid"]
+        }
       },
       "mockResponse": {
         "status": 200,

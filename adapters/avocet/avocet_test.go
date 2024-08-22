@@ -68,7 +68,6 @@ func TestAvocetAdapter_MakeRequests(t *testing.T) {
 						"Accept":       {"application/json"},
 						"Content-Type": {"application/json;charset=utf-8"},
 					},
-					ImpIDs: []string{""},
 				},
 			},
 			wantErrs: nil,

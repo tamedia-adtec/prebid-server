@@ -97,8 +97,7 @@
             }
           ],
           "site": {}
-        },
-        "impIDs":["test-imp-id1","test-imp-id2"]
+        }
       },
       "mockResponse": {
         "status": 200,
@@ -173,8 +172,7 @@
             }
           ],
           "site": {}
-        },
-        "impIDs":["test-imp-id3"]
+        }
       },
       "mockResponse": {
         "status": 200,
@@ -235,8 +233,7 @@
             }
           ],
           "site": {}
-        },
-        "impIDs":["test-imp-id4"]
+        }
       },
       "mockResponse": {
         "status": 200,

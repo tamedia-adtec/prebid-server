@@ -167,8 +167,7 @@
                     "bc": "sp_pb_ortb_1.0.0",
                     "publisherId": "publisher123"
                 }
-                  },
-                  "impIDs":["1"]
+                  }
                 },
           "mockResponse": {
             "status": 500,

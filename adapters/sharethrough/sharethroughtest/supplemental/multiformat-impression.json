@@ -104,8 +104,7 @@
               "str": "10.0"
             }
           }
-        },
-        "impIDs":["impression-id"]
+        }
       },
       "mockResponse": {
         "status": 200,
@@ -185,8 +184,7 @@
               "str": "10.0"
             }
           }
-        },
-        "impIDs":["impression-id"]
+        }
       },
       "mockResponse": {
         "status": 200,
@@ -262,8 +260,7 @@
               "str": "10.0"
             }
           }
-        },
-        "impIDs":["impression-id"]
+        }
       },
       "mockResponse": {
         "status": 200,

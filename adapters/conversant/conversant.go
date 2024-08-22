@@ -4,7 +4,6 @@ import (
 	"encoding/json"
 	"fmt"
 	"net/http"
-	"strings"
 
 	"github.com/prebid/openrtb/v20/adcom1"
 	"github.com/prebid/openrtb/v20/openrtb2"
@@ -19,10 +18,6 @@ type ConversantAdapter struct {
 }
 
 func (c *ConversantAdapter) MakeRequests(request *openrtb2.BidRequest, reqInfo *adapters.ExtraRequestInfo) ([]*adapters.RequestData, []error) {
-	//Backend needs USD or it will reject the request
-	if len(request.Cur) > 0 && request.Cur[0] != "USD" {
-		request.Cur = []string{"USD"}
-	}
 	for i := 0; i < len(request.Imp); i++ {
 		var bidderExt adapters.ExtImpBidder
 		if err := json.Unmarshal(request.Imp[i].Ext, &bidderExt); err != nil {
@@ -55,10 +50,7 @@ func (c *ConversantAdapter) MakeRequests(request *openrtb2.BidRequest, reqInfo *
 				request.App.ID = cnvrExt.SiteID
 			}
 		}
-		err := parseCnvrParams(&request.Imp[i], cnvrExt, reqInfo)
-		if err != nil {
-			return nil, err
-		}
+		parseCnvrParams(&request.Imp[i], cnvrExt)
 	}
 
 	//create the request body
@@ -77,11 +69,10 @@ func (c *ConversantAdapter) MakeRequests(request *openrtb2.BidRequest, reqInfo *
 		Uri:     c.URI,
 		Body:    data,
 		Headers: headers,
-		ImpIDs:  openrtb_ext.GetImpIDs(request.Imp),
 	}}, nil
 }
 
-func parseCnvrParams(imp *openrtb2.Imp, cnvrExt openrtb_ext.ExtImpConversant, reqInfo *adapters.ExtraRequestInfo) []error {
+func parseCnvrParams(imp *openrtb2.Imp, cnvrExt openrtb_ext.ExtImpConversant) {
 	imp.DisplayManager = "prebid-s2s"
 	imp.DisplayManagerVer = "2.0.0"
 
@@ -139,17 +130,6 @@ func parseCnvrParams(imp *openrtb2.Imp, cnvrExt openrtb_ext.ExtImpConversant, re
 			imp.Video.MaxDuration = *cnvrExt.MaxDuration
 		}
 	}
-	if imp.BidFloor > 0 && imp.BidFloorCur != "" && strings.ToUpper(imp.BidFloorCur) != "USD" {
-		floor, err := reqInfo.ConvertCurrency(imp.BidFloor, imp.BidFloorCur, "USD")
-		if err != nil {
-			return []error{&errortypes.BadInput{
-				Message: fmt.Sprintf("Unable to convert provided bid floor currency from %s to USD", imp.BidFloorCur),
-			}}
-		}
-		imp.BidFloorCur = "USD"
-		imp.BidFloor = floor
-	}
-	return nil
 }
 
 func (c *ConversantAdapter) MakeBids(internalRequest *openrtb2.BidRequest, externalRequest *adapters.RequestData, response *adapters.ResponseData) (*adapters.BidderResponse, []error) {

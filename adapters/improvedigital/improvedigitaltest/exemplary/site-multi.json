@@ -103,8 +103,7 @@
                             }
                         }
                     ]
-                },
-                "impIDs":["test-imp-id-banner"]
+                }
             },
             "mockResponse": {
                 "status": 200,
@@ -164,8 +163,7 @@
                             }
                         }
                     ]
-                },
-                "impIDs":["test-imp-id-video"]
+                }
             },
             "mockResponse": {
                 "status": 200,
@@ -231,8 +229,7 @@
                             }
                         }
                     ]
-                },
-                "impIDs":["test-multi-format-id-with-mtype"]
+                }
             },
             "mockResponse": {
                 "status": 200,

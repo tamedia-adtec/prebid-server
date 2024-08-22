@@ -112,7 +112,6 @@ func (a *SmartAdserverAdapter) MakeRequests(request *openrtb2.BidRequest, reqInf
 			Uri:     url,
 			Body:    reqJSON,
 			Headers: headers,
-			ImpIDs:  openrtb_ext.GetImpIDs(smartRequest.Imp),
 		})
 	}
 	return adapterRequests, errs

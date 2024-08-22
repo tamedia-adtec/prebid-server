@@ -82,9 +82,11 @@ func (e Events) validate(errs []error) []error {
 
 // validateVASTEvents verifies the all VASTEvent objects and returns error if at least one is invalid.
 func validateVASTEvents(events []VASTEvent) error {
-	for i, event := range events {
-		if err := event.validate(); err != nil {
-			return fmt.Errorf(err.Error(), i, i)
+	if events != nil {
+		for i, event := range events {
+			if err := event.validate(); err != nil {
+				return fmt.Errorf(err.Error(), i, i)
+			}
 		}
 	}
 	return nil

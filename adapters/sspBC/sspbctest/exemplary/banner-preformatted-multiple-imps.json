@@ -119,8 +119,7 @@
                             "gdpr": 1
                         }
                     }
-                },
-                "impIDs":["slot1","slot2"]
+                }
             },
             "mockResponse": {
                 "status": 200,

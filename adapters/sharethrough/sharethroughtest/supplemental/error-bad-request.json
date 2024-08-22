@@ -83,8 +83,7 @@
               "str": "10.0"
             }
           }
-        },
-        "impIDs":["banner-imp-id"]
+        }
       },
       "mockResponse": {
         "status": 400

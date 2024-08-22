@@ -153,7 +153,6 @@ func (a *BeachfrontAdapter) MakeRequests(request *openrtb2.BidRequest, reqInfo *
 				Uri:     a.bannerEndpoint,
 				Body:    bytes,
 				Headers: headers,
-				ImpIDs:  getBannerImpIDs(beachfrontRequests.Banner.Slots),
 			}
 
 			nurlBump++
@@ -175,7 +174,6 @@ func (a *BeachfrontAdapter) MakeRequests(request *openrtb2.BidRequest, reqInfo *
 				Uri:     a.extraInfo.VideoEndpoint + "=" + beachfrontRequests.ADMVideo[j].AppId,
 				Body:    bytes,
 				Headers: headers,
-				ImpIDs:  openrtb_ext.GetImpIDs(beachfrontRequests.ADMVideo[j].Request.Imp),
 			}
 
 			admBump++
@@ -195,7 +193,6 @@ func (a *BeachfrontAdapter) MakeRequests(request *openrtb2.BidRequest, reqInfo *
 				Uri:     a.extraInfo.VideoEndpoint + "=" + beachfrontRequests.NurlVideo[j].AppId + nurlVideoEndpointSuffix,
 				Body:    bytes,
 				Headers: headers,
-				ImpIDs:  openrtb_ext.GetImpIDs(beachfrontRequests.NurlVideo[j].Request.Imp),
 			}
 		} else {
 			errs = append(errs, err)
@@ -798,12 +795,4 @@ func getDefaultExtraInfo() ExtraInfo {
 	return ExtraInfo{
 		VideoEndpoint: defaultVideoEndpoint,
 	}
-}
-
-func getBannerImpIDs(bfs []beachfrontSlot) []string {
-	impIDs := make([]string, len(bfs))
-	for i := range bfs {
-		impIDs[i] = bfs[i].Slot
-	}
-	return impIDs
 }

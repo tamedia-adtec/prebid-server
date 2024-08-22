@@ -84,7 +84,6 @@ func (a *adapter) MakeRequests(
 		Uri:     a.endpoint,
 		Body:    openRTBRequestJSON,
 		Headers: headers,
-		ImpIDs:  openrtb_ext.GetImpIDs(reqCopy.Imp),
 	}
 	requestsToBidder = append(requestsToBidder, requestToBidder)
 

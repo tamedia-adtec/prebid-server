@@ -60,8 +60,7 @@
                         }
                     }
                 }]
-            },
-            "impIDs":["video-1"]
+            }
         },
         "mockResponse": {
             "status": 200,

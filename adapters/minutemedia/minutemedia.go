@@ -47,7 +47,6 @@ func (a *adapter) MakeRequests(openRTBRequest *openrtb2.BidRequest, _ *adapters.
 		Uri:     a.endpointURL + "?publisher_id=" + url.QueryEscape(org),
 		Body:    openRTBRequestJSON,
 		Headers: headers,
-		ImpIDs:  openrtb_ext.GetImpIDs(openRTBRequest.Imp),
 	}), nil
 }
 
@@ -91,21 +90,21 @@ func (a *adapter) MakeBids(request *openrtb2.BidRequest, _ *adapters.RequestData
 
 func extractOrg(openRTBRequest *openrtb2.BidRequest) (string, error) {
 	var err error
-	if len(openRTBRequest.Imp) == 0 {
-		return "", errors.New("no imps in bid request")
+	for _, imp := range openRTBRequest.Imp {
+		var bidderExt adapters.ExtImpBidder
+		if err = json.Unmarshal(imp.Ext, &bidderExt); err != nil {
+			return "", fmt.Errorf("failed to unmarshal bidderExt: %w", err)
+		}
+
+		var impExt openrtb_ext.ImpExtMinuteMedia
+		if err = json.Unmarshal(bidderExt.Bidder, &impExt); err != nil {
+			return "", fmt.Errorf("failed to unmarshal ImpExtMinuteMedia: %w", err)
+		}
+
+		return strings.TrimSpace(impExt.Org), nil
 	}
 
-	var bidderExt adapters.ExtImpBidder
-	if err = json.Unmarshal(openRTBRequest.Imp[0].Ext, &bidderExt); err != nil {
-		return "", fmt.Errorf("failed to unmarshal bidderExt: %w", err)
-	}
-
-	var impExt openrtb_ext.ImpExtMinuteMedia
-	if err = json.Unmarshal(bidderExt.Bidder, &impExt); err != nil {
-		return "", fmt.Errorf("failed to unmarshal ImpExtMinuteMedia: %w", err)
-	}
-
-	return strings.TrimSpace(impExt.Org), nil
+	return "", errors.New("no imps in bid request")
 }
 
 func getMediaTypeForBid(bid openrtb2.Bid) (openrtb_ext.BidType, error) {

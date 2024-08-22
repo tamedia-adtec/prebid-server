@@ -2,6 +2,7 @@ package gdpr
 
 import (
 	tcf2 "github.com/prebid/go-gdpr/vendorconsent/tcf2"
+	"github.com/prebid/prebid-server/v2/openrtb_ext"
 )
 
 const (
@@ -10,7 +11,7 @@ const (
 	pubRestrictRequireLegitInterest = 2
 )
 
-// FullEnforcement determines if legal basis is satisfied for a given purpose and bidde/analytics adapterr using
+// FullEnforcement determines if legal basis is satisfied for a given purpose and bidder using
 // the TCF2 full enforcement algorithm. The algorithm is a detailed confirmation that reads the
 // GVL, interprets the consent string and performs legal basis analysis necessary to perform a
 // privacy-protected activity.
@@ -19,9 +20,9 @@ type FullEnforcement struct {
 	cfg purposeConfig
 }
 
-// LegalBasis determines if legal basis is satisfied for a given purpose and bidder/analytics adapter based on the
+// LegalBasis determines if legal basis is satisfied for a given purpose and bidder based on the
 // vendor claims in the GVL, publisher restrictions and user consent.
-func (fe *FullEnforcement) LegalBasis(vendorInfo VendorInfo, name string, consent tcf2.ConsentMetadata, overrides Overrides) bool {
+func (fe *FullEnforcement) LegalBasis(vendorInfo VendorInfo, bidder openrtb_ext.BidderName, consent tcf2.ConsentMetadata, overrides Overrides) bool {
 	enforcePurpose, enforceVendors := fe.applyEnforceOverrides(overrides)
 
 	if consent.CheckPubRestriction(uint8(fe.cfg.PurposeID), pubRestrictNotAllowed, vendorInfo.vendorID) {
@@ -30,7 +31,7 @@ func (fe *FullEnforcement) LegalBasis(vendorInfo VendorInfo, name string, consen
 	if !enforcePurpose && !enforceVendors {
 		return true
 	}
-	if fe.cfg.vendorException(name) && !overrides.blockVendorExceptions {
+	if fe.cfg.vendorException(bidder) && !overrides.blockVendorExceptions {
 		return true
 	}
 

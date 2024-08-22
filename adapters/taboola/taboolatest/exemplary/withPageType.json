@@ -93,8 +93,7 @@
           "ext": {
             "pageType": "homepage"
           }
-        },
-        "impIDs":["impression-id"]
+        }
       },
       "mockResponse": {
         "status": 200,

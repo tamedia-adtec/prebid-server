@@ -99,8 +99,7 @@
           },
           "bcat": ["excluded-category"],
           "badv": ["excluded-advertiser"]
-        },
-        "impIDs":["impression-id"]
+        }
       },
       "mockResponse": {
         "status": 204,

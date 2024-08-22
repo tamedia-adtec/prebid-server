@@ -48,7 +48,6 @@ type ExtImpBidderPubmatic struct {
 	adapters.ExtImpBidder
 	Data json.RawMessage `json:"data,omitempty"`
 	AE   int             `json:"ae,omitempty"`
-	GpId string          `json:"gpid,omitempty"`
 }
 
 type ExtAdServer struct {
@@ -79,7 +78,6 @@ const (
 	AdServerGAM        = "gam"
 	AdServerKey        = "adserver"
 	PBAdslotKey        = "pbadslot"
-	gpIdKey            = "gpid"
 )
 
 func (a *PubmaticAdapter) MakeRequests(request *openrtb2.BidRequest, reqInfo *adapters.ExtraRequestInfo) ([]*adapters.RequestData, []error) {
@@ -181,7 +179,6 @@ func (a *PubmaticAdapter) MakeRequests(request *openrtb2.BidRequest, reqInfo *ad
 		Uri:     a.URI,
 		Body:    reqJSON,
 		Headers: headers,
-		ImpIDs:  openrtb_ext.GetImpIDs(request.Imp),
 	}}, errs
 }
 
@@ -319,10 +316,6 @@ func parseImpressionObject(imp *openrtb2.Imp, extractWrapperExtFromImp, extractP
 
 	if bidderExt.AE != 0 {
 		extMap[ae] = bidderExt.AE
-	}
-
-	if bidderExt.GpId != "" {
-		extMap[gpIdKey] = bidderExt.GpId
 	}
 
 	imp.Ext = nil

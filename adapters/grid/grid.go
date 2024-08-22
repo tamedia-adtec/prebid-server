@@ -2,7 +2,6 @@ package grid
 
 import (
 	"encoding/json"
-	"errors"
 	"fmt"
 	"net/http"
 	"sort"
@@ -364,7 +363,6 @@ func (a *GridAdapter) MakeRequests(request *openrtb2.BidRequest, reqInfo *adapte
 		Uri:     a.endpoint,
 		Body:    fixedReqJSON,
 		Headers: headers,
-		ImpIDs:  openrtb_ext.GetImpIDs(request.Imp),
 	}}, errors
 }
 
@@ -395,12 +393,8 @@ func (a *GridAdapter) MakeBids(internalRequest *openrtb2.BidRequest, externalReq
 
 	for _, sb := range bidResp.SeatBid {
 		for i := range sb.Bid {
-			bidMeta, err := getBidMeta(sb.Bid[i].Ext) //nolint: ineffassign,staticcheck // ineffectual assignment to err
-
+			bidMeta, err := getBidMeta(sb.Bid[i].Ext)
 			bidType, err := getMediaTypeForImp(sb.Bid[i].ImpID, internalRequest.Imp, sb.Bid[i])
-			if err != nil {
-				return nil, []error{err}
-			}
 			if sb.Bid[i].AdmNative != nil && sb.Bid[i].AdM == "" {
 				if bytes, err := json.Marshal(sb.Bid[i].AdmNative); err == nil {
 					sb.Bid[i].AdM = string(bytes)
@@ -432,9 +426,6 @@ func Builder(bidderName openrtb_ext.BidderName, config config.Adapter, server co
 }
 
 func getBidMeta(ext json.RawMessage) (*openrtb_ext.ExtBidPrebidMeta, error) {
-	if ext == nil {
-		return nil, errors.New("nil ext passed to getBidMeta")
-	}
 	var bidExt GridBidExt
 
 	if err := json.Unmarshal(ext, &bidExt); err != nil {

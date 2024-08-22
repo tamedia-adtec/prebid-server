@@ -227,8 +227,7 @@
               }
             }
           ]
-        },
-        "impIDs":["test-imp-id","test-imp-id","test-imp-id","test-imp-id","test-imp-id"]
+        }
       },
       "mockResponse": {
         "status": 204
