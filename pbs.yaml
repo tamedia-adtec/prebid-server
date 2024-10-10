@@ -12,6 +12,9 @@ compression:
     enable_gzip: true
   request:
     enable_gzip: true
+http:
+  max-idle-conns: 100
+  max-idle-conns-per-host: 50
 cache:
   default_ttl_seconds:
     banner: 3600
