@@ -15,10 +15,4 @@ compression:
 http:
   max-idle-conns: 100
   max-idle-conns-per-host: 50
-cache:
-  default_ttl_seconds:
-    banner: 3600
-    video: 3600
-    vastxml: 3600
-    video: 3600
 
