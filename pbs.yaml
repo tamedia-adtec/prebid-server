@@ -2,8 +2,8 @@ gdpr:
   enabled: true
   default_value: 1
   timeouts_ms:
-    init_vendorlist_fetches: 100000
-    active_vendorlist_fetch: 100000
+    init_vendorlist_fetches: 180000
+    active_vendorlist_fetch: 180000
 metrics:
   prometheus:
     port: 8001
