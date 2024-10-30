@@ -56,36 +56,33 @@ func (p *permissionsImpl) BidderSyncAllowed(ctx context.Context, bidder openrtb_
 }
 
 // AuctionActivitiesAllowed determines whether auction activities are permitted for a given bidder
-func (p *permissionsImpl) AuctionActivitiesAllowed(ctx context.Context, bidderCoreName openrtb_ext.BidderName, bidder openrtb_ext.BidderName) AuctionPermissions {
+func (p *permissionsImpl) AuctionActivitiesAllowed(ctx context.Context, bidderCoreName openrtb_ext.BidderName, bidder openrtb_ext.BidderName) (permissions AuctionPermissions, err error) {
 	if _, ok := p.nonStandardPublishers[p.publisherID]; ok {
-		return AllowAll
+		return AllowAll, nil
 	}
-
 	if p.gdprSignal != SignalYes {
-		return AllowAll
+		return AllowAll, nil
 	}
-
 	if p.consent == "" {
-		return p.defaultPermissions()
+		return p.defaultPermissions(), nil
 	}
-
 	pc, err := parseConsent(p.consent)
 	if err != nil {
-		return p.defaultPermissions()
+		return p.defaultPermissions(), err
 	}
-
 	vendorID, _ := p.resolveVendorID(bidderCoreName, bidder)
 	vendor, err := p.getVendor(ctx, vendorID, *pc)
 	if err != nil {
-		return p.defaultPermissions()
+		return p.defaultPermissions(), err
 	}
-
 	vendorInfo := VendorInfo{vendorID: vendorID, vendor: vendor}
-	return AuctionPermissions{
-		AllowBidRequest: p.allowBidRequest(bidderCoreName, pc.consentMeta, vendorInfo),
-		PassGeo:         p.allowGeo(bidderCoreName, pc.consentMeta, vendor),
-		PassID:          p.allowID(bidderCoreName, pc.consentMeta, vendorInfo),
-	}
+
+	permissions = AuctionPermissions{}
+	permissions.AllowBidRequest = p.allowBidRequest(bidderCoreName, pc.consentMeta, vendorInfo)
+	permissions.PassGeo = p.allowGeo(bidderCoreName, pc.consentMeta, vendor)
+	permissions.PassID = p.allowID(bidderCoreName, pc.consentMeta, vendorInfo)
+
+	return permissions, nil
 }
 
 // defaultPermissions returns a permissions object that denies passing user IDs while
@@ -225,6 +222,6 @@ func (a AlwaysAllow) HostCookiesAllowed(ctx context.Context) (bool, error) {
 func (a AlwaysAllow) BidderSyncAllowed(ctx context.Context, bidder openrtb_ext.BidderName) (bool, error) {
 	return true, nil
 }
-func (a AlwaysAllow) AuctionActivitiesAllowed(ctx context.Context, bidderCoreName openrtb_ext.BidderName, bidder openrtb_ext.BidderName) AuctionPermissions {
-	return AllowAll
+func (a AlwaysAllow) AuctionActivitiesAllowed(ctx context.Context, bidderCoreName openrtb_ext.BidderName, bidder openrtb_ext.BidderName) (permissions AuctionPermissions, err error) {
+	return AllowAll, nil
 }

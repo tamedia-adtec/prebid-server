@@ -104,8 +104,9 @@ func (b *macroProvider) populateRequestMacros(reqWrapper *openrtb_ext.RequestWra
 		}
 	}
 
-	if reqWrapper.User != nil && len(reqWrapper.User.Consent) > 0 {
-		b.macros[MacroKeyConsent] = reqWrapper.User.Consent
+	userExt, err := reqWrapper.GetUserExt()
+	if err == nil && userExt != nil && userExt.GetConsent() != nil {
+		b.macros[MacroKeyConsent] = *userExt.GetConsent()
 	}
 	if reqWrapper.Device != nil && reqWrapper.Device.Lmt != nil {
 		b.macros[MacroKeyLmtTracking] = strconv.Itoa(int(*reqWrapper.Device.Lmt))

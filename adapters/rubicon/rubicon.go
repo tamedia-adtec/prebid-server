@@ -3,7 +3,6 @@ package rubicon
 import (
 	"encoding/json"
 	"fmt"
-	"github.com/prebid/prebid-server/v2/version"
 	"net/http"
 	"net/url"
 	"strconv"
@@ -26,7 +25,6 @@ var bannerExtContent = []byte(`{"rp":{"mime":"text/html"}}`)
 
 type RubiconAdapter struct {
 	URI          string
-	externalURI  string
 	XAPIUsername string
 	XAPIPassword string
 }
@@ -221,7 +219,6 @@ func Builder(bidderName openrtb_ext.BidderName, config config.Adapter, server co
 
 	bidder := &RubiconAdapter{
 		URI:          uri,
-		externalURI:  server.ExternalUrl,
 		XAPIUsername: config.XAPI.Username,
 		XAPIPassword: config.XAPI.Password,
 	}
@@ -274,7 +271,7 @@ func (a *RubiconAdapter) MakeRequests(request *openrtb2.BidRequest, reqInfo *ada
 	rubiconRequest := *request
 	for imp, bidderExt := range impsToExtMap {
 		rubiconExt := bidderExt.Bidder
-		target, err := a.updateImpRpTarget(bidderExt, rubiconExt, *imp, request.Site, request.App)
+		target, err := updateImpRpTargetWithFpdAttributes(bidderExt, rubiconExt, *imp, request.Site, request.App)
 		if err != nil {
 			errs = append(errs, err)
 			continue
@@ -320,11 +317,9 @@ func (a *RubiconAdapter) MakeRequests(request *openrtb2.BidRequest, reqInfo *ada
 			continue
 		}
 
-		if resolvedBidFloor >= 0 {
+		if resolvedBidFloor > 0 {
+			imp.BidFloorCur = "USD"
 			imp.BidFloor = resolvedBidFloor
-			if imp.BidFloorCur != "" {
-				imp.BidFloorCur = "USD"
-			}
 		}
 
 		if request.User != nil {
@@ -652,7 +647,7 @@ func resolveBidFloor(bidFloor float64, bidFloorCur string, reqInfo *adapters.Ext
 	return bidFloor, nil
 }
 
-func (a *RubiconAdapter) updateImpRpTarget(extImp rubiconExtImpBidder, extImpRubicon openrtb_ext.ExtImpRubicon,
+func updateImpRpTargetWithFpdAttributes(extImp rubiconExtImpBidder, extImpRubicon openrtb_ext.ExtImpRubicon,
 	imp openrtb2.Imp, site *openrtb2.Site, app *openrtb2.App) (json.RawMessage, error) {
 
 	existingTarget, _, _, err := jsonparser.Get(imp.Ext, "rp", "target")
@@ -745,11 +740,6 @@ func (a *RubiconAdapter) updateImpRpTarget(extImp rubiconExtImpBidder, extImpRub
 	if len(extImpRubicon.Keywords) > 0 {
 		addStringArrayAttribute(extImpRubicon.Keywords, target, "keywords")
 	}
-
-	target["pbs_login"] = a.XAPIUsername
-	target["pbs_version"] = version.Ver
-	target["pbs_url"] = a.externalURI
-
 	updatedTarget, err := json.Marshal(target)
 	if err != nil {
 		return nil, err

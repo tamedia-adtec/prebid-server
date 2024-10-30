@@ -234,7 +234,7 @@ const (
 	RequestStatusBadInput         RequestStatus = "badinput"
 	RequestStatusErr              RequestStatus = "err"
 	RequestStatusNetworkErr       RequestStatus = "networkerr"
-	RequestStatusBlockedApp       RequestStatus = "blockedapp"
+	RequestStatusBlacklisted      RequestStatus = "blacklistedacctorapp"
 	RequestStatusQueueTimeout     RequestStatus = "queuetimeout"
 	RequestStatusAccountConfigErr RequestStatus = "acctconfigerr"
 )
@@ -245,7 +245,7 @@ func RequestStatuses() []RequestStatus {
 		RequestStatusBadInput,
 		RequestStatusErr,
 		RequestStatusNetworkErr,
-		RequestStatusBlockedApp,
+		RequestStatusBlacklisted,
 		RequestStatusQueueTimeout,
 		RequestStatusAccountConfigErr,
 	}
@@ -361,7 +361,7 @@ const (
 	SyncerCookieSyncOK               SyncerCookieSyncStatus = "ok"
 	SyncerCookieSyncPrivacyBlocked   SyncerCookieSyncStatus = "privacy_blocked"
 	SyncerCookieSyncAlreadySynced    SyncerCookieSyncStatus = "already_synced"
-	SyncerCookieSyncRejectedByFilter SyncerCookieSyncStatus = "rejected_by_filter"
+	SyncerCookieSyncTypeNotSupported SyncerCookieSyncStatus = "type_not_supported"
 )
 
 // SyncerRequestStatuses returns possible syncer statuses.
@@ -370,7 +370,7 @@ func SyncerRequestStatuses() []SyncerCookieSyncStatus {
 		SyncerCookieSyncOK,
 		SyncerCookieSyncPrivacyBlocked,
 		SyncerCookieSyncAlreadySynced,
-		SyncerCookieSyncRejectedByFilter,
+		SyncerCookieSyncTypeNotSupported,
 	}
 }
 

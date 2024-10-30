@@ -23,7 +23,7 @@ func TestReadFromRequestWrapper(t *testing.T) {
 		{
 			description: "Success",
 			request: &openrtb2.BidRequest{
-				Regs: &openrtb2.Regs{USPrivacy: "ABC"},
+				Regs: &openrtb2.Regs{Ext: json.RawMessage(`{"us_privacy":"ABC"}`)},
 				Ext:  json.RawMessage(`{"prebid":{"nosale":["a", "b"]}}`),
 			},
 			expectedPolicy: Policy{
@@ -84,9 +84,25 @@ func TestReadFromRequestWrapper(t *testing.T) {
 			},
 		},
 		{
+			description: "Malformed Regs.Ext",
+			request: &openrtb2.BidRequest{
+				Regs: &openrtb2.Regs{Ext: json.RawMessage(`malformed`)},
+				Ext:  json.RawMessage(`{"prebid":{"nosale":["a", "b"]}}`),
+			},
+			expectedError: true,
+		},
+		{
+			description: "Invalid Regs.Ext Type",
+			request: &openrtb2.BidRequest{
+				Regs: &openrtb2.Regs{Ext: json.RawMessage(`{"us_privacy":123`)},
+				Ext:  json.RawMessage(`{"prebid":{"nosale":["a", "b"]}}`),
+			},
+			expectedError: true,
+		},
+		{
 			description: "Nil Ext",
 			request: &openrtb2.BidRequest{
-				Regs: &openrtb2.Regs{USPrivacy: "ABC"},
+				Regs: &openrtb2.Regs{Ext: json.RawMessage(`{"us_privacy":"ABC"}`)},
 				Ext:  nil,
 			},
 			expectedPolicy: Policy{
@@ -97,7 +113,7 @@ func TestReadFromRequestWrapper(t *testing.T) {
 		{
 			description: "Empty Ext",
 			request: &openrtb2.BidRequest{
-				Regs: &openrtb2.Regs{USPrivacy: "ABC"},
+				Regs: &openrtb2.Regs{Ext: json.RawMessage(`{"us_privacy":"ABC"}`)},
 				Ext:  json.RawMessage(`{}`),
 			},
 			expectedPolicy: Policy{
@@ -108,7 +124,7 @@ func TestReadFromRequestWrapper(t *testing.T) {
 		{
 			description: "Missing Ext.Prebid No Sale Value",
 			request: &openrtb2.BidRequest{
-				Regs: &openrtb2.Regs{USPrivacy: "ABC"},
+				Regs: &openrtb2.Regs{Ext: json.RawMessage(`{"us_privacy":"ABC"}`)},
 				Ext:  json.RawMessage(`{"anythingElse":"42"}`),
 			},
 			expectedPolicy: Policy{
@@ -131,6 +147,15 @@ func TestReadFromRequestWrapper(t *testing.T) {
 				Ext:  json.RawMessage(`{"prebid":{"nosale":"wrongtype"}}`),
 			},
 			expectedError: true,
+		},
+		{
+			description: "Injection Attack",
+			request: &openrtb2.BidRequest{
+				Regs: &openrtb2.Regs{Ext: json.RawMessage(`{"us_privacy":"1YYY\"},\"oops\":\"malicious\",\"p\":{\"p\":\""}`)},
+			},
+			expectedPolicy: Policy{
+				Consent: "1YYY\"},\"oops\":\"malicious\",\"p\":{\"p\":\"",
+			},
 		},
 		{
 			description: "GPP Success",
@@ -219,7 +244,7 @@ func TestReadFromRequest(t *testing.T) {
 		{
 			description: "Success",
 			request: &openrtb2.BidRequest{
-				Regs: &openrtb2.Regs{USPrivacy: "ABC"},
+				Regs: &openrtb2.Regs{Ext: json.RawMessage(`{"us_privacy":"ABC"}`)},
 				Ext:  json.RawMessage(`{"prebid":{"nosale":["a", "b"]}}`),
 			},
 			expectedPolicy: Policy{
@@ -328,7 +353,7 @@ func TestWrite(t *testing.T) {
 			policy:      Policy{Consent: "anyConsent", NoSaleBidders: []string{"a", "b"}},
 			request:     &openrtb2.BidRequest{},
 			expected: &openrtb2.BidRequest{
-				Regs: &openrtb2.Regs{USPrivacy: "anyConsent"},
+				Regs: &openrtb2.Regs{Ext: json.RawMessage(`{"us_privacy":"anyConsent"}`)},
 				Ext:  json.RawMessage(`{"prebid":{"nosale":["a","b"]}}`),
 			},
 		},

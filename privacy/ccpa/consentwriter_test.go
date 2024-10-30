@@ -75,9 +75,7 @@ func TestConsentWriterLegacy(t *testing.T) {
 			description: "Success",
 			request:     &openrtb2.BidRequest{},
 			expected: &openrtb2.BidRequest{
-				Regs: &openrtb2.Regs{
-					USPrivacy: "anyConsent",
-				},
+				Regs: &openrtb2.Regs{Ext: json.RawMessage(`{"us_privacy":"anyConsent"}`)},
 			},
 		},
 		{
@@ -85,12 +83,9 @@ func TestConsentWriterLegacy(t *testing.T) {
 			request: &openrtb2.BidRequest{
 				Regs: &openrtb2.Regs{Ext: json.RawMessage(`malformed}`)},
 			},
-			expectedError: false,
+			expectedError: true,
 			expected: &openrtb2.BidRequest{
-				Regs: &openrtb2.Regs{
-					USPrivacy: "anyConsent",
-					Ext:       json.RawMessage(`malformed}`),
-				},
+				Regs: &openrtb2.Regs{Ext: json.RawMessage(`malformed}`)},
 			},
 		},
 	}

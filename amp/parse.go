@@ -117,7 +117,7 @@ func buildGdprTCF2ConsentWriter(ampParams Params) gdpr.ConsentWriter {
 		// set regs.ext.gdpr if non-nil gdpr_applies was set to true
 		gdprValue = parseGdprApplies(ampParams.GdprApplies)
 	}
-	writer.GDPR = &gdprValue
+	writer.RegExtGDPR = &gdprValue
 
 	return writer
 }

@@ -6,16 +6,18 @@
                 "page": "test.somepage.com"
             },
             "user": {
-                "eids": [
-                    {
-                        "source": "source1",
-                        "uids": [
-                            {
-                                "id": "id1"
-                            }
-                        ]
-                    }
-                ]
+                "ext": {
+                    "eids": [
+                        {
+                            "source": "source1",
+                            "uids": [
+                                {
+                                    "id": "id1"
+                                }
+                            ]
+                        }
+                    ]
+                }
             },
             "ext": {
                 "prebid": {

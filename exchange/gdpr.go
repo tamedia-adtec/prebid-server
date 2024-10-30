@@ -16,11 +16,11 @@ func getGDPR(req *openrtb_ext.RequestWrapper) (gdpr.Signal, error) {
 		}
 		return gdpr.SignalNo, nil
 	}
-	if req.Regs != nil && req.Regs.GDPR != nil {
-		return gdpr.IntSignalParse(int(*req.Regs.GDPR))
+	re, err := req.GetRegExt()
+	if re == nil || re.GetGDPR() == nil || err != nil {
+		return gdpr.SignalAmbiguous, err
 	}
-	return gdpr.SignalAmbiguous, nil
-
+	return gdpr.Signal(*re.GetGDPR()), nil
 }
 
 // getConsent will pull the consent string from an openrtb request
@@ -29,8 +29,9 @@ func getConsent(req *openrtb_ext.RequestWrapper, gpp gpplib.GppContainer) (conse
 		consent = gpp.Sections[i].GetValue()
 		return
 	}
-	if req.User != nil {
-		return req.User.Consent, nil
+	ue, err := req.GetUserExt()
+	if ue == nil || ue.GetConsent() == nil || err != nil {
+		return
 	}
-	return
+	return *ue.GetConsent(), nil
 }

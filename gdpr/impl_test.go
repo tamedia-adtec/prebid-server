@@ -335,8 +335,9 @@ func TestAllowActivities(t *testing.T) {
 		perms.gdprSignal = tt.gdpr
 		perms.publisherID = tt.publisherID
 
-		permissions := perms.AuctionActivitiesAllowed(context.Background(), tt.bidderCoreName, tt.bidderName)
+		permissions, err := perms.AuctionActivitiesAllowed(context.Background(), tt.bidderCoreName, tt.bidderName)
 
+		assert.Nil(t, err, tt.description)
 		assert.Equal(t, tt.passID, permissions.PassID, tt.description)
 	}
 }
@@ -436,7 +437,8 @@ func TestAllowActivitiesBidderWithoutGVLID(t *testing.T) {
 				purposeEnforcerBuilder: NewPurposeEnforcerBuilder(&tcf2AggConfig),
 			}
 
-			permissions := perms.AuctionActivitiesAllowed(context.Background(), bidderWithoutGVLID, bidderWithoutGVLID)
+			permissions, err := perms.AuctionActivitiesAllowed(context.Background(), bidderWithoutGVLID, bidderWithoutGVLID)
+			assert.NoError(t, err)
 			assert.Equal(t, tt.allowBidRequest, permissions.AllowBidRequest)
 			assert.Equal(t, tt.passID, permissions.PassID)
 		})
@@ -656,7 +658,8 @@ func TestAllowActivitiesGeoAndID(t *testing.T) {
 		perms.consent = td.consent
 		perms.purposeEnforcerBuilder = NewPurposeEnforcerBuilder(&tcf2AggConfig)
 
-		permissions := perms.AuctionActivitiesAllowed(context.Background(), td.bidderCoreName, td.bidder)
+		permissions, err := perms.AuctionActivitiesAllowed(context.Background(), td.bidderCoreName, td.bidder)
+		assert.NoErrorf(t, err, "Error processing AuctionActivitiesAllowed for %s", td.description)
 		assert.EqualValuesf(t, td.allowBidRequest, permissions.AllowBidRequest, "AllowBid failure on %s", td.description)
 		assert.EqualValuesf(t, td.passGeo, permissions.PassGeo, "PassGeo failure on %s", td.description)
 		assert.EqualValuesf(t, td.passID, permissions.PassID, "PassID failure on %s", td.description)
@@ -692,7 +695,8 @@ func TestAllowActivitiesWhitelist(t *testing.T) {
 	}
 
 	// Assert that an item that otherwise would not be allowed PI access, gets approved because it is found in the GDPR.NonStandardPublishers array
-	permissions := perms.AuctionActivitiesAllowed(context.Background(), openrtb_ext.BidderAppnexus, openrtb_ext.BidderAppnexus)
+	permissions, err := perms.AuctionActivitiesAllowed(context.Background(), openrtb_ext.BidderAppnexus, openrtb_ext.BidderAppnexus)
+	assert.NoErrorf(t, err, "Error processing AuctionActivitiesAllowed")
 	assert.EqualValuesf(t, true, permissions.PassGeo, "PassGeo failure")
 	assert.EqualValuesf(t, true, permissions.PassID, "PassID failure")
 }
@@ -763,7 +767,8 @@ func TestAllowActivitiesPubRestrict(t *testing.T) {
 		perms.aliasGVLIDs = td.aliasGVLIDs
 		perms.consent = td.consent
 
-		permissions := perms.AuctionActivitiesAllowed(context.Background(), td.bidderCoreName, td.bidder)
+		permissions, err := perms.AuctionActivitiesAllowed(context.Background(), td.bidderCoreName, td.bidder)
+		assert.NoErrorf(t, err, "Error processing AuctionActivitiesAllowed for %s", td.description)
 		assert.EqualValuesf(t, td.passGeo, permissions.PassGeo, "PassGeo failure on %s", td.description)
 		assert.EqualValuesf(t, td.passID, permissions.PassID, "PassID failure on %s", td.description)
 	}
@@ -1096,7 +1101,8 @@ func TestAllowActivitiesBidRequests(t *testing.T) {
 		perms.cfg = &tcf2AggConfig
 		perms.purposeEnforcerBuilder = NewPurposeEnforcerBuilder(&tcf2AggConfig)
 
-		permissions := perms.AuctionActivitiesAllowed(context.Background(), td.bidderCoreName, td.bidder)
+		permissions, err := perms.AuctionActivitiesAllowed(context.Background(), td.bidderCoreName, td.bidder)
+		assert.NoErrorf(t, err, "Error processing AuctionActivitiesAllowed for %s", td.description)
 		assert.EqualValuesf(t, td.allowBidRequest, permissions.AllowBidRequest, "AllowBid failure on %s", td.description)
 		assert.EqualValuesf(t, td.passGeo, permissions.PassGeo, "PassGeo failure on %s", td.description)
 		assert.EqualValuesf(t, td.passID, permissions.PassID, "PassID failure on %s", td.description)
@@ -1189,7 +1195,8 @@ func TestAllowActivitiesVendorException(t *testing.T) {
 		perms.cfg = &tcf2AggConfig
 		perms.purposeEnforcerBuilder = NewPurposeEnforcerBuilder(&tcf2AggConfig)
 
-		permissions := perms.AuctionActivitiesAllowed(context.Background(), td.bidderCoreName, td.bidder)
+		permissions, err := perms.AuctionActivitiesAllowed(context.Background(), td.bidderCoreName, td.bidder)
+		assert.NoErrorf(t, err, "Error processing AuctionActivitiesAllowed for %s", td.description)
 		assert.EqualValuesf(t, td.allowBidRequest, permissions.AllowBidRequest, "AllowBid failure on %s", td.description)
 		assert.EqualValuesf(t, td.passGeo, permissions.PassGeo, "PassGeo failure on %s", td.description)
 		assert.EqualValuesf(t, td.passID, permissions.PassID, "PassID failure on %s", td.description)

@@ -13,9 +13,6 @@ xapi:
 maintainer:
   email: "header-bidding@rubiconproject.com"
 gvlVendorID: 52
-openrtb:
-  version: 2.6
-  gpp-supported: true
 capabilities:
   app:
     mediaTypes:

@@ -1,8 +1,5 @@
 {
     "host_schain_flag": true,
-    "ortbversion": {
-        "appnexus":"2.6"
-    },
     "incomingRequest": {
         "ortbRequest": {
             "id": "some-request-id",
@@ -67,17 +64,19 @@
                         }
                     },
                     "source": {
-                        "schain": {
-                            "complete": 0,
-                            "nodes": [
-                                {
-                                    "asi": "pbshostcompany.com",
-                                    "sid": "00001",
-                                    "rid": "BidRequest",
-                                    "hp": 1
-                                }
-                            ],
-                            "ver": "1.0"
+                        "ext": {
+                            "schain": {
+                                "complete": 0,
+                                "nodes": [
+                                    {
+                                        "asi": "pbshostcompany.com",
+                                        "sid": "00001",
+                                        "rid": "BidRequest",
+                                        "hp": 1
+                                    }
+                                ],
+                                "ver": "1.0"
+                            }
                         }
                     }
                 },

@@ -5,7 +5,7 @@ const (
 	UnknownErrorCode = 999
 	TimeoutErrorCode = iota
 	BadInputErrorCode
-	BlockedAppErrorCode
+	BlacklistedAppErrorCode
 	BadServerResponseErrorCode
 	FailedToRequestBidsErrorCode
 	BidderTemporarilyDisabledErrorCode

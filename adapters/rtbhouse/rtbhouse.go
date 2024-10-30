@@ -5,7 +5,6 @@ import (
 	"errors"
 	"fmt"
 	"net/http"
-	"strconv"
 	"strings"
 
 	"github.com/buger/jsonparser"
@@ -161,9 +160,8 @@ func (adapter *RTBHouseAdapter) MakeBids(
 	var typedBid *adapters.TypedBid
 	for _, seatBid := range openRTBBidderResponse.SeatBid {
 		for _, bid := range seatBid.Bid {
-			bid := bid
+			bid := bid // pin! -> https://github.com/kyoh86/scopelint#whats-this
 			bidType, err := getMediaTypeForBid(bid)
-			resolveMacros(&bid)
 			if err != nil {
 				errs = append(errs, err)
 				continue
@@ -222,12 +220,4 @@ func getNativeAdm(adm string) (string, error) {
 	}
 
 	return adm, nil
-}
-
-func resolveMacros(bid *openrtb2.Bid) {
-	if bid != nil {
-		price := strconv.FormatFloat(bid.Price, 'f', -1, 64)
-		bid.NURL = strings.Replace(bid.NURL, "${AUCTION_PRICE}", price, -1)
-		bid.AdM = strings.Replace(bid.AdM, "${AUCTION_PRICE}", price, -1)
-	}
 }

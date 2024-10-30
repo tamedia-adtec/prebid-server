@@ -6,7 +6,6 @@ import (
 	"errors"
 	"fmt"
 	"io"
-	"math"
 	"net/http"
 	"strconv"
 	"strings"
@@ -168,11 +167,6 @@ func (c *cookieSyncEndpoint) parseRequest(r *http.Request) (usersync.Request, ma
 	tcf2Cfg := c.privacyConfig.tcf2ConfigBuilder(c.privacyConfig.gdprConfig.TCF2, account.GDPR)
 	gdprPerms := c.privacyConfig.gdprPermissionsBuilder(tcf2Cfg, gdprRequestInfo)
 
-	limit := math.MaxInt
-	if request.Limit != nil {
-		limit = *request.Limit
-	}
-
 	rx := usersync.Request{
 		Bidders: request.Bidders,
 		Cooperative: usersync.Cooperative{
@@ -180,7 +174,7 @@ func (c *cookieSyncEndpoint) parseRequest(r *http.Request) (usersync.Request, ma
 			PriorityGroups: c.config.UserSync.PriorityGroups,
 		},
 		Debug: request.Debug,
-		Limit: limit,
+		Limit: request.Limit,
 		Privacy: usersyncPrivacy{
 			gdprPermissions:  gdprPerms,
 			ccpaParsedPolicy: ccpaParsedPolicy,
@@ -284,38 +278,17 @@ func (c *cookieSyncEndpoint) writeParseRequestErrorMetrics(err error) {
 }
 
 func (c *cookieSyncEndpoint) setLimit(request cookieSyncRequest, cookieSyncConfig config.CookieSync) cookieSyncRequest {
-	limit := getEffectiveLimit(request.Limit, cookieSyncConfig.DefaultLimit)
-	maxLimit := getEffectiveMaxLimit(cookieSyncConfig.MaxLimit)
-	if maxLimit < limit {
-		request.Limit = &maxLimit
-	} else {
-		request.Limit = &limit
+	if request.Limit <= 0 && cookieSyncConfig.DefaultLimit != nil {
+		request.Limit = *cookieSyncConfig.DefaultLimit
 	}
+	if cookieSyncConfig.MaxLimit != nil && (request.Limit <= 0 || request.Limit > *cookieSyncConfig.MaxLimit) {
+		request.Limit = *cookieSyncConfig.MaxLimit
+	}
+	if request.Limit < 0 {
+		request.Limit = 0
+	}
+
 	return request
-}
-
-func getEffectiveLimit(reqLimit *int, defaultLimit *int) int {
-	limit := reqLimit
-
-	if limit == nil {
-		limit = defaultLimit
-	}
-
-	if limit != nil && *limit > 0 {
-		return *limit
-	}
-
-	return math.MaxInt
-}
-
-func getEffectiveMaxLimit(maxLimit *int) int {
-	limit := maxLimit
-
-	if limit != nil && *limit > 0 {
-		return *limit
-	}
-
-	return math.MaxInt
 }
 
 func (c *cookieSyncEndpoint) setCooperativeSync(request cookieSyncRequest, cookieSyncConfig config.CookieSync) cookieSyncRequest {
@@ -422,8 +395,8 @@ func (c *cookieSyncEndpoint) writeSyncerMetrics(biddersEvaluated []usersync.Bidd
 			c.metrics.RecordSyncerRequest(bidder.SyncerKey, metrics.SyncerCookieSyncPrivacyBlocked)
 		case usersync.StatusAlreadySynced:
 			c.metrics.RecordSyncerRequest(bidder.SyncerKey, metrics.SyncerCookieSyncAlreadySynced)
-		case usersync.StatusRejectedByFilter:
-			c.metrics.RecordSyncerRequest(bidder.SyncerKey, metrics.SyncerCookieSyncRejectedByFilter)
+		case usersync.StatusTypeNotSupported:
+			c.metrics.RecordSyncerRequest(bidder.SyncerKey, metrics.SyncerCookieSyncTypeNotSupported)
 		}
 	}
 }
@@ -517,8 +490,8 @@ func getDebugMessage(status usersync.Status) string {
 		return "Unsupported bidder"
 	case usersync.StatusUnconfiguredBidder:
 		return "No sync config"
-	case usersync.StatusRejectedByFilter:
-		return "Rejected by request filter"
+	case usersync.StatusTypeNotSupported:
+		return "Type not supported"
 	case usersync.StatusBlockedByDisabledUsersync:
 		return "Sync disabled by config"
 	}
@@ -530,7 +503,7 @@ type cookieSyncRequest struct {
 	GDPR            *int                             `json:"gdpr"`
 	GDPRConsent     string                           `json:"gdpr_consent"`
 	USPrivacy       string                           `json:"us_privacy"`
-	Limit           *int                             `json:"limit"`
+	Limit           int                              `json:"limit"`
 	GPP             string                           `json:"gpp"`
 	GPPSID          string                           `json:"gpp_sid"`
 	CooperativeSync *bool                            `json:"coopSync"`

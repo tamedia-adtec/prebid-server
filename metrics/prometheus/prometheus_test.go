@@ -141,7 +141,7 @@ func TestConnectionMetrics(t *testing.T) {
 func TestRequestMetric(t *testing.T) {
 	m := createMetricsForTesting()
 	requestType := metrics.ReqTypeORTB2Web
-	requestStatus := metrics.RequestStatusBlockedApp
+	requestStatus := metrics.RequestStatusBlacklisted
 
 	m.RecordRequest(metrics.Labels{
 		RType:         requestType,
@@ -285,7 +285,7 @@ func TestRequestMetricWithoutCookie(t *testing.T) {
 	performTest := func(m *Metrics, cookieFlag metrics.CookieFlag) {
 		m.RecordRequest(metrics.Labels{
 			RType:         requestType,
-			RequestStatus: metrics.RequestStatusBlockedApp,
+			RequestStatus: metrics.RequestStatusBlacklisted,
 			CookieFlag:    cookieFlag,
 		})
 	}
@@ -337,7 +337,7 @@ func TestAccountMetric(t *testing.T) {
 	performTest := func(m *Metrics, pubID string) {
 		m.RecordRequest(metrics.Labels{
 			RType:         metrics.ReqTypeORTB2Web,
-			RequestStatus: metrics.RequestStatusBlockedApp,
+			RequestStatus: metrics.RequestStatusBlacklisted,
 			PubID:         pubID,
 		})
 	}
@@ -1235,7 +1235,7 @@ func TestRecordSyncerRequestMetric(t *testing.T) {
 			label:  "already_synced",
 		},
 		{
-			status: metrics.SyncerCookieSyncRejectedByFilter,
+			status: metrics.SyncerCookieSyncTypeNotSupported,
 			label:  "type_not_supported",
 		},
 	}

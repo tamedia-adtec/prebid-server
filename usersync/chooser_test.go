@@ -153,7 +153,7 @@ func TestChooserChoose(t *testing.T) {
 			bidderNamesLookup:  normalizedBidderNamesLookup,
 			expected: Result{
 				Status:           StatusOK,
-				BiddersEvaluated: []BidderEvaluation{{Bidder: "c", SyncerKey: "keyC", Status: StatusRejectedByFilter}},
+				BiddersEvaluated: []BidderEvaluation{{Bidder: "c", SyncerKey: "keyC", Status: StatusTypeNotSupported}},
 				SyncersChosen:    []SyncerChoice{},
 			},
 		},
@@ -228,7 +228,7 @@ func TestChooserChoose(t *testing.T) {
 			bidderNamesLookup:  normalizedBidderNamesLookup,
 			expected: Result{
 				Status:           StatusOK,
-				BiddersEvaluated: []BidderEvaluation{{Bidder: "c", SyncerKey: "keyC", Status: StatusRejectedByFilter}, {Bidder: "a", SyncerKey: "keyA", Status: StatusOK}},
+				BiddersEvaluated: []BidderEvaluation{{Bidder: "c", SyncerKey: "keyC", Status: StatusTypeNotSupported}, {Bidder: "a", SyncerKey: "keyA", Status: StatusOK}},
 				SyncersChosen:    []SyncerChoice{syncerChoiceA},
 			},
 		},
@@ -243,7 +243,7 @@ func TestChooserChoose(t *testing.T) {
 			bidderNamesLookup:  normalizedBidderNamesLookup,
 			expected: Result{
 				Status:           StatusOK,
-				BiddersEvaluated: []BidderEvaluation{{Bidder: "a", SyncerKey: "keyA", Status: StatusOK}, {Bidder: "c", SyncerKey: "keyC", Status: StatusRejectedByFilter}},
+				BiddersEvaluated: []BidderEvaluation{{Bidder: "a", SyncerKey: "keyA", Status: StatusOK}, {Bidder: "c", SyncerKey: "keyC", Status: StatusTypeNotSupported}},
 				SyncersChosen:    []SyncerChoice{syncerChoiceA},
 			},
 		},
@@ -531,7 +531,7 @@ func TestChooserEvaluate(t *testing.T) {
 			givenSyncTypeFilter:         syncTypeFilter,
 			normalizedBidderNamesLookup: normalizedBidderNamesLookup,
 			expectedSyncer:              nil,
-			expectedEvaluation:          BidderEvaluation{Bidder: "b", SyncerKey: "keyB", Status: StatusRejectedByFilter},
+			expectedEvaluation:          BidderEvaluation{Bidder: "b", SyncerKey: "keyB", Status: StatusTypeNotSupported},
 		},
 		{
 			description:                 "Already Synced",
