@@ -76,12 +76,14 @@ type bidRequestOptions struct {
 
 type extraBidderRespInfo struct {
 	respProcessingStartTime time.Time
+	seatNonBidBuilder       SeatNonBidBuilder
 }
 
 type extraAuctionResponseInfo struct {
 	fledge                  *openrtb_ext.Fledge
 	bidsFound               bool
 	bidderResponseStartTime time.Time
+	seatNonBidBuilder       SeatNonBidBuilder
 }
 
 const ImpIdReqBody = "Stored bid response for impression id: "
@@ -96,7 +98,7 @@ const (
 // The name refers to the "Adapter" architecture pattern, and should not be confused with a Prebid "Adapter"
 // (which is being phased out and replaced by Bidder for OpenRTB auctions)
 func AdaptBidder(bidder adapters.Bidder, client *http.Client, cfg *config.Configuration, me metrics.MetricsEngine, name openrtb_ext.BidderName, debugInfo *config.DebugInfo, endpointCompression string) AdaptedBidder {
-	return &bidderAdapter{
+	return &BidderAdapter{
 		Bidder:     bidder,
 		BidderName: name,
 		Client:     client,
@@ -117,7 +119,7 @@ func parseDebugInfo(info *config.DebugInfo) bool {
 	return info.Allow
 }
 
-type bidderAdapter struct {
+type BidderAdapter struct {
 	Bidder     adapters.Bidder
 	BidderName openrtb_ext.BidderName
 	Client     *http.Client
@@ -132,9 +134,10 @@ type bidderAdapterConfig struct {
 	EndpointCompression string
 }
 
-func (bidder *bidderAdapter) requestBid(ctx context.Context, bidderRequest BidderRequest, conversions currency.Conversions, reqInfo *adapters.ExtraRequestInfo, adsCertSigner adscert.Signer, bidRequestOptions bidRequestOptions, alternateBidderCodes openrtb_ext.ExtAlternateBidderCodes, hookExecutor hookexecution.StageExecutor, ruleToAdjustments openrtb_ext.AdjustmentsByDealID) ([]*entities.PbsOrtbSeatBid, extraBidderRespInfo, []error) {
+func (bidder *BidderAdapter) requestBid(ctx context.Context, bidderRequest BidderRequest, conversions currency.Conversions, reqInfo *adapters.ExtraRequestInfo, adsCertSigner adscert.Signer, bidRequestOptions bidRequestOptions, alternateBidderCodes openrtb_ext.ExtAlternateBidderCodes, hookExecutor hookexecution.StageExecutor, ruleToAdjustments openrtb_ext.AdjustmentsByDealID) ([]*entities.PbsOrtbSeatBid, extraBidderRespInfo, []error) {
 	request := openrtb_ext.RequestWrapper{BidRequest: bidderRequest.BidRequest}
 	reject := hookExecutor.ExecuteBidderRequestStage(&request, string(bidderRequest.BidderName))
+	seatNonBidBuilder := SeatNonBidBuilder{}
 	if reject != nil {
 		return nil, extraBidderRespInfo{}, []error{reject}
 	}
@@ -397,13 +400,17 @@ func (bidder *bidderAdapter) requestBid(ctx context.Context, bidderRequest Bidde
 			}
 		} else {
 			errs = append(errs, httpInfo.err)
+			nonBidReason := httpInfoToNonBidReason(httpInfo)
+			seatNonBidBuilder.rejectImps(httpInfo.request.ImpIDs, nonBidReason, string(bidderRequest.BidderName))
 		}
 	}
+
 	seatBids := make([]*entities.PbsOrtbSeatBid, 0, len(seatBidMap))
 	for _, seatBid := range seatBidMap {
 		seatBids = append(seatBids, seatBid)
 	}
 
+	extraRespInfo.seatNonBidBuilder = seatNonBidBuilder
 	return seatBids, extraRespInfo, errs
 }
 
@@ -518,11 +525,11 @@ func makeExt(httpInfo *httpCallInfo) *openrtb_ext.ExtHttpCall {
 
 // doRequest makes a request, handles the response, and returns the data needed by the
 // Bidder interface.
-func (bidder *bidderAdapter) doRequest(ctx context.Context, req *adapters.RequestData, bidderRequestStartTime time.Time, tmaxAdjustments *TmaxAdjustmentsPreprocessed) *httpCallInfo {
+func (bidder *BidderAdapter) doRequest(ctx context.Context, req *adapters.RequestData, bidderRequestStartTime time.Time, tmaxAdjustments *TmaxAdjustmentsPreprocessed) *httpCallInfo {
 	return bidder.doRequestImpl(ctx, req, glog.Warningf, bidderRequestStartTime, tmaxAdjustments)
 }
 
-func (bidder *bidderAdapter) doRequestImpl(ctx context.Context, req *adapters.RequestData, logger util.LogMsg, bidderRequestStartTime time.Time, tmaxAdjustments *TmaxAdjustmentsPreprocessed) *httpCallInfo {
+func (bidder *BidderAdapter) doRequestImpl(ctx context.Context, req *adapters.RequestData, logger util.LogMsg, bidderRequestStartTime time.Time, tmaxAdjustments *TmaxAdjustmentsPreprocessed) *httpCallInfo {
 	requestBody, err := getRequestBody(req, bidder.config.EndpointCompression)
 	if err != nil {
 		return &httpCallInfo{
@@ -609,7 +616,7 @@ func (bidder *bidderAdapter) doRequestImpl(ctx context.Context, req *adapters.Re
 	}
 }
 
-func (bidder *bidderAdapter) doTimeoutNotification(timeoutBidder adapters.TimeoutBidder, req *adapters.RequestData, logger util.LogMsg) {
+func (bidder *BidderAdapter) doTimeoutNotification(timeoutBidder adapters.TimeoutBidder, req *adapters.RequestData, logger util.LogMsg) {
 	ctx, cancel := context.WithTimeout(context.Background(), 200*time.Millisecond)
 	defer cancel()
 	toReq, errL := timeoutBidder.MakeTimeoutNotification(req)
@@ -659,7 +666,7 @@ type httpCallInfo struct {
 // This function adds an httptrace.ClientTrace object to the context so, if connection with the bidder
 // endpoint is established, we can keep track of whether the connection was newly created, reused, and
 // the time from the connection request, to the connection creation.
-func (bidder *bidderAdapter) addClientTrace(ctx context.Context) context.Context {
+func (bidder *BidderAdapter) addClientTrace(ctx context.Context) context.Context {
 	var connStart, dnsStart, tlsStart time.Time
 
 	trace := &httptrace.ClientTrace{

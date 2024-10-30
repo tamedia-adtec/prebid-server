@@ -72,7 +72,8 @@
                 "price": 2.0,
                 "id": "1234",
                 "adm": "native-json",
-                "impid": "imp-id"
+                "impid": "imp-id",
+                "mtype": 4
               }
             ]
           }
@@ -91,6 +92,7 @@
         "adm": "native-json",
         "crid": "123456789",
         "nurl": "https://some.event.url/params",
+        "mtype": 4,
         "ext": {
           "prebid": {
             "meta": {

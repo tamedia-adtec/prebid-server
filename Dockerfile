@@ -3,7 +3,6 @@ FROM golang:1.21-alpine
 RUN apk add --update tini 
 RUN mkdir -p /app/prebid-server/
 WORKDIR /app/prebid-server/
-
 COPY ./ ./
 
 RUN go mod download
