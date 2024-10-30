@@ -18,5 +18,9 @@ userSync:
     url: "https://sync.go.sonobi.com/uc.html?gdpr={{.GDPR}}&gdpr_consent={{.GDPRConsent}}&us_privacy={{.USPrivacy}}&loc={{.RedirectURL}}"
     userMacro: "[UID]"
   redirect:
+<<<<<<< HEAD
     url: "https://sync.go.sonobi.com/us.gif?loc={{.RedirectURL}}"
+=======
+    url: "https://sync.go.sonobi.com/us.gif?gdpr={{.GDPR}}&gdpr_consent={{.GDPRConsent}}&us_privacy={{.USPrivacy}}&loc={{.RedirectURL}}"
+>>>>>>> master
     userMacro: "[UID]"
