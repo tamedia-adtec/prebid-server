@@ -33,13 +33,4 @@ func getConsent(req *openrtb_ext.RequestWrapper, gpp gpplib.GppContainer) (conse
 		return req.User.Consent, nil
 	}
 	return
-<<<<<<< HEAD
-=======
-}
-
-// enforceGDPR determines if GDPR should be enforced based on the request signal and whether the channel is enabled
-func enforceGDPR(signal gdpr.Signal, defaultValue gdpr.Signal, channelEnabled bool) bool {
-	gdprApplies := signal == gdpr.SignalYes || (signal == gdpr.SignalAmbiguous && defaultValue == gdpr.SignalYes)
-	return gdprApplies && channelEnabled
->>>>>>> master
 }

@@ -39,11 +39,6 @@ type adnAdvertiser struct {
 	Name      string `json:"name,omitempty"`
 }
 
-type adnAdvertiser struct {
-	LegalName string `json:"legalName,omitempty"`
-	Name      string `json:"name,omitempty"`
-}
-
 type Ad struct {
 	Bid struct {
 		Amount   float64
