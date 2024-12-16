@@ -1,0 +1,17 @@
+gdpr:
+  enabled: true
+  default_value: 1
+  timeouts_ms:
+    init_vendorlist_fetches: 180000
+    active_vendorlist_fetch: 180000
+metrics:
+  prometheus:
+    port: 8001
+compression:
+  response:
+    enable_gzip: true
+  request:
+    enable_gzip: true
+http:
+  max-idle-conns: 100
+  max-idle-conns-per-host: 50
