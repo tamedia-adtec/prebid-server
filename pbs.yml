@@ -1,6 +1,7 @@
 gdpr:
   enabled: true
   default_value: 1
+  host_vendor_id: 580
   timeouts_ms:
     init_vendorlist_fetches: 180000
     active_vendorlist_fetch: 180000
