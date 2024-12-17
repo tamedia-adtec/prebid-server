@@ -12,6 +12,7 @@ COPY ./ ./
 
 # Build the Go application
 ENV CGO_ENABLED=1
+RUN go mod download
 RUN go mod tidy
 RUN go mod vendor
 RUN go build -mod=vendor -o /prebid-app
