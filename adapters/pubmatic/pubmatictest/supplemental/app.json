@@ -27,6 +27,10 @@
                         "version": 1,
                         "profile": 5123
                     }
+                },
+                "skadn": {
+                  "skadnetids": ["k674qkevps.skadnetwork"],
+                  "version": "2.0"
                 }
             }
         }],
@@ -41,7 +45,6 @@
           "ext":{}
 		    }
     },
-  
     "httpCalls": [
       {
         "expectedRequest": {
@@ -65,7 +68,11 @@
                 "bidfloor": 0.12,
                 "ext": {
                     "pmZoneId": "Zone1,Zone2",
-                    "preference": "sports,movies"
+                    "preference": "sports,movies",
+                    "skadn": {
+                      "skadnetids": ["k674qkevps.skadnetwork"],
+                      "version": "2.0"
+                    }
                 }
               }
             ], 
@@ -83,8 +90,7 @@
                 "wrapper": {
                     "profile": 5123,
                     "version":1
-                },
-                "prebid": {}
+                }
             }
           },
           "impIDs":["app-imp"]
@@ -106,6 +112,7 @@
                   "crid": "29681110",
                   "h": 250,
                   "w": 300,
+                  "mtype": 1,
                   "dealid":"test deal"
                 }]
               }
@@ -132,9 +139,10 @@
               "crid": "29681110",
               "w": 300,
               "h": 250,
+              "mtype": 1,
               "dealid":"test deal"
             },
-            "type": "banner"
+             "type": "banner"
           }
         ]
       }
