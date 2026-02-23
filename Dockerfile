@@ -1,4 +1,4 @@
-FROM golang:1.25-alpine
+FROM golang:1.24-alpine
 
 # Install tini and required build dependencies
 RUN apk add --no-cache tini gcc musl-dev
