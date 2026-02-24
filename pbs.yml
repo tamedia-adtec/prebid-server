@@ -1,3 +1,6 @@
+adapters:
+  appnexus:
+    endpoint: "https://goldbach-emea.adnxs.com/openrtb2"
 gdpr:
   enabled: true
   default_value: 1
