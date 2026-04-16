@@ -1,6 +1,9 @@
 adapters:
   appnexus:
     endpoint: "https://goldbach-emea.adnxs.com/openrtb2"
+  rubicon:
+    disabled: false
+    endpoint: "https://exapi-eu.rubiconproject.com/a/api/exchange"
 gdpr:
   enabled: true
   default_value: 1
