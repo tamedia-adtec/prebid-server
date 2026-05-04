@@ -3,7 +3,7 @@ adapters:
     endpoint: "https://goldbach-emea.adnxs.com/openrtb2"
   rubicon:
     disabled: false
-    endpoint: "https://exapi-eu.rubiconproject.com/a/api/exchange"
+    endpoint: "http://exapi-eu.rubiconproject.com/a/api/exchange.json?tk_sdc=eu"
 gdpr:
   enabled: true
   default_value: 1
@@ -22,3 +22,5 @@ compression:
 http:
   max-idle-conns: 100
   max-idle-conns-per-host: 50
+account_defaults:
+  debug_allow: true
