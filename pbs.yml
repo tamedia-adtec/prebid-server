@@ -1,6 +1,8 @@
 adapters:
   appnexus:
     endpoint: "https://goldbach-emea.adnxs.com/openrtb2"
+  msft:
+    endpoint: "https://goldbach-emea.adnxs.com/openrtb2"
   rubicon:
     disabled: false
     endpoint: "http://exapi-eu.rubiconproject.com/a/api/exchange.json?tk_sdc=eu"
