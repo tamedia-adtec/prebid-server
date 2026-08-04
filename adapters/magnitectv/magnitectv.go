@@ -86,9 +86,13 @@ func (a *adapter) MakeRequests(request *openrtb2.BidRequest, reqInfo *adapters.E
 			continue
 		}
 
+		// AccountID carries the Magnite seat code. Do NOT use a macro outside
+		// config.testEndpointTemplateParams (e.g. SeatID): startup endpoint validation
+		// resolves the template with that fixed set, and an unpopulated macro in the
+		// host position yields an invalid URL that crashes PBS at boot.
 		uri, err := macros.ResolveMacros(a.endpointTemplate, macros.EndpointTemplateParams{
-			SeatID: key.seatCode,
-			Region: key.region,
+			AccountID: key.seatCode,
+			Region:    key.region,
 		})
 		if err != nil {
 			errs = append(errs, fmt.Errorf("unable to resolve endpoint: %v", err))

@@ -17,7 +17,7 @@ func TestJsonSamples(t *testing.T) {
 	bidder, buildErr := Builder(
 		openrtb_ext.BidderMagniteCTV,
 		config.Adapter{
-			Endpoint: "https://{{.SeatID}}.{{.Region}}.eb.tremorhub.com/ad/rtb/pub",
+			Endpoint: "https://{{.AccountID}}.{{.Region}}.eb.tremorhub.com/ad/rtb/pub",
 		},
 		config.Server{
 			ExternalUrl: "http://hosturl.com",
@@ -41,7 +41,7 @@ func TestBuilderRejectsInvalidTemplate(t *testing.T) {
 func TestMakeBidsMapsTierToDealPriority(t *testing.T) {
 	bidder, buildErr := Builder(
 		openrtb_ext.BidderMagniteCTV,
-		config.Adapter{Endpoint: "https://{{.SeatID}}.{{.Region}}.eb.tremorhub.com/ad/rtb/pub"},
+		config.Adapter{Endpoint: "https://{{.AccountID}}.{{.Region}}.eb.tremorhub.com/ad/rtb/pub"},
 		config.Server{},
 	)
 	require.NoError(t, buildErr)

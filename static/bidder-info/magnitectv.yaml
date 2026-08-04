@@ -1,4 +1,4 @@
-endpoint: "https://{{.SeatID}}.{{.Region}}.eb.tremorhub.com/ad/rtb/pub"
+endpoint: "https://{{.AccountID}}.{{.Region}}.eb.tremorhub.com/ad/rtb/pub"
 maintainer:
   email: "engineering@goldbach.com"
 gvlVendorID: 202

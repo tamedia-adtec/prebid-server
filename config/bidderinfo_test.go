@@ -585,6 +585,19 @@ func TestBidderInfoFiles(t *testing.T) {
 	}
 }
 
+// TestBidderInfoFilesValidate runs the same validation over the real bidder-info files that
+// main.go performs at startup (endpoint template resolution, info, syncer). Loading alone
+// (TestBidderInfoFiles) does not catch endpoint templates that resolve to invalid URLs —
+// e.g. a macro missing from testEndpointTemplateParams in the host position — which
+// otherwise crashes PBS only at boot.
+func TestBidderInfoFilesValidate(t *testing.T) {
+	bidderInfos, err := LoadBidderInfoFromDisk(bidderInfoRelativePath)
+	require.NoError(t, err, "Errors in bidder info files")
+
+	errs := bidderInfos.validate(make([]error, 0))
+	assert.Empty(t, errs, "Errors validating bidder info files")
+}
+
 func TestBidderInfoValidationPositive(t *testing.T) {
 	bidderInfos := BidderInfos{
 		"bidderA": BidderInfo{
