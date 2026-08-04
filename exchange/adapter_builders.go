@@ -150,6 +150,7 @@ import (
 	"github.com/prebid/prebid-server/v4/adapters/mabidder"
 	"github.com/prebid/prebid-server/v4/adapters/madsense"
 	"github.com/prebid/prebid-server/v4/adapters/madvertise"
+	"github.com/prebid/prebid-server/v4/adapters/magnitectv"
 	"github.com/prebid/prebid-server/v4/adapters/marsmedia"
 	"github.com/prebid/prebid-server/v4/adapters/mediago"
 	"github.com/prebid/prebid-server/v4/adapters/medianet"
@@ -425,6 +426,7 @@ func newAdapterBuilders() map[openrtb_ext.BidderName]adapters.Builder {
 		openrtb_ext.BidderMabidder:          mabidder.Builder,
 		openrtb_ext.BidderMadSense:          madsense.Builder,
 		openrtb_ext.BidderMadvertise:        madvertise.Builder,
+		openrtb_ext.BidderMagniteCTV:        magnitectv.Builder,
 		openrtb_ext.BidderMarsmedia:         marsmedia.Builder,
 		openrtb_ext.BidderMediafuse:         appnexus.Builder,
 		openrtb_ext.BidderMediaGo:           mediago.Builder,
