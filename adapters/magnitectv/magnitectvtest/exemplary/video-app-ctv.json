@@ -1,0 +1,223 @@
+{
+  "mockBidRequest": {
+    "id": "test-request-id",
+    "tmax": 500,
+    "app": {
+      "bundle": "ch.goldbach.tvapp",
+      "name": "Goldbach TV",
+      "storeurl": "https://channelstore.roku.com/details/12345",
+      "content": {
+        "title": "Some Show",
+        "genre": "News",
+        "livestream": 1
+      }
+    },
+    "device": {
+      "ua": "Roku/DVP-12.0",
+      "ifa": "ad2c8631-923c-4cd8-a1d6-58a1c34fd7c2",
+      "ip": "91.190.10.10",
+      "ext": {
+        "ifa_type": "rida"
+      }
+    },
+    "user": {
+      "ext": {
+        "consent": "CQAB7AAAB7AAAAKA7AENAwCsAP_AAH_AAAAAJqtf_X__b3_j-_5_f_t0eY1P9_7_v-0zjhfdt-8N2f_X_L8X42M7vF36pq4KuR4Eu3LBIQdlHOHcTUmw6okVrTPsbk2Mr7NKJ7PEinMbe2dYGH9_n93TuZKY7__8___z__-v_v____f_r-3_3_vp9V---3YHIgEmGpfARZiWOBJNGlUKIEIVxIVAOACihGFomsICVwU7K4CP0EDABAagIwIgQYgoxZBAAAAAElEQEgB4IBEARAIAAQArQEIACJAEFgBIGAQACgGhYARQBCBIQZHBUcpgQESLRQTyVgCUXexhhCGUUANAg"
+      }
+    },
+    "regs": {
+      "ext": {
+        "gdpr": 1
+      }
+    },
+    "source": {
+      "ext": {
+        "omidpn": "Google",
+        "schain": {
+          "complete": 1,
+          "ver": "1.0",
+          "nodes": [
+            {
+              "asi": "gb-next.ch",
+              "sid": "gba-tvapp",
+              "hp": 1
+            }
+          ]
+        }
+      }
+    },
+    "ext": {
+      "extra": {
+        "c1": "sport"
+      },
+      "prebid": {
+        "targeting": {}
+      }
+    },
+    "imp": [
+      {
+        "id": "1",
+        "bidfloor": 8.5,
+        "bidfloorcur": "USD",
+        "secure": 1,
+        "video": {
+          "mimes": ["video/mp4"],
+          "protocols": [2, 3, 5, 6],
+          "w": 1920,
+          "h": 1080,
+          "minduration": 5,
+          "maxduration": 30,
+          "startdelay": 0,
+          "placement": 1,
+          "linearity": 1,
+          "poddur": 90,
+          "maxseq": 3
+        },
+        "ext": {
+          "bidder": {
+            "seatCode": "gbach1",
+            "region": "eu-west-1",
+            "tagid": "ctv_preroll_de"
+          }
+        }
+      }
+    ]
+  },
+
+  "httpCalls": [
+    {
+      "expectedRequest": {
+        "uri": "https://gbach1.eu-west-1.eb.tremorhub.com/ad/rtb/pub",
+        "impIDs": ["1"],
+        "body": {
+          "id": "test-request-id",
+          "tmax": 500,
+          "app": {
+            "bundle": "ch.goldbach.tvapp",
+            "name": "Goldbach TV",
+            "storeurl": "https://channelstore.roku.com/details/12345",
+            "content": {
+              "title": "Some Show",
+              "genre": "News",
+              "livestream": 1
+            }
+          },
+          "device": {
+            "ua": "Roku/DVP-12.0",
+            "ifa": "ad2c8631-923c-4cd8-a1d6-58a1c34fd7c2",
+            "ip": "91.190.10.10",
+            "ext": {
+              "ifa_type": "rida"
+            }
+          },
+          "user": {
+            "ext": {
+              "consent": "CQAB7AAAB7AAAAKA7AENAwCsAP_AAH_AAAAAJqtf_X__b3_j-_5_f_t0eY1P9_7_v-0zjhfdt-8N2f_X_L8X42M7vF36pq4KuR4Eu3LBIQdlHOHcTUmw6okVrTPsbk2Mr7NKJ7PEinMbe2dYGH9_n93TuZKY7__8___z__-v_v____f_r-3_3_vp9V---3YHIgEmGpfARZiWOBJNGlUKIEIVxIVAOACihGFomsICVwU7K4CP0EDABAagIwIgQYgoxZBAAAAAElEQEgB4IBEARAIAAQArQEIACJAEFgBIGAQACgGhYARQBCBIQZHBUcpgQESLRQTyVgCUXexhhCGUUANAg"
+            }
+          },
+          "regs": {
+            "ext": {
+              "gdpr": 1
+            }
+          },
+          "source": {
+            "schain": {
+              "complete": 1,
+              "ver": "1.0",
+              "nodes": [
+                {
+                  "asi": "gb-next.ch",
+                  "sid": "gba-tvapp",
+                  "hp": 1
+                }
+              ]
+            },
+            "ext": {
+              "omidpn": "Google"
+            }
+          },
+          "ext": {
+            "extra": {
+              "c1": "sport"
+            }
+          },
+          "imp": [
+            {
+              "id": "1",
+              "tagid": "ctv_preroll_de",
+              "bidfloor": 8.5,
+              "bidfloorcur": "USD",
+              "secure": 1,
+              "video": {
+                "mimes": ["video/mp4"],
+                "protocols": [2, 3, 5, 6],
+                "w": 1920,
+                "h": 1080,
+                "minduration": 5,
+                "maxduration": 30,
+                "startdelay": 0,
+                "placement": 1,
+                "linearity": 1,
+                "ext": {
+                  "podduration": 90,
+                  "maxseq": 3
+                }
+              }
+            }
+          ]
+        }
+      },
+      "mockResponse": {
+        "status": 200,
+        "body": {
+          "id": "test-request-id",
+          "cur": "USD",
+          "seatbid": [
+            {
+              "seat": "TremorVideo",
+              "bid": [
+                {
+                  "id": "bid-1",
+                  "impid": "1",
+                  "price": 12.5,
+                  "adm": "<VAST version=\"4.0\"></VAST>",
+                  "crid": "creative-1",
+                  "adomain": ["advertiser.com"],
+                  "cat": ["IAB1"],
+                  "ext": {
+                    "tier": 2,
+                    "sequence": 1
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      }
+    }
+  ],
+
+  "expectedBidResponses": [
+    {
+      "currency": "USD",
+      "bids": [
+        {
+          "bid": {
+            "id": "bid-1",
+            "impid": "1",
+            "price": 12.5,
+            "adm": "<VAST version=\"4.0\"></VAST>",
+            "crid": "creative-1",
+            "adomain": ["advertiser.com"],
+            "cat": ["IAB1"],
+            "ext": {
+              "tier": 2,
+              "sequence": 1
+            }
+          },
+          "type": "video"
+        }
+      ]
+    }
+  ]
+}

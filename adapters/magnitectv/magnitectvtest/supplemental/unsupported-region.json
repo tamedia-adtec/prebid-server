@@ -1,0 +1,24 @@
+{
+  "mockBidRequest": {
+    "id": "test-request-id",
+    "app": {"bundle": "ch.goldbach.tvapp"},
+    "imp": [
+      {
+        "id": "1",
+        "video": {"mimes": ["video/mp4"], "w": 1920, "h": 1080},
+        "ext": {"bidder": {"seatCode": "gbach1", "region": "eu-central-1"}}
+      }
+    ]
+  },
+  "httpCalls": [],
+  "expectedMakeRequestsErrors": [
+    {
+      "value": "unsupported region \"eu-central-1\" for imp 1",
+      "comparison": "literal"
+    },
+    {
+      "value": "no valid impression found",
+      "comparison": "literal"
+    }
+  ]
+}

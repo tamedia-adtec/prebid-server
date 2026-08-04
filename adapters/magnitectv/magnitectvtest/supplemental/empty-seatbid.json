@@ -1,0 +1,45 @@
+{
+  "mockBidRequest": {
+    "id": "test-request-id",
+    "app": {"bundle": "ch.goldbach.tvapp"},
+    "imp": [
+      {
+        "id": "1",
+        "video": {"mimes": ["video/mp4"], "w": 1920, "h": 1080},
+        "ext": {"bidder": {"seatCode": "gbach1"}}
+      }
+    ]
+  },
+  "httpCalls": [
+    {
+      "expectedRequest": {
+        "uri": "https://gbach1.eu-west-1.eb.tremorhub.com/ad/rtb/pub",
+        "impIDs": ["1"],
+        "body": {
+          "id": "test-request-id",
+          "app": {"bundle": "ch.goldbach.tvapp"},
+          "imp": [
+            {
+              "id": "1",
+              "video": {"mimes": ["video/mp4"], "w": 1920, "h": 1080}
+            }
+          ]
+        }
+      },
+      "mockResponse": {
+        "status": 200,
+        "body": {
+          "id": "test-request-id",
+          "cur": "USD",
+          "seatbid": []
+        }
+      }
+    }
+  ],
+  "expectedBidResponses": [
+    {
+      "currency": "USD",
+      "bids": []
+    }
+  ]
+}

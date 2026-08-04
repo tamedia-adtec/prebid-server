@@ -1,0 +1,97 @@
+{
+  "mockBidRequest": {
+    "id": "test-request-id",
+    "site": {
+      "page": "https://www.example.ch/live",
+      "domain": "example.ch"
+    },
+    "device": {
+      "ua": "Mozilla/5.0",
+      "ip": "91.190.10.10"
+    },
+    "imp": [
+      {
+        "id": "1",
+        "video": {
+          "mimes": ["video/mp4"],
+          "w": 640,
+          "h": 480
+        },
+        "ext": {
+          "bidder": {
+            "seatCode": "ksa7s"
+          }
+        }
+      }
+    ]
+  },
+
+  "httpCalls": [
+    {
+      "expectedRequest": {
+        "uri": "https://ksa7s.eu-west-1.eb.tremorhub.com/ad/rtb/pub",
+        "impIDs": ["1"],
+        "body": {
+          "id": "test-request-id",
+          "site": {
+            "page": "https://www.example.ch/live",
+            "domain": "example.ch"
+          },
+          "device": {
+            "ua": "Mozilla/5.0",
+            "ip": "91.190.10.10"
+          },
+          "imp": [
+            {
+              "id": "1",
+              "video": {
+                "mimes": ["video/mp4"],
+                "w": 640,
+                "h": 480
+              }
+            }
+          ]
+        }
+      },
+      "mockResponse": {
+        "status": 200,
+        "body": {
+          "id": "test-request-id",
+          "cur": "USD",
+          "seatbid": [
+            {
+              "seat": "TremorVideo",
+              "bid": [
+                {
+                  "id": "bid-1",
+                  "impid": "1",
+                  "price": 3.25,
+                  "adm": "<VAST version=\"4.0\"></VAST>",
+                  "crid": "creative-2"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    }
+  ],
+
+  "expectedBidResponses": [
+    {
+      "currency": "USD",
+      "bids": [
+        {
+          "bid": {
+            "id": "bid-1",
+            "impid": "1",
+            "price": 3.25,
+            "adm": "<VAST version=\"4.0\"></VAST>",
+            "crid": "creative-2"
+          },
+          "type": "video"
+        }
+      ]
+    }
+  ]
+}

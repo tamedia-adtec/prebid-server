@@ -1,0 +1,154 @@
+{
+  "mockBidRequest": {
+    "id": "test-request-id",
+    "app": {
+      "bundle": "ch.goldbach.tvapp"
+    },
+    "device": {
+      "ua": "Roku/DVP-12.0",
+      "ip": "91.190.10.10"
+    },
+    "imp": [
+      {
+        "id": "1",
+        "video": {
+          "mimes": ["video/mp4"],
+          "w": 1920,
+          "h": 1080,
+          "poddur": 90,
+          "maxseq": 4,
+          "ext": {
+            "podduration": 60,
+            "podsequence": 1
+          }
+        },
+        "ext": {
+          "bidder": {
+            "seatCode": "gbach1",
+            "tagid": "ctv_midroll_1"
+          }
+        }
+      },
+      {
+        "id": "2",
+        "video": {
+          "mimes": ["video/mp4"],
+          "w": 1920,
+          "h": 1080
+        },
+        "ext": {
+          "bidder": {
+            "seatCode": "gbach1",
+            "tagid": "ctv_midroll_2"
+          }
+        }
+      }
+    ]
+  },
+
+  "httpCalls": [
+    {
+      "expectedRequest": {
+        "uri": "https://gbach1.eu-west-1.eb.tremorhub.com/ad/rtb/pub",
+        "impIDs": ["1", "2"],
+        "body": {
+          "id": "test-request-id",
+          "app": {
+            "bundle": "ch.goldbach.tvapp"
+          },
+          "device": {
+            "ua": "Roku/DVP-12.0",
+            "ip": "91.190.10.10"
+          },
+          "imp": [
+            {
+              "id": "1",
+              "tagid": "ctv_midroll_1",
+              "video": {
+                "mimes": ["video/mp4"],
+                "w": 1920,
+                "h": 1080,
+                "ext": {
+                  "podduration": 60,
+                  "podsequence": 1,
+                  "maxseq": 4
+                }
+              }
+            },
+            {
+              "id": "2",
+              "tagid": "ctv_midroll_2",
+              "video": {
+                "mimes": ["video/mp4"],
+                "w": 1920,
+                "h": 1080
+              }
+            }
+          ]
+        }
+      },
+      "mockResponse": {
+        "status": 200,
+        "body": {
+          "id": "test-request-id",
+          "cur": "USD",
+          "seatbid": [
+            {
+              "seat": "TremorVideo",
+              "bid": [
+                {
+                  "id": "bid-1",
+                  "impid": "1",
+                  "price": 10.0,
+                  "adm": "<VAST version=\"4.0\"></VAST>",
+                  "crid": "creative-1",
+                  "ext": {
+                    "sequence": 2
+                  }
+                },
+                {
+                  "id": "bid-2",
+                  "impid": "2",
+                  "price": 7.5,
+                  "adm": "<VAST version=\"4.0\"></VAST>",
+                  "crid": "creative-2"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    }
+  ],
+
+  "expectedBidResponses": [
+    {
+      "currency": "USD",
+      "bids": [
+        {
+          "bid": {
+            "id": "bid-1",
+            "impid": "1",
+            "price": 10.0,
+            "adm": "<VAST version=\"4.0\"></VAST>",
+            "crid": "creative-1",
+            "ext": {
+              "sequence": 2
+            }
+          },
+          "type": "video"
+        },
+        {
+          "bid": {
+            "id": "bid-2",
+            "impid": "2",
+            "price": 7.5,
+            "adm": "<VAST version=\"4.0\"></VAST>",
+            "crid": "creative-2"
+          },
+          "type": "video"
+        }
+      ]
+    }
+  ]
+}

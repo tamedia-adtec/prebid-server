@@ -1,0 +1,26 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "title": "Magnite CTV Adapter Params",
+  "description": "A schema which validates params accepted by the Magnite CTV (SpringServe) Publisher OpenRTB Connect adapter",
+
+  "type": "object",
+  "properties": {
+    "seatCode": {
+      "type": "string",
+      "pattern": "^[a-zA-Z0-9]+$",
+      "description": "Magnite CTV seat code, used as the endpoint subdomain"
+    },
+    "region": {
+      "type": "string",
+      "enum": ["us-east-1", "us-west-2", "ap-southeast-1", "eu-west-1"],
+      "description": "Regional endpoint to send requests to (defaults to eu-west-1)"
+    },
+    "tagid": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Value for imp.tagid, used for supply routing within the seat"
+    }
+  },
+
+  "required": ["seatCode"]
+}
